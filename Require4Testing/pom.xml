@@ -35,6 +35,13 @@
                 <mainClass>com.require4testing.Require4TestingApplication</mainClass>
           </configuration>
     </plugin>
+    
+    <plugin>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-maven-plugin</artifactId>
+            <version>23.5.17</version> 
+
+        </plugin>
 		
     </plugins>
   </build>
@@ -66,6 +73,12 @@
         <version>11.0.0</version>
         <classifier>jakarta</classifier>
     </dependency>
+    
+    <dependency>
+	    <groupId>com.vaadin</groupId>
+	    <artifactId>vaadin</artifactId>
+	    <version>23.5.17</version> 
+	</dependency>
 
     <!-- Jakarta EE APIs (falls benötigt) -->
     <!-- Entferne diese, wenn nicht zwingend notwendig -->
