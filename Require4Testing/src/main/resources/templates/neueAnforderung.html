@@ -1,0 +1,26 @@
+   <!DOCTYPE html>
+   <html xmlns:th="http://www.thymeleaf.org">
+   <head>
+       <title>Beispielseite</title>
+   </head>
+   <body>
+       <h1 th:text="${message}">kk</h1>
+       
+       
+       <form th:action="@{/neueAnforderung}" th:object="${anforderung}" method="post">
+		    <label for="title">Name:</label>
+		    <input type="text" id="title" th:field="*{title}" required />
+		
+		    <br/>
+		
+		    <label for="beschreibung">Beschreibung:</label>
+		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+		
+			<label for="beschreibung">Beschreibung:</label>
+		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+		    
+		
+		    <button type="submit">Anforderung speichern</button>
+		</form>
+   </body>
+   </html>

@@ -1,12 +1,15 @@
 package com.require4testing.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name="anforderung")
@@ -17,8 +20,10 @@ public class Anforderung {
     private Long id;
     private String title;
     private String beschreibung;
+    private String priotiät;
     private Date erstelltAm;
-  
+    @OneToMany(mappedBy = "anforderung", cascade = CascadeType.ALL)
+    private List<Akzeptanzkriterium> akzeptanzkriterien;
 
     // Standard-Konstruktor
     public Anforderung() {}
@@ -60,6 +65,23 @@ public class Anforderung {
 
 	public void setErstelltAm(Date erstelltAm) {
 		this.erstelltAm = erstelltAm;
+	}
+
+	public String getPriotiät() {
+		return priotiät;
+	}
+
+	public void setPriotiät(String priotiät) {
+		this.priotiät = priotiät;
+	}
+	
+	
+	public List<Akzeptanzkriterium> getAkzeptanzkriterien() {
+	    return akzeptanzkriterien;
+	}
+
+	public void setAkzeptanzkriterien(List<Akzeptanzkriterium> akzeptanzkriterien) {
+	    this.akzeptanzkriterien = akzeptanzkriterien;
 	}
 
    
