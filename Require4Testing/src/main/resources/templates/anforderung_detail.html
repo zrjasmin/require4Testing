@@ -1,0 +1,14 @@
+   <!DOCTYPE html>
+   <html xmlns:th="http://www.thymeleaf.org">
+   <head>
+       <title>Anfordung: Details</title>
+   </head>
+   <body>
+		<h1>Anforderungdetails</h1>
+   		<p th:text="${anforderung.title}">name</p>
+       
+       	<a th:href="@{/anforderung/edit(id=${anforderung.id})}">">
+       		<button>Änderungen</button>
+       	</a>
+   </body>
+   </html>

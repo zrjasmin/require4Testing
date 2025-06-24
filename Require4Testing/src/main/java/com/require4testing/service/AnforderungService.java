@@ -11,6 +11,8 @@ import com.require4testing.model.User;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 @Service
 public class AnforderungService {
 
@@ -23,8 +25,15 @@ public class AnforderungService {
     public List<Anforderung> alleEntities() {
         return repository.findAll();
     }
-
+    
+    public Anforderung getAnfById(Long id) {
+    	Optional<Anforderung> optAnf = repository.findById(id);
+    	return optAnf.orElse(null);
+    }
+    
+    @Transactional
     public Anforderung speichereEntity(Anforderung entity) {
+    	 System.out.println("Speichere Entity: " + entity);
         return repository.save(entity);
     }
    

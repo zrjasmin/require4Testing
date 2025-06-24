@@ -1,5 +1,6 @@
 package com.require4testing.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class Anforderung {
     private String priotiät;
     private Date erstelltAm;
     @OneToMany(mappedBy = "anforderung", cascade = CascadeType.ALL)
-    private List<Akzeptanzkriterium> akzeptanzkriterien;
+    private List<Akzeptanzkriterium> akzeptanzkriterien = new ArrayList<>();
 
     // Standard-Konstruktor
     public Anforderung() {}

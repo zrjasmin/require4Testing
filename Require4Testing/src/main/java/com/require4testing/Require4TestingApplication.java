@@ -11,7 +11,6 @@ public class Require4TestingApplication {
 
     public static void main(String[] args) {
     	 SpringApplication.run(Require4TestingApplication.class, args);
-        //SpringApplication.run(Require4TestingApplication.class, args);
         
     }
 }

@@ -1,0 +1,23 @@
+   <!DOCTYPE html>
+   <html xmlns:th="http://www.thymeleaf.org">
+   <head>
+       <title>Anfordungen: Übersicht</title>
+   </head>
+   <body>
+       <h1>Anforderungübersicht</h1>
+       <a th:href="@{/anforderung/edit}">">
+       		<button>neue Anforderung</button>
+       	</a>
+       
+   		<div th:each="anf: ${anforderungen}">
+   			<h3 th:text="${anf.title}">Titel</h3>
+   			<p th:text="${anf.beschreibung}">Titel</p>
+   			<a th:href="@{/anforderung/detail/{id}(id=${anf.id})}">
+   				<button>Details</button>
+   			</a>
+   			
+   		</div>
+       
+       
+   </body>
+   </html>
