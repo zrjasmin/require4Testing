@@ -18,7 +18,6 @@ public class Akzeptanzkriterium {
     private String beschreibung;
     
     @ManyToOne
-    @JoinColumn(name = "anf_id")
     private Anforderung anforderung;
 
     

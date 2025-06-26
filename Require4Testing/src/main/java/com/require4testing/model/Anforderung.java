@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -23,16 +24,20 @@ public class Anforderung {
     private String beschreibung;
     private String priotiät;
     private Date erstelltAm;
-    @OneToMany(mappedBy = "anforderung", cascade = CascadeType.ALL)
-    private List<Akzeptanzkriterium> akzeptanzkriterien = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "anf_id")
+    private List<Akzeptanzkriterium> akzeptanzkriterien;
 
     // Standard-Konstruktor
-    public Anforderung() {}
+    public Anforderung() {
+    	this.akzeptanzkriterien = new ArrayList<>();
+    }
 
     // Konstruktor mit Parametern
     public Anforderung(String title, String beschreibung) {
         this.setTitle(title);
         this.setBeschreibung(beschreibung);
+        this.akzeptanzkriterien = new ArrayList<>();
     }
 
     // Getter und Setter

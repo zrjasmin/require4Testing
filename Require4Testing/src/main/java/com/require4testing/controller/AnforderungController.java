@@ -38,11 +38,7 @@ public class AnforderungController {
 	@Autowired
     private  AkzeptanzkriteriumRepository akzRepository;
 	
-	@GetMapping("/kk") 
-	public String zeigeAnforderungen() {
-		service.alleEntities();
-		return "anforderungen";
-	}
+
 	
 	
 	
@@ -71,6 +67,7 @@ public class AnforderungController {
 	@GetMapping("/edit")
 	public String zeigNeueForm(Model model) {
 		model.addAttribute("anforderung", new Anforderung());
+		
 		return "anforderung_neu";
 	}
 	

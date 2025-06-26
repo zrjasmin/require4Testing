@@ -2,6 +2,7 @@
    <html xmlns:th="http://www.thymeleaf.org">
    <head>
        <title>neue Anforderung erstellen</title>
+       <script type="text/javascript" th:src="@{/script.js}"></script>
    </head>
    <body>
        <h1 th:text="${message}">Anforderung neu</h1>
@@ -15,22 +16,27 @@
 		
 		    <label for="beschreibung">Beschreibung:</label>
 		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
-		
+		    
+			<br/>
+			
 			<label for="priotiät">Priorität:</label>
 		    <input id="priotiät" th:field="*{priotiät}" required></input>
 		    
-		   <!--   <label for="neuesKriterium">Neues Akzeptanzkriterien</label>
-			<input id="neuesKriterium"></input>
-			<button type="submit" name="action" value="hinzufuegen">Hinzufügen</button>
-			
-			<h3>Aktuelle Kriterien:</h3>
-			<ul>
-			   <li th:each="k : ${kriterienListe}" th:text="${k}"></li>
-			</ul>
-			-->
+		    <br/>
 		    
-		   
+		   	<label for="neuesKriterium">Neues Akzeptanzkriterien</label>
+		   	<div id="kriteriencontainer">
+		   	
+		   		
+		   		
+		   	</div>
+			
+			<button type="button" onclick="hinzufuegenKriterium()" value="hinzufuegen">Neues Kriterium</button>
+			
+
 		    <button type="submit">Anforderung speichern</button>
 		</form>
+		
+		
    </body>
    </html>
