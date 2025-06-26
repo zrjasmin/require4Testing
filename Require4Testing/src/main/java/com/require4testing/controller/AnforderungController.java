@@ -3,14 +3,18 @@ package com.require4testing.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,47 +68,50 @@ public class AnforderungController {
 		return new ArrayList<>();
     }
 	
-	@GetMapping("/neu")
-	public String zeigeForm() {
-		return "anforderungForm";
+	@GetMapping("/edit")
+	public String zeigNeueForm(Model model) {
+		model.addAttribute("anforderung", new Anforderung());
+		return "anforderung_neu";
 	}
 	
 	
-	@GetMapping("/edit")
-	public String zeigEditForm(@RequestParam(required = false) Long id, Model model) {
-		if(id == null) {
-			model.addAttribute("anforderung", new Anforderung());
-		} else {
-			Anforderung anforderung = service.getAnfById(id);
-			model.addAttribute("anforderung", anforderung);
-		}
-		
+
+	
+	@GetMapping("/edit/{id}")
+	public String zeigEditForm(@PathVariable Long id, Model model) {
+		Anforderung anforderung = service.getAnfById(id);
+		model.addAttribute("anforderung", anforderung);
 		return "anforderung_bearbeiten";
 	}
 	
+	
 
-	@GetMapping("/neueAnforderung/{id}")
-	public String zeigeForm(@PathVariable Long id, Model model) {
-		if(id == null) {
-			model.addAttribute("anforderung", new Anforderung());
+	@PostMapping("/update/{id}")
+    public String updateAnf(@PathVariable Long id, @ModelAttribute Anforderung anforderung) {
+		Optional<Anforderung> optAnf = repository.findById(id);
+		
+		if(optAnf.isPresent()) {
+			Anforderung gespeicherteAnf = optAnf.get();
+			gespeicherteAnf.setTitle(anforderung.getTitle());
+			gespeicherteAnf.setBeschreibung(anforderung.getBeschreibung());
+			service.speichereEntity(gespeicherteAnf);
+			return "redirect:/anforderung/detail/" + id;
 		} else {
-			Anforderung anforderung = service.getAnfById(id);
-			model.addAttribute("anforderung", anforderung);
+			return "error";
 		}
 		
-		return "neueAnforderung";
-	}
-	
-	
-	@PostMapping("/verarbeiten")
-    public String verarbeiteForm(@ModelAttribute("anforderung") Anforderung anforderung) {
+    	
 
-		service.speichereEntity(anforderung);
-        	
-           
-  
-     
-        return "anforderungen";
+    	
+    }
+	
+	
+	
+	@PostMapping("/save")
+    public String verarbeiteForm(@ModelAttribute Anforderung anforderung) {
+		repository.save(anforderung);
+		//service.speichereEntity(anforderung);
+        return "redirect:/anforderung/all";
      
     }
 }

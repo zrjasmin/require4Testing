@@ -7,7 +7,7 @@
 		<h1>Anforderungdetails</h1>
    		<p th:text="${anforderung.title}">name</p>
        
-       	<a th:href="@{/anforderung/edit(id=${anforderung.id})}">">
+       	<a th:href="@{/anforderung/edit/{id}(id=${anforderung.id})}">
        		<button>Änderungen</button>
        	</a>
    </body>

@@ -7,6 +7,21 @@
 		<h1>Anforderung bearbeiten</h1>
 		<input type="text" th:value="${anforderung.title}"/>
    		
+   		
+   		<form th:action="@{/anforderung/update/{id}(id=${anforderung.id})}"  method="post">
+		    <label for="title">Name:</label>
+		    <input type="text" id="title" th:field="${anforderung.title}" required />
+		
+		    <br/>
+		
+		    <label for="beschreibung">Beschreibung:</label>
+		    <textarea id="beschreibung" th:field="${anforderung.beschreibung}" required></textarea>
+		
+			
+		    
+		   
+		    <button type="submit">Anforderung speichern</button>
+		</form>
        
      
    </body>

@@ -3,6 +3,8 @@ package com.require4testing.service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PatchMapping;
+
 import com.require4testing.repository.AnforderungRepository;
 import com.require4testing.repository.UserRepository;
 import com.require4testing.model.Anforderung;
@@ -36,6 +38,8 @@ public class AnforderungService {
     	 System.out.println("Speichere Entity: " + entity);
         return repository.save(entity);
     }
+    
+    
    
 
 
