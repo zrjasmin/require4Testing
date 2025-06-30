@@ -5,18 +5,27 @@
    </head>
    <body>
 		<h1>Anforderung bearbeiten</h1>
-		<input type="text" th:value="${anforderung.title}"/>
+		
    		
-   		
-   		<form th:action="@{/anforderung/update/{id}(id=${anforderung.id})}"  method="post">
+   		<form action="#" th:action="@{/anforderung/update/{id}(id=${anforderung.id})}" th:object="${anforderung}" method="post">
 		    <label for="title">Name:</label>
-		    <input type="text" id="title" th:field="${anforderung.title}" required />
+		    <input type="text" id="title" th:field="*{title}" required />
 		
 		    <br/>
 		
 		    <label for="beschreibung">Beschreibung:</label>
-		    <textarea id="beschreibung" th:field="${anforderung.beschreibung}" required></textarea>
+		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+		    
+			<br/>
 		
+			<h3>Aktuelle Kriterien:</h3>
+			
+			<div th:each="k, iterStat : *{akzeptanzkriterien}">
+			    <input type="hidden" th:field="*{akzeptanzkriterien[__${iterStat.index}__].id}" />
+			    <input type="text" th:field="*{akzeptanzkriterien[__${iterStat.index}__].beschreibung}" />
+			</div>
+		
+			
 			
 		    
 		   

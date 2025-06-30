@@ -28,7 +28,10 @@ public class Akzeptanzkriterium {
 	public Akzeptanzkriterium(String beschreibung) {
 	    	this.setBeschreibung(beschreibung);	    
 	}
-    
+	
+	public Long getId() {
+		return id;
+	}
     
 	public String getBeschreibung() {
 		return beschreibung;

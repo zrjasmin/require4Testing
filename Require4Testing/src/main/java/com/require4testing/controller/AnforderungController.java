@@ -24,7 +24,8 @@ import com.require4testing.model.Anforderung;
 import com.require4testing.repository.AkzeptanzkriteriumRepository;
 import com.require4testing.repository.AnforderungRepository;
 import com.require4testing.service.AnforderungService;
-import org.springframework.ui.Model; 
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult; 
 
 
 @Controller
@@ -71,35 +72,76 @@ public class AnforderungController {
 		return "anforderung_neu";
 	}
 	
-	
-
-	
 	@GetMapping("/edit/{id}")
 	public String zeigEditForm(@PathVariable Long id, Model model) {
-		Anforderung anforderung = service.getAnfById(id);
+		Anforderung anforderung = repository.findById(id).get();
+		
+		if (anforderung.getAkzeptanzkriterien() == null) {
+		    anforderung.setAkzeptanzkriterien(new ArrayList<>());
+		}
+		
 		model.addAttribute("anforderung", anforderung);
 		return "anforderung_bearbeiten";
 	}
 	
 	
 
+	
+	
+	
+
 	@PostMapping("/update/{id}")
-    public String updateAnf(@PathVariable Long id, @ModelAttribute Anforderung anforderung) {
+    public String updateAnf(@PathVariable Long id, @ModelAttribute(value= "anforderung") Anforderung anforderung) {
 		Optional<Anforderung> optAnf = repository.findById(id);
+		List<Akzeptanzkriterium> gespeichterKriterien = optAnf.get().getAkzeptanzkriterien();
+		
+		for (Akzeptanzkriterium k : gespeichterKriterien) {
+            System.out.println("bestehendes Kriterium ID: " + k.getId() + ", Beschreibung: " + k.getBeschreibung());
+        }
+		
+		
+		List<Akzeptanzkriterium> neueListe = anforderung.getAkzeptanzkriterien();
+		
+		for (Akzeptanzkriterium k : anforderung.getAkzeptanzkriterien()) {
+            System.out.println("Kriterium ID: " + k.getId() + ", Beschreibung: " + k.getBeschreibung());
+        }
 		
 		if(optAnf.isPresent()) {
+			for(int i = 0; i<neueListe.size(); i++) {
+				System.out.println(neueListe.get(i));
+			}
+			
+		}
+		
+		
+		/*if(optAnf.isPresent()) {
 			Anforderung gespeicherteAnf = optAnf.get();
 			gespeicherteAnf.setTitle(anforderung.getTitle());
 			gespeicherteAnf.setBeschreibung(anforderung.getBeschreibung());
+			
+			List<Akzeptanzkriterium> editedKriterien = anforderung.getAkzeptanzkriterien();
+			
+			
+			
+			for(Akzeptanzkriterium k : editedKriterien) {
+				
+				
+				if(k.getId() != null) {
+					Optional<Akzeptanzkriterium> bestehendesK = gespeicherteAnf.getAkzeptanzkriterien().stream().filter(e -> e.getId().equals(k.getId())).findFirst();
+					if(bestehendesK.isPresent()) {
+						bestehendesK.get().setBeschreibung(k.getBeschreibung());
+						
+					} 
+				} 
+			}
+						
 			service.speichereEntity(gespeicherteAnf);
-			return "redirect:/anforderung/detail/" + id;
+			return "redirect:/anforderung/detail/"+ id;
 		} else {
 			return "error";
-		}
+		}*/
 		
-    	
-
-    	
+		return "redirect:/anforderung/detail/"+ id;
     }
 	
 	
