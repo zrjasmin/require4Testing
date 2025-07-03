@@ -23,6 +23,10 @@ public class TestService {
     public List<Test> alleEntities() {
         return repository.findAll();
     }
+    
+    public Test getTestById(Long id) {
+    	return repository.findById(id).get();
+    }
 
     public Test speichereEntity(Test entity) {
         return repository.save(entity);

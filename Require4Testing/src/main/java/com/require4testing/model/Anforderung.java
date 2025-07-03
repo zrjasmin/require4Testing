@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 @Entity
 @Table(name="anforderung")
@@ -88,6 +89,8 @@ public class Anforderung {
 	public void setAkzeptanzkriterien(List<Akzeptanzkriterium> akzeptanzkriterien) {
 	    this.akzeptanzkriterien = akzeptanzkriterien;
 	}
+	
+	
 
    
 }

@@ -1,6 +1,7 @@
 package com.require4testing.model;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 @Table(name="test")
@@ -27,6 +29,9 @@ public class Test {
     @JoinColumn(name="tester_id")
     private User tester;
     
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "anf_id", referencedColumnName = "id")
+    private Anforderung anforderung;
    
   
 
@@ -81,7 +86,14 @@ public class Test {
 		this.tester = tester;
 		
 	}
+	
+	public Anforderung getAnforderung() {
+		return anforderung;
+	}
 
+	public void setAnforderung(Anforderung anf) {
+		this.anforderung = anf;
+	}
 
 
    

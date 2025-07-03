@@ -20,11 +20,11 @@
 		
 			<h3>Aktuelle Kriterien:</h3>
 			
-			<div th:each="kriterium, iterStat : ${anforderung.akzeptanzkriterien}">
-			      <input type="hidden" 
-           th:name="akzeptanzkriterien[__${iterStat.index}__].id" 
-           th:value="${kriterium.id}" />
-			    <input type="text" th:field="*{akzeptanzkriterien[__${iterStat.index}__].beschreibung}" />
+			<div th:each="kriterium, iterStat : *{akzeptanzkriterien}">
+				<input type="hidden" th:field="*{akzeptanzkriterien[__${iterStat.index}__].id}"/>
+			    <label>Kriterium Bezeichnung:</label>
+			    <input type="text" th:field="*{akzeptanzkriterien[__${iterStat.index}__].beschreibung}"/>
+   
 			</div>
 		
 			

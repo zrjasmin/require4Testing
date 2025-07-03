@@ -1,0 +1,21 @@
+   <!DOCTYPE html>
+   <html xmlns:th="http://www.thymeleaf.org">
+   <head>
+       <title>Test: Details</title>
+   </head>
+   <body>
+		<h1>TestDetails</h1>
+   		<p th:text="${test.title}">name</p>
+   		
+   		<h3>Beschreibung</h3>
+   		<p th:text="${test.beschreibung}">name</p>
+   		
+   		
+			
+			
+       
+       	<a th:href="@{/test/edit/{id}(id=${test.id})}">
+       		<button>Änderungen</button>
+       	</a>
+   </body>
+   </html>

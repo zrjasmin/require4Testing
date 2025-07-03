@@ -1,0 +1,29 @@
+   <!DOCTYPE html>
+   <html xmlns:th="http://www.thymeleaf.org">
+   <head>
+       <title>neue Anforderung erstellen</title>
+      
+   </head>
+   <body>
+       
+       
+       
+       <form th:action="@{/test/save}" th:object="${test}" method="post">
+		    <label for="title">Name:</label>
+		    <input type="text" id="title" th:field="*{title}" required />
+		
+		    <br/>
+		
+		    <label for="beschreibung">Beschreibung:</label>
+		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+		    
+			
+		   		
+	
+		   	
+		    <button type="submit">Test speichern</button>
+		</form>
+		
+		
+   </body>
+   </html>
