@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+   <!DOCTYPE html>
    <html xmlns:th="http://www.thymeleaf.org">
    <head>
        <title>Anfordung: Edit</title>
@@ -20,8 +20,10 @@
 		
 			<h3>Aktuelle Kriterien:</h3>
 			
-			<div th:each="k, iterStat : *{akzeptanzkriterien}">
-			    <input type="hidden" th:field="*{akzeptanzkriterien[__${iterStat.index}__].id}" />
+			<div th:each="kriterium, iterStat : ${anforderung.akzeptanzkriterien}">
+			      <input type="hidden" 
+           th:name="akzeptanzkriterien[__${iterStat.index}__].id" 
+           th:value="${kriterium.id}" />
 			    <input type="text" th:field="*{akzeptanzkriterien[__${iterStat.index}__].beschreibung}" />
 			</div>
 		

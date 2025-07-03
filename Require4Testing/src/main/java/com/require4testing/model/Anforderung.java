@@ -24,8 +24,7 @@ public class Anforderung {
     private String beschreibung;
     private String priotiät;
     private Date erstelltAm;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "anf_id")
+    @OneToMany(mappedBy="anforderung", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Akzeptanzkriterium> akzeptanzkriterien;
 
     // Standard-Konstruktor
