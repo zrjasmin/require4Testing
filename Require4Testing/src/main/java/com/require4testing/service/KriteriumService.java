@@ -6,30 +6,30 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-import com.require4testing.repository.AkzeptanzkriteriumRepository;
+import com.require4testing.repository.KriteriumRepository;
 import com.require4testing.repository.AnforderungRepository;
-import com.require4testing.model.Akzeptanzkriterium;
 import com.require4testing.model.Anforderung;
+import com.require4testing.model.Kriterium;
 
 
 @Service
-public class AkzeptanzkriteriumService {
+public class KriteriumService {
 	
 	 @Autowired
-	    private AkzeptanzkriteriumRepository repository;
+	    private KriteriumRepository repository;
 	 @Autowired
 	    private AnforderungRepository anfRepository;
 	 
-	 public List<Akzeptanzkriterium> alleEntities() {
+	 public List<Kriterium> alleEntities() {
 	        return repository.findAll();
 	    }
 	 
 	 
-	 public Akzeptanzkriterium speichereEntity(Akzeptanzkriterium entity) {
+	 public Kriterium speichereEntity(Kriterium entity) {
 	        return repository.save(entity);
 	    }
 	 
-	 public Akzeptanzkriterium erstelleAkz(Anforderung anf, Akzeptanzkriterium entity) {
+	 public Kriterium erstelleAkz(Anforderung anf, Kriterium entity) {
 	    	Optional<Anforderung> anforderung = anfRepository.findById(anf.getId());
 	       
 	        // Neue Entität erstellen

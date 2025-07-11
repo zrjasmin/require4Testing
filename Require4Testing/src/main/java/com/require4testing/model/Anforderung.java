@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.require4testing.model.Kriterium;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -25,19 +27,20 @@ public class Anforderung {
     private String beschreibung;
     private String priotiät;
     private Date erstelltAm;
+    
     @OneToMany(mappedBy="anforderung", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Akzeptanzkriterium> akzeptanzkriterien;
+    private List<Kriterium> kriterien = new ArrayList<>();
 
     // Standard-Konstruktor
     public Anforderung() {
-    	this.akzeptanzkriterien = new ArrayList<>();
+    	
     }
 
     // Konstruktor mit Parametern
     public Anforderung(String title, String beschreibung) {
         this.setTitle(title);
         this.setBeschreibung(beschreibung);
-        this.akzeptanzkriterien = new ArrayList<>();
+   
     }
 
     // Getter und Setter
@@ -82,12 +85,12 @@ public class Anforderung {
 	}
 	
 	
-	public List<Akzeptanzkriterium> getAkzeptanzkriterien() {
-	    return akzeptanzkriterien;
+	public List<Kriterium> getKriterien() {
+	    return kriterien;
 	}
 
-	public void setAkzeptanzkriterien(List<Akzeptanzkriterium> akzeptanzkriterien) {
-	    this.akzeptanzkriterien = akzeptanzkriterien;
+	public void setKriterien(List<Kriterium> kriterien) {
+	    this.kriterien = kriterien;
 	}
 	
 	

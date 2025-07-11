@@ -16,7 +16,14 @@
 		    <label for="beschreibung">Beschreibung:</label>
 		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
 		    
-	
+			<label for="anforderung">Anforderung auswählen:</label>
+		    <select th:field="*{anforderung.id}">
+		        <option value="" disabled selected>Bitte wählen</option>
+		        <option th:each="a : ${anforderungen}"
+		                th:value="${a.id}"
+		                th:text="${a.beschreibung}">
+		        </option>
+		    </select>
 		    
 		   
 		    <button type="submit">Test speichern</button>

@@ -1,6 +1,8 @@
 package com.require4testing.model;
 
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
@@ -20,6 +23,8 @@ public class Test {
     private Long id;
     private String title;
     private String beschreibung;
+    private String erwartetesErgebnis;
+    
     
     @ManyToOne
     @JoinColumn(name="ersteller_id")
@@ -33,6 +38,8 @@ public class Test {
     @JoinColumn(name = "anf_id", referencedColumnName = "id")
     private Anforderung anforderung;
    
+    @OneToMany(mappedBy="test", cascade = CascadeType.ALL)
+    private List<Testschritt> testschritte;
   
 
     // Standard-Konstruktor
@@ -95,6 +102,21 @@ public class Test {
 		this.anforderung = anf;
 	}
 
+	public String getErwartetesErgebnis() {
+		return erwartetesErgebnis;
+	}
+
+	public void setErwartetesErgebnis(String erwartetesErgebnis) {
+		this.erwartetesErgebnis = erwartetesErgebnis;
+	}
+	
+	public List<Testschritt> getTestschritte() {
+		return testschritte;
+	}
+
+	public void setTestschritte(List<Testschritt> schritte) {
+		this.testschritte = schritte;
+	}
 
    
 }

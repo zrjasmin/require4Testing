@@ -2,6 +2,8 @@
    <html xmlns:th="http://www.thymeleaf.org">
    <head>
        <title>neue Anforderung erstellen</title>
+       <script type="text/javascript" th:src="@{/script.js}"></script>
+       
       
    </head>
    <body>
@@ -15,10 +17,30 @@
 		    <br/>
 		
 		    <label for="beschreibung">Beschreibung:</label>
-		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+		    <textarea id="beschreibung" th:field="*{beschreibung}"></textarea>
+		    <br/>
 		    
+		    <label>Testschritte</label>
+		    <div id="stepContainer"></div>
+		   	<button type="button" id="addStepButton" >Neuen Schritt hinzufügen</button>
+		   	<input type='hidden' id='reihenfolge' name='reihenfolge'/>
+		   	
+		 
+			 <br/>
+			 
+		   	<label for="ergebnis">Erwartetes Ergebnis:</label>
+		    <textarea id="beschreibung" th:field="*{erwartetesErgebnis}"></textarea>
+		    
+			<br/>
 			
-		   		
+		   	<label for="verlinkteAnf">Verlinkte Anforderung:</label>
+		   	<select th:field="*{anforderung.id}" id="verlinkteAnf">
+		        <option value="" disabled selected>Bitte wählen</option>
+		        <option th:each="a : ${anforderungen}"
+		                th:value="${a.id}"
+		                th:text="${a.title}">
+		        </option>
+		    </select>
 	
 		   	
 		    <button type="submit">Test speichern</button>

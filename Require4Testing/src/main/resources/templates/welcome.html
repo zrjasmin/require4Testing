@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+ <html xmlns:th="http://www.thymeleaf.org">
+	 <head>
+	     <title>Nutzer wählen</title>
+	    
+	 </head>
+	 <body>
+	     
+	     <h1>Wähle deine Nutzer-Rolle</h1>
+	     
+	     
+	     <form th:action="@{/user/selectRole}" method="post">
+	     <select required>
+		        <option value="" disabled selected>Bitte wählen</option>
+		        <option th:each="u : ${users}"
+		                th:value="${u.id}"
+		                th:text="${a.name}">
+		        </option>
+		    </select>
+		
+	   		
+	
+		   	
+		    <button type="submit">Test speichern</button>
+		</form>
+		
+	
+	 </body>
+ </html>

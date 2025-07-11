@@ -23,8 +23,7 @@ public class UserService {
         return repository.save(entity);
     }
    
-
-
+    
     public void neuerUserSpeichern() {
         // Neue Entität erstellen
     	User neuerUser = new User("Jamin", "jj", Role.TEST_FALLERSTELLR);

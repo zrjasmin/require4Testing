@@ -8,10 +8,6 @@
    		<p th:text="${anforderung.title}">name</p>
    		
    		<h3>Aktuelle Kriterien:</h3>
-			<ul>
-			   <li th:each="k : ${anforderung.akzeptanzkriterien}" th:text="${k.beschreibung}"></li>
-			   
-			</ul>
 			
        
        	<a th:href="@{/anforderung/edit/{id}(id=${anforderung.id})}">

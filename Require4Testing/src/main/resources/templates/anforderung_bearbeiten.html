@@ -7,7 +7,8 @@
 		<h1>Anforderung bearbeiten</h1>
 		
    		
-   		<form action="#" th:action="@{/anforderung/update/{id}(id=${anforderung.id})}" th:object="${anforderung}" method="post">
+   		<form th:action="@{/anforderung/update}" th:object="${anforderung}" method="post">
+   			<input type="hidden" th:field="*{id}"/>
 		    <label for="title">Name:</label>
 		    <input type="text" id="title" th:field="*{title}" required />
 		
@@ -18,14 +19,13 @@
 		    
 			<br/>
 		
-			<h3>Aktuelle Kriterien:</h3>
-			
-			<div th:each="kriterium, iterStat : *{akzeptanzkriterien}">
-				<input type="hidden" th:field="*{akzeptanzkriterien[__${iterStat.index}__].id}"/>
-			    <label>Kriterium Bezeichnung:</label>
-			    <input type="text" th:field="*{akzeptanzkriterien[__${iterStat.index}__].beschreibung}"/>
-   
-			</div>
+			 <div th:each="kriterium, iterStat : *{kriterien}">
+		        <!-- Hidden Input für ID -->
+		        <input type="hidden" th:field="*{kriterien[__${iterStat.index}__].id}"/>
+		
+		        <!-- Weitere Felder -->
+		        <input type="text" th:field="*{kriterien[__${iterStat.index}__].beschreibung}" />
+		     </div>
 		
 			
 			

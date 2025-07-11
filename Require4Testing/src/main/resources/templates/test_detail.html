@@ -10,6 +10,15 @@
    		<h3>Beschreibung</h3>
    		<p th:text="${test.beschreibung}">name</p>
    		
+   		<h3>Anforderung</h3>
+   		<p th:text="${test.anforderung.beschreibung}">name</p>
+   		
+   		<h3>Testschritte</h3>
+   		<div th:each="s: ${test.testschritte}">
+   			<p th:text="${s.beschreibung}">name</p>
+   		</div>
+   		
+   		
    		
 			
 			
