@@ -21,6 +21,7 @@ import com.require4testing.model.Test;
 import com.require4testing.model.Testschritt;
 import com.require4testing.repository.AnforderungRepository;
 import com.require4testing.repository.TestRepository;
+import com.require4testing.repository.TestschrittRepository;
 import com.require4testing.service.AnforderungService;
 import com.require4testing.service.TestService;
 
@@ -31,6 +32,8 @@ public class TestController {
     private  TestService service;
 	@Autowired
     private  TestRepository repository;
+	@Autowired
+	private TestschrittRepository schrittRepository;
 	@Autowired
 	private AnforderungRepository anforderungRepository;
 	@Autowired
@@ -56,6 +59,11 @@ public class TestController {
 	public String zeigDetailForm(@PathVariable Long id, Model model) {
 		Test test = service.getTestById(id);
 		model.addAttribute("test", test);
+		
+		if(test.getTestschritte() != null) {
+			List<Testschritt> sortierteSchritte = schrittRepository.findByTestOrderByStepNumberAsc(test);
+			model.addAttribute("schritte", sortierteSchritte);
+		}
 		return "test_detail";
 	}
 	
@@ -67,6 +75,8 @@ public class TestController {
 		model.addAttribute("anforderungen", anforderungen);
 		return "test_bearbeiten";
 	}
+	
+	
 	
 	@PostMapping("/save") 
 	public String neuenTestSpeichern(@ModelAttribute Test test, @RequestParam("reihenfolge") String reihenfolgeJSON) {
