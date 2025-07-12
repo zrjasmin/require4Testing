@@ -1,7 +1,11 @@
 package com.require4testing.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
+import com.require4testing.dto.*;
 import com.require4testing.model.Anforderung;
 import com.require4testing.model.Test;
 import com.require4testing.model.Testschritt;
@@ -38,7 +42,7 @@ public class TestController {
 	private AnforderungRepository anforderungRepository;
 	@Autowired
 	private AnforderungService anfService;
-	
+	private TestDto testDto;
 	
 
 	@GetMapping("/all") 
@@ -60,21 +64,53 @@ public class TestController {
 		Test test = service.getTestById(id);
 		model.addAttribute("test", test);
 		
+		
 		if(test.getTestschritte() != null) {
 			List<Testschritt> sortierteSchritte = schrittRepository.findByTestOrderByStepNumberAsc(test);
 			model.addAttribute("schritte", sortierteSchritte);
 		}
+		
+		
+		
+		model.addAttribute("testNummer", service.generateTestNumber(test));
 		return "test_detail";
 	}
 	
 	@GetMapping("/edit/{id}")
 	public String zeigEditForm(@PathVariable Long id, Model model) {
+
 		Test test = service.getTestById(id);
 		model.addAttribute("test", test);
+		
 		List<Anforderung> anforderungen = anforderungRepository.findAll();
 		model.addAttribute("anforderungen", anforderungen);
+		
+		
+		TestDto dto = new TestDto();
+		dto.setTitle(test.getTitle());
+		dto.setBeschreibung(test.getBeschreibung());
+		dto.setErwartetesErgebnis(test.getErwartetesErgebnis());
+		dto.setAnforderung(test.getAnforderung());
+		
+		List<TestschrittDto> schritteDtos = new ArrayList<>();
+		for(Testschritt schritt : test.getTestschritte()) {
+			TestschrittDto schrittDto = new TestschrittDto();
+			schrittDto.setId(schritt.getId());
+			System.out.println("edit id: "+ schrittDto.getId());
+			schrittDto.setBeschreibung(schritt.getBeschreibung());
+			schritteDtos.add(schrittDto);
+		}
+		dto.setTestschritte(schritteDtos);
+		
+	
+		
+		model.addAttribute("testDto", dto);
+
+
 		return "test_bearbeiten";
 	}
+	
+	
 	
 	
 	
@@ -84,19 +120,31 @@ public class TestController {
 		
 		try {
             List<String> reihenfolgeListe = mapper.readValue(reihenfolgeJSON, new TypeReference<List<String>>() {});
+            List<Testschritt> sortierteSchritte = new ArrayList<>();
             
             int i = 1;
     
             for(String s : reihenfolgeListe) {
+            	System.out.println("maybe empty " +s);
             	int stellenIndex = Integer.parseInt(s);
             	// sucht Testschritt anhand der Reihenfolge
             	Testschritt currentSchritt = test.getTestschritte().get(stellenIndex);
-            	//setzt die SchrittNumme richtig
-            	currentSchritt.setStepNumber(i);
-            	currentSchritt.setTest(test);
-            	i++;
-           
+            	
+            	//prüft auf Inhalt des Schrittes
+            	if(currentSchritt.getBeschreibung() != "") {
+            		sortierteSchritte.add(currentSchritt);
+                	System.out.println(currentSchritt.getBeschreibung());
+                	//setzt die SchrittNumme richtig
+                	currentSchritt.setStepNumber(i);
+                	currentSchritt.setTest(test);
+                	i++;
+            	}
+            	
+            	
             }
+            
+            test.getTestschritte().clear();
+            test.setTestschritte(sortierteSchritte);
             
             
 		} catch(Exception e) {
@@ -116,13 +164,51 @@ public class TestController {
 	}
 	
 	@PostMapping("/update/{id}")
-	public String updateTest(@PathVariable Long id,@ModelAttribute Test test) {
+	public String updateTest(@PathVariable Long id, Model model, @ModelAttribute TestDto testDto) {
+		//Test aus Datenbank laden
 		Test bestehenderTest = service.getTestById(id);
 		
-		bestehenderTest.setTitle(test.getTitle());
-		bestehenderTest.setBeschreibung(test.getBeschreibung());
-		bestehenderTest.setAnforderung(test.getAnforderung());
+		bestehenderTest.setTitle(testDto.getTitle());
+		bestehenderTest.setBeschreibung(testDto.getBeschreibung());
+		bestehenderTest.setAnforderung(testDto.getAnforderung());
+		model.addAttribute("test", bestehenderTest);
+		
+		List<Testschritt> bestehendeSchritte = bestehenderTest.getTestschritte();
+		Map<Long, Testschritt> schritteMap = bestehendeSchritte.stream()
+			        .collect(Collectors.toMap(Testschritt::getId, Function.identity()));
+		
+		
+		
+		 List<Testschritt> updatedSchritte = new ArrayList<>();
+		 
+		 
+		 for(TestschrittDto schrittDTO : testDto.getTestschritte()) {
+			 System.out.println("DTO ID (update): "+schrittDTO.getId());
+			 if (schrittDTO.getId() != null && schritteMap.containsKey(schrittDTO.getId())) {
+		            // Bestehender Schritt: aktualisieren
+				 	Testschritt schritt = schritteMap.get(schrittDTO.getId());
+		            schritt.setBeschreibung(schrittDTO.getBeschreibung());
+		            updatedSchritte.add(schritt);
+		        } else {
+		            // Neuer Schritt: erstellen
+		        	Testschritt neuerSchritt = new Testschritt();
+		            neuerSchritt.setBeschreibung(schrittDTO.getBeschreibung());
+		           
+		            // neuerSchritt.setStepNumber(...);
+		            neuerSchritt.setTest(bestehenderTest);
+		            updatedSchritte.add(neuerSchritt);
+		        }
+		 }
+		 
+		 bestehenderTest.setTestschritte(updatedSchritte);
+		 
+		
 		repository.save(bestehenderTest);
+		
+		
+		
+		
+		
 		
 		return "redirect:/test/detail/"+id;
 	}

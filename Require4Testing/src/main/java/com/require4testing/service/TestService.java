@@ -49,4 +49,25 @@ public class TestService {
     	}    	
      
     }
+    
+    public String generateTestNumber(Test t) {
+    	Optional<Test> test = repository.findById(t.getId());
+    	String testNumber = "";
+    	if(test.isPresent()) {
+    		testNumber = String.format("TF-%03d", t.getId());
+    	}
+    	
+    	return testNumber;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

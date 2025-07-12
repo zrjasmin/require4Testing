@@ -2,12 +2,13 @@
    <html xmlns:th="http://www.thymeleaf.org">
    <head>
        <title>Test: Edit</title>
+      <!-- <script type="text/javascript" th:src="@{/script.js}"></script> -->
    </head>
    <body>
 		<h1>Test bearbeiten</h1>
 		
    		
-   		<form action="#" th:action="@{/test/update/{id}(id=${test.id})}" th:object="${test}" method="post">
+   		<form action="#" th:action="@{/test/update/{id}(id=${test.id})}" th:object="${testDto}" method="post">
 		    <label for="title">Name:</label>
 		    <input type="text" id="title" th:field="*{title}" required />
 		
@@ -16,6 +17,27 @@
 		    <label for="beschreibung">Beschreibung:</label>
 		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
 		    
+		    <br/>
+		    
+		    <label>Testschritte</label>
+		    <div id="stepContainer" th:each="schritt, iterStat : *{testschritte}" draggable="true">
+		    	<input type="hidden" th:field="*{testschritte[__${iterStat.index}__].id}"/>
+		        <input type="hidden" th:value="${test.testschritte[__${iterStat.index}__].stepNumber}" class="schritt"/>
+		        <input type="text" th:field="*{testschritte[__${iterStat.index}__].beschreibung}"  class="schrittvalue"/>
+	        </div>
+		    
+		    <br/>
+		    
+		   	<button type="button" id="addStepButton" >Neuen Schritt hinzufügen</button>
+		   	<input type='hidden' id='reihenfolge' name='reihenfolge'/>
+		   	
+		   	<br/>
+		   	
+		   	<label for="ergebnis">Erwartetes Ergebnis:</label>
+		    <textarea id="ergebnis" th:field="*{erwartetesErgebnis}"></textarea>
+		   	
+		   	<br/>
+		   	
 			<label for="anforderung">Anforderung auswählen:</label>
 		    <select th:field="*{anforderung.id}">
 		        <option value="" disabled selected>Bitte wählen</option>
@@ -25,6 +47,7 @@
 		        </option>
 		    </select>
 		    
+		    <br/>
 		   
 		    <button type="submit">Test speichern</button>
 		</form>

@@ -5,21 +5,25 @@
    </head>
    <body>
 		<h1>TestDetails</h1>
-   		<p th:text="${test.title}">name</p>
+		<p th:text="${testNummer}">name</p>
+   		<h2 th:text="${test.title}">name</h2>
    		
    		<h3>Beschreibung</h3>
-   		<p th:text="${test.beschreibung}">name</p>
+   		<p th:text="${test.beschreibung}"></p>
    		
-   		<h3>Anforderung</h3>
-   		<p th:text="${test.anforderung.beschreibung}">name</p>
+   		
    		
    		<h3>Testschritte</h3>
    		<div th:each="s: ${schritte}">
-   			<p th:text="${s.stepNumber}">name</p>
-   			<p th:text="${s.beschreibung}">name</p>
+   			<p th:text="${s.stepNumber}"></p>
+   			<p th:text="${s.beschreibung}"></p>
    		</div>
    		
+   		<h3>Erwartetes Ergebnis</h3>
+   		<p th:text="${test.erwartetesErgebnis}"></p>
    		
+   		<h3>Anforderung</h3>
+   		<p th:text="${test.anforderung} ? ${test.anforderung.beschreibung} : 'nicht ausgewählt'"></p>
    		
    		
    		

@@ -9,4 +9,6 @@ import com.require4testing.model.Testschritt;
 
 public interface TestschrittRepository extends JpaRepository<Testschritt, Long> {
 	List<Testschritt> findByTestOrderByStepNumberAsc(Test test);
+	
+	List<Testschritt> findByTest(Test test);
 }

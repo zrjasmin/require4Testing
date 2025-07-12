@@ -29,6 +29,7 @@ function hinzufuegenKriterium() {
 	function updateReihenfolge() {
 		const schritteValue = Array.from(container.children).map(el => el.querySelector('.schritt').value);
 		const reihenfolgeInput = document.getElementById("reihenfolge");
+		console.log(schritteValue);
 		reihenfolgeInput.value = JSON.stringify(schritteValue);
 		
 		for(let o in schritteValue) {
