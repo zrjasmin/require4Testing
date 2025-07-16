@@ -2,7 +2,7 @@
    <html xmlns:th="http://www.thymeleaf.org">
    <head>
        <title>Test: Edit</title>
-      <!-- <script type="text/javascript" th:src="@{/script.js}"></script> -->
+       <script type="text/javascript" th:src="@{/script.js}"></script>	
    </head>
    <body>
 		<h1>Test bearbeiten</h1>
@@ -20,10 +20,13 @@
 		    <br/>
 		    
 		    <label>Testschritte</label>
-		    <div id="stepContainer" th:each="schritt, iterStat : *{testschritte}" draggable="true">
-		    	<input type="hidden" th:field="*{testschritte[__${iterStat.index}__].id}"/>
-		        <input type="hidden" th:value="${test.testschritte[__${iterStat.index}__].stepNumber}" class="schritt"/>
-		        <input type="text" th:field="*{testschritte[__${iterStat.index}__].beschreibung}"  class="schrittvalue"/>
+		    <div id="stepContainer" >
+		    	<div class="schritte"  th:each="schritt, iterStat : *{testschritte}"  draggable="true">
+			    	<input type="hidden" th:field="*{testschritte[__${iterStat.index}__].id}"/>
+			        <input type="hidden" th:value="${test.testschritte[__${iterStat.index}__].stepNumber}" class="schritt"/>
+			        <input type="text" th:field="*{testschritte[__${iterStat.index}__].beschreibung}"  class="schrittvalue" oninput="updateReihenfolge()"/>
+		       		<button type="button" onclick="deleteSchritt(this.parentElement)">Entfernen</button>
+		    	</div>
 	        </div>
 		    
 		    <br/>

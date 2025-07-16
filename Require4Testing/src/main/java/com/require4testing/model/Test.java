@@ -117,6 +117,11 @@ public class Test {
 	public void setTestschritte(List<Testschritt> schritte) {
 		this.testschritte = schritte;
 	}
+	
+	public void removeSchritt(Testschritt schritt) {
+		testschritte.remove(schritt);
+		schritt.setTest(null);
+	}
 
    
 }

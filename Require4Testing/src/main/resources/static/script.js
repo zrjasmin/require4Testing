@@ -22,36 +22,52 @@ function hinzufuegenKriterium() {
 	}
 	
 	
+	
+	
+	
+	
+	
 	let stepIndex;
 	let previousStepIndex;
 	let container;
+	let existingInputs = 0;
 	
 	function updateReihenfolge() {
-		const schritteValue = Array.from(container.children).map(el => el.querySelector('.schritt').value);
-		const reihenfolgeInput = document.getElementById("reihenfolge");
-		console.log(schritteValue);
+		let schritteValue = Array.from(container.children).map(el => el.querySelector('.schritt').value);
+		const reihenfolgeInput = document.getElementById("reihenfolge");		
 		reihenfolgeInput.value = JSON.stringify(schritteValue);
-		
-		for(let o in schritteValue) {
-			console.log("schritt: " + o + " wert: " +schritteValue[o]);
-		}
-		console.log(schritteValue);
-
 		console.log(reihenfolgeInput.value);
-		
 		}
+
+		function deleteSchritt(div) {
+			div.remove();
+			updateReihenfolge();
+		}
+		
+
+
 		
 		
 	document.addEventListener('DOMContentLoaded', () => {
 		container = document.getElementById('stepContainer');
+		existingInputs = Array.from(container.children).map(el => el.querySelector('.schritt')).length;
+		
+		registerDragAndDrop();
+		updateReihenfolge();
 		//let reihenfolgeInput;// Hidden input
+		
+		if(existingInputs != 0) {
+			//es gibt gespeicherte Schritte
+			stepIndex = container.children.length+1;
+		} else {
+			//noch keine gespeicherten Schritte
+			stepIndex = container.children.length;
+		}
 		
 		
 		
 		
 		function addNewStep() {
-				stepIndex = container.children.length;
-				console.log(stepIndex);
 			    // Neues Div für das Kriterium
 			    const div = document.createElement('div');
 				
@@ -61,57 +77,74 @@ function hinzufuegenKriterium() {
 						<input type="hidden" name="testschritte[${stepIndex}].id"/>
 				        <input type="text" name="testschritte[${stepIndex}].beschreibung" class="schrittvalue" oninput="updateReihenfolge()"/>
 						<input type="hidden" name="testschritte[${stepIndex}].stepNumber"  class="schritt" value="${stepIndex}"/>
-			    `;
+			    		<button type="button" onclick="deleteSchritt(this.parentElement)">Entfernen</button>
+						`;
 				
 				
-				registerDragAndDrop(div);
-				
+				registerDragAndDrop();
+				console.log("stepIndex " + stepIndex);
 			    container.appendChild(div);
 			    stepIndex++;
+				
 				updateReihenfolge();
+				
+			
 				}
 				
-				document.getElementById("addStepButton").addEventListener("click", addNewStep);
-				// Variable für das gezogene Element
-				let draggedItem = null;
+			document.getElementById("addStepButton").addEventListener("click", addNewStep);
+			
+			// Variable für das gezogene Element
+			let draggedItem = null;
 
-				// Funktion, um Drag & Drop Events zu registrieren
-				function registerDragAndDrop(element) {
-				  element.addEventListener('dragstart', dragStart);
-				  element.addEventListener('dragover', dragOver);
-				  element.addEventListener('drop', drop);
-				}
+			// Funktion, um Drag & Drop Events zu registrieren
+			function registerDragAndDrop() {
+				const schritte = document.querySelectorAll(".schritte");
+			
+				schritte.forEach(schritt => {
+					  schritt.addEventListener('dragstart', dragStart);
+					  schritt.addEventListener('dragover', dragOver);
+					  schritt.addEventListener('drop', drop);
+				})
+				
+				 
+			}
 
-				// Drag & Drop Handler Funktionen
-				function dragStart(e) {
-				  draggedItem = e.currentTarget;
-				}
+			// Drag & Drop Handler Funktionen
+			function dragStart(e) {
+			  draggedItem = e.currentTarget;
+			  console.log(draggedItem);
+			}
 
-				function dragOver(e) {
-				  e.preventDefault();
-				}
+			function dragOver(e) {
+			  e.preventDefault();
+			}
 
-				function drop(e) {
-				  e.preventDefault();
-				  const target = e.currentTarget;
-				  
+			function drop(e) {
+			  e.preventDefault();
+			  const target = e.currentTarget;
 
-				  if (target !== draggedItem) {
-				    const children = Array.from(container.children);
-				    const indexDragged = children.indexOf(draggedItem);
-				    const indexTarget = children.indexOf(target);
+			  if (target !== draggedItem) {
+			    const children = Array.from(container.children);
+			    const indexDragged = children.indexOf(draggedItem);
+			    const indexTarget = children.indexOf(target);
 
-				    if (indexDragged < indexTarget) {
-				      container.insertBefore(draggedItem, target.nextSibling);
-				    } else {
-				      container.insertBefore(draggedItem, target);
-				    }
+			    if (indexDragged < indexTarget) {
+			      container.insertBefore(draggedItem, target.nextElementSibling);
+			    } else {
+			      container.insertBefore(draggedItem, target);
+			    }
 
-					
-				  }
-				  updateReihenfolge();
-				  
-				}
+				
+			  }
+			  
+			  console.log('Target:', target);
+			  console.log('Next Sibling:', target.nextSibling);
+			  console.log('Dragged Item:', draggedItem);
+			  updateReihenfolge();
+			  
+			}
+			
+				
 				
 	
 	})

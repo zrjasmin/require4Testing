@@ -2,10 +2,15 @@ package com.require4testing.controller;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -96,8 +101,9 @@ public class TestController {
 		for(Testschritt schritt : test.getTestschritte()) {
 			TestschrittDto schrittDto = new TestschrittDto();
 			schrittDto.setId(schritt.getId());
-			System.out.println("edit id: "+ schrittDto.getId());
+			
 			schrittDto.setBeschreibung(schritt.getBeschreibung());
+			schrittDto.setStepNumber(schritt.getStepNumber());
 			schritteDtos.add(schrittDto);
 		}
 		dto.setTestschritte(schritteDtos);
@@ -116,16 +122,35 @@ public class TestController {
 	
 	@PostMapping("/save") 
 	public String neuenTestSpeichern(@ModelAttribute Test test, @RequestParam("reihenfolge") String reihenfolgeJSON) {
-		ObjectMapper mapper = new ObjectMapper();
 		
+		List<Testschritt> sortierteSchritte = assignStepNumber(test, reihenfolgeJSON);
+		test.getTestschritte().clear();
+        test.setTestschritte(sortierteSchritte);
+        
+		Long anfID = test.getAnforderung().getId();
+		
+		Anforderung anf = anfService.getAnfById(anfID);
+		
+		test.setAnforderung(anf);
+		
+		repository.save(test);
+		
+		return "redirect:/test/all";
+	}
+	
+	
+	public List<Testschritt> assignStepNumber(Test test, String schrittReihenfolge) {
+		ObjectMapper mapper = new ObjectMapper();
+		List<Testschritt> sortierteSchritte = new ArrayList<>();
 		try {
-            List<String> reihenfolgeListe = mapper.readValue(reihenfolgeJSON, new TypeReference<List<String>>() {});
-            List<Testschritt> sortierteSchritte = new ArrayList<>();
+			//6,5,1,7
+            List<String> reihenfolgeListe = mapper.readValue(schrittReihenfolge, new TypeReference<List<String>>() {});
             
             int i = 1;
-    
+            System.out.println(test.getTestschritte().size());
             for(String s : reihenfolgeListe) {
-            	System.out.println("maybe empty " +s);
+            	System.out.println("Sortierung durch JS:  " +s);
+            	System.out.println("Schritt: " +i);
             	int stellenIndex = Integer.parseInt(s);
             	// sucht Testschritt anhand der Reihenfolge
             	Testschritt currentSchritt = test.getTestschritte().get(stellenIndex);
@@ -140,31 +165,24 @@ public class TestController {
                 	i++;
             	}
             	
-            	
             }
             
-            test.getTestschritte().clear();
-            test.setTestschritte(sortierteSchritte);
-            
-            
+            System.out.println(sortierteSchritte);
 		} catch(Exception e) {
 			 e.printStackTrace();
 		}
 		
-		
-		Long anfID = test.getAnforderung().getId();
-		
-		Anforderung anf = anfService.getAnfById(anfID);
-		
-		test.setAnforderung(anf);
-		
-		repository.save(test);
-		
-		return "redirect:/test/all";
+		return sortierteSchritte;
 	}
 	
+	
+	
+	
+	@Transactional
 	@PostMapping("/update/{id}")
-	public String updateTest(@PathVariable Long id, Model model, @ModelAttribute TestDto testDto) {
+	public String updateTest(@PathVariable Long id, Model model, @ModelAttribute TestDto testDto, @RequestParam("reihenfolge") String reihenfolgeJSON) {
+		ObjectMapper mapper = new ObjectMapper();
+		
 		//Test aus Datenbank laden
 		Test bestehenderTest = service.getTestById(id);
 		
@@ -174,43 +192,93 @@ public class TestController {
 		model.addAttribute("test", bestehenderTest);
 		
 		List<Testschritt> bestehendeSchritte = bestehenderTest.getTestschritte();
-		Map<Long, Testschritt> schritteMap = bestehendeSchritte.stream()
+		Map<Long, Testschritt> bestehendeSchritteMap = bestehendeSchritte.stream()
 			        .collect(Collectors.toMap(Testschritt::getId, Function.identity()));
 		
+		//speichert ID und tempräre Schrittnummer
+		 Map<Integer, Long> idZuSchrittNummer = new HashMap<>();
 		
-		
-		 List<Testschritt> updatedSchritte = new ArrayList<>();
 		 
-		 
+		 // Aktualisieren / Neue hinzufügen
 		 for(TestschrittDto schrittDTO : testDto.getTestschritte()) {
-			 System.out.println("DTO ID (update): "+schrittDTO.getId());
-			 if (schrittDTO.getId() != null && schritteMap.containsKey(schrittDTO.getId())) {
+		
+			 if (schrittDTO.getId() != null && bestehendeSchritteMap.containsKey(schrittDTO.getId())) {
 		            // Bestehender Schritt: aktualisieren
-				 	Testschritt schritt = schritteMap.get(schrittDTO.getId());
+				 	Testschritt schritt = bestehendeSchritteMap.get(schrittDTO.getId());
 		            schritt.setBeschreibung(schrittDTO.getBeschreibung());
-		            updatedSchritte.add(schritt);
+		            System.out.println("Kriterium ist bereits gespeichert: "+schrittDTO.getId());
+		            bestehendeSchritteMap.remove(schrittDTO.getId());
+		            idZuSchrittNummer.put(schritt.getStepNumber(), schritt.getId());
+		           
 		        } else {
 		            // Neuer Schritt: erstellen
-		        	Testschritt neuerSchritt = new Testschritt();
-		            neuerSchritt.setBeschreibung(schrittDTO.getBeschreibung());
-		           
-		            // neuerSchritt.setStepNumber(...);
-		            neuerSchritt.setTest(bestehenderTest);
-		            updatedSchritte.add(neuerSchritt);
+		        	if(schrittDTO.getBeschreibung() != null) {
+		        		Testschritt neuerSchritt = createNeuerSchritt(schrittDTO, bestehenderTest);
+		        		idZuSchrittNummer.put(neuerSchritt.getStepNumber(), neuerSchritt.getId());
+		        	}
+		            
 		        }
 		 }
 		 
-		 bestehenderTest.setTestschritte(updatedSchritte);
+		 //löschte Schritte
+		 for(Testschritt zuLöschen : bestehendeSchritteMap.values()) {
+			 bestehenderTest.removeSchritt(zuLöschen);
+			 schrittRepository.delete(zuLöschen);
+		 }
 		 
+		 List<Testschritt> sortierteSchritte = new ArrayList<>();
+		 
+		 //sortiert Schritte neu
+		 try {
+			 List<String> stepValues = mapper.readValue(reihenfolgeJSON, new TypeReference<List<String>>() {});;
+					 
+			 int i = 1;
+			 for(String s : stepValues) {
+				Integer intS = Integer.parseInt(s);
+             	System.out.println(intS);
+
+             	//
+				 if(idZuSchrittNummer.containsKey(intS)) {
+					 Long schrittId = idZuSchrittNummer.get(intS);
+					 Optional<Testschritt> optSchritt = schrittRepository.findById(schrittId);
+					 if(optSchritt.isPresent()) {
+						 Testschritt schritt  = optSchritt.get();
+						
+						 schritt.setStepNumber(i);
+				
+						 i++; 
+					 }
+					
+				 }
+	            	
+			 }
+			 
+		 } catch (Exception e) {
+			    e.printStackTrace();
+		 }
+		 
+		 
+		
+		 
+		 
+		 
+		
+
 		
 		repository.save(bestehenderTest);
 		
-		
-		
-		
-		
+
 		
 		return "redirect:/test/detail/"+id;
+	}
+	
+	public Testschritt createNeuerSchritt(TestschrittDto schrittDto, Test test) {
+		Testschritt neuerSchritt = new Testschritt();
+        neuerSchritt.setBeschreibung(schrittDto.getBeschreibung());
+        neuerSchritt.setTest(test);
+        neuerSchritt.setStepNumber(schrittDto.getStepNumber());
+        schrittRepository.save(neuerSchritt);
+        return neuerSchritt;
 	}
 	
 }
