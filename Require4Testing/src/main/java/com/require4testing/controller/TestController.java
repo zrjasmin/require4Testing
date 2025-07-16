@@ -226,7 +226,6 @@ public class TestController {
 			 schrittRepository.delete(zuLöschen);
 		 }
 		 
-		 List<Testschritt> sortierteSchritte = new ArrayList<>();
 		 
 		 //sortiert Schritte neu
 		 try {
