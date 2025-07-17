@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,9 @@ public class TestController {
 	
 
 	@GetMapping("/all") 
-	public String alleTests(Model model) {
+	public String alleTests(Model model, HttpSession session) {
 		model.addAttribute("test", repository.findAll());
+		model.addAttribute("aktuellerUser", session.getAttribute("currentUser"));
 		return "test_uebersicht";
 	}
 	
@@ -176,8 +178,6 @@ public class TestController {
 	}
 	
 	
-	
-	
 	@Transactional
 	@PostMapping("/update/{id}")
 	public String updateTest(@PathVariable Long id, Model model, @ModelAttribute TestDto testDto, @RequestParam("reihenfolge") String reihenfolgeJSON) {
@@ -255,20 +255,22 @@ public class TestController {
 		 } catch (Exception e) {
 			    e.printStackTrace();
 		 }
-		 
-		 
 		
-		 
-		 
-		 
-		
-
 		
 		repository.save(bestehenderTest);
 		
 
 		
 		return "redirect:/test/detail/"+id;
+	}
+	
+	
+	@PostMapping("/delete/{id}")
+	public String deleteTest(@PathVariable Long id) {
+		Test test = service.getTestById(id);
+		
+		service.deleteTest(test);
+		return "redirect:/test/all";
 	}
 	
 	public Testschritt createNeuerSchritt(TestschrittDto schrittDto, Test test) {

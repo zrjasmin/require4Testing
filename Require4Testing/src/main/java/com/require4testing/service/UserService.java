@@ -8,6 +8,7 @@ import com.require4testing.model.Role;
 import com.require4testing.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,13 +25,20 @@ public class UserService {
     }
    
     
-    public void neuerUserSpeichern() {
-        // Neue Entität erstellen
-    	User neuerUser = new User("Jamin", "jj", Role.TEST_FALLERSTELLR);
-
+    public void neuerUserSpeichern(User user) {
         // Speichern in der Datenbank
-    	repository.save(neuerUser);
+    	repository.save(user);
 
-        System.out.println("User gespeichert mit ID: " + neuerUser.getId());
+       
+    }
+    
+    public User findById(Long id) {
+    	Optional<User> optUser = repository.findById(id);
+    	User user = null;
+    	if(optUser.isPresent()) {
+    		user = optUser.get();
+    	}
+    	
+    	return user;
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.require4testing.repository.TestRepository;
 import com.require4testing.repository.UserRepository;
+import com.require4testing.model.Anforderung;
 import com.require4testing.model.Test;
 import com.require4testing.model.User;
 
@@ -58,6 +59,13 @@ public class TestService {
     	}
     	
     	return testNumber;
+    }
+    
+    public void deleteTest(Test t) {
+    	t.setAnforderung(null);
+    	
+    	repository.delete(t);
+    	
     }
     
     

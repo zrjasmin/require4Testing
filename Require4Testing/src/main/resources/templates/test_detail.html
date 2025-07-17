@@ -33,5 +33,10 @@
        	<a th:href="@{/test/edit/{id}(id=${test.id})}">
        		<button>Änderungen</button>
        	</a>
+       	
+       	<form th:action="@{/test/delete/{id}(id=${test.id})}" method="post">
+		    <input type="hidden" name="_method" value="delete"/>
+		    <button type="submit" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
+		</form>
    </body>
    </html>

@@ -53,7 +53,15 @@
 		    <br/>
 		   
 		    <button type="submit">Test speichern</button>
+		    <button >Test speichern</button>
 		</form>
+		
+		<form th:action="@{/test/delete/{id}(id=${test.id})}" method="post">
+		    <input type="hidden" name="_method" value="delete"/>
+		    <button type="submit" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
+		</form>
+	
+		
        
      
    </body>

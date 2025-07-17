@@ -20,6 +20,7 @@ public class User {
     private Long id;
     private String name;
     private String email;
+    private String profileImagePath;
     @Enumerated(EnumType.STRING)
     private Role role; 
    
@@ -29,10 +30,11 @@ public class User {
     public User() {}
 
     // Konstruktor mit Parametern
-    public User(String name, String email, Role role) {
+    public User(String name, String email, Role role, String path) {
         this.setName(name);
         this.setEmail(email);
         this.setRole(role);
+        this.setProfileImagePath(path);
     }
 
     // Getter und Setter
@@ -66,6 +68,14 @@ public class User {
 	
 	public Role getRole() {
 		return role;
+	}
+
+	public String getProfileImagePath() {
+		return profileImagePath;
+	}
+
+	public void setProfileImagePath(String profileImagePath) {
+		this.profileImagePath = profileImagePath;
 	}
 
 

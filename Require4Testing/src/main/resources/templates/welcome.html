@@ -2,27 +2,36 @@
  <html xmlns:th="http://www.thymeleaf.org">
 	 <head>
 	     <title>Nutzer wählen</title>
+       <script type="text/javascript" th:src="@{/js/user.js}"></script>
 	    
 	 </head>
 	 <body>
-	     
-	     <h1>Wähle deine Nutzer-Rolle</h1>
-	     
-	     
-	     <form th:action="@{/user/selectRole}" method="post">
-	     <select required>
-		        <option value="" disabled selected>Bitte wählen</option>
-		        <option th:each="u : ${users}"
-		                th:value="${u.id}"
-		                th:text="${a.name}">
-		        </option>
-		    </select>
-		
-	   		
-	
-		   	
+	     <div class="welcome-container">
+	     	<h1>Wähle deine Nutzer-Rolle</h1>
+	     	
+	     	
+	     	<form th:action="@{/user/selectRole}" th:object=${user} method="post">
+	     	<div class="scrollmenu">
+	     		<div th:each="user : ${users}" class="user-info" th:data-user-id="${user.id}">
+	     			
+	     			<h3 th:text="${user.name}"></h3>
+					<p th:text="${user.role.getDisplayName()}"></p>
+	     			<img th:src="@{${user.profileImagePath}}"/>
+	     			
+	     		</div>
+		    
+	     	</div>
+			<input type="hidden" name="selectedUserId" id="selectedUserId" />
 		    <button type="submit">Test speichern</button>
 		</form>
+	     	
+	     	
+	     	
+	     </div>
+	     
+	     
+	     
+	     
 		
 	
 	 </body>
