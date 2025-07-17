@@ -21,6 +21,13 @@ public class Role {
     )
 	private Set<Berechtigung> berechtigungen;
 
+	public Role() {}
+	
+	public Role(String name, Set<Berechtigung> berechtigungen) {
+		this.name = name;
+		this.berechtigungen = berechtigungen;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -38,19 +45,5 @@ public class Role {
 	}
 	
 	
-	/*
-	RE("Requirements Engineer"),
-    TEST_MANAGER("Testmanager:in"),
-    TESTER("Tester:in"),
-    TEST_FALLERSTELLR("Testfallersteller:in");
 	
-	private final String displayName;
-
-    Role(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }*/
 }

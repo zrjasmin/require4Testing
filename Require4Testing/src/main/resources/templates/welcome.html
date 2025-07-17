@@ -15,7 +15,9 @@
 	     		<div th:each="user : ${users}" class="user-info" th:data-user-id="${user.id}">
 	     			
 	     			<h3 th:text="${user.name}"></h3>
-					<p th:text="${user.role.getDisplayName()}"></p>
+					<div th:each="r : ${user.roles}" class="roles">
+						<p th:text="${r.name}"></p>
+					</div>
 	     			<img th:src="@{${user.profileImagePath}}"/>
 	     			
 	     		</div>

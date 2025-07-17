@@ -10,6 +10,10 @@ public class Berechtigung {
     private String name;
     
     public Berechtigung() {}
+    
+    public Berechtigung(String name) {
+    	this.name = name;
+    }
 
     public String getName() {
 		return name;

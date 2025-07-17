@@ -2,6 +2,7 @@ package com.require4testing.model;
 
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -30,11 +31,11 @@ public class User {
     public User() {}
 
     // Konstruktor mit Parametern
-    public User(String name, String email, Set<Role> roles, String path) {
+    public User(String name, String email, String path) {
         this.setName(name);
         this.setEmail(email);
-        this.setRoles(roles);
         this.setProfileImagePath(path);
+        this.roles = new HashSet<>();
     }
 
     // Getter und Setter
