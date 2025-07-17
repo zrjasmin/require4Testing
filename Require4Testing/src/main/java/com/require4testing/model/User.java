@@ -2,13 +2,9 @@ package com.require4testing.model;
 
 
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.Set;
+
+import javax.persistence.*;
 
 
 @Entity
@@ -21,8 +17,12 @@ public class User {
     private String name;
     private String email;
     private String profileImagePath;
-    @Enumerated(EnumType.STRING)
-    private Role role; 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+    name = "user_roles",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles; 
    
   
 
@@ -30,10 +30,10 @@ public class User {
     public User() {}
 
     // Konstruktor mit Parametern
-    public User(String name, String email, Role role, String path) {
+    public User(String name, String email, Set<Role> roles, String path) {
         this.setName(name);
         this.setEmail(email);
-        this.setRole(role);
+        this.setRoles(roles);
         this.setProfileImagePath(path);
     }
 
@@ -62,13 +62,15 @@ public class User {
 		this.email = email;
 	}
 	
-	public void setRole(Role role) {
-		this.role = role;
+
+	public Set<Role> getRoles() {
+		return roles;
 	}
 	
-	public Role getRole() {
-		return role;
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
+	
 
 	public String getProfileImagePath() {
 		return profileImagePath;
