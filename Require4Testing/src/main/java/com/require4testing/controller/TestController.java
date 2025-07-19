@@ -67,9 +67,8 @@ public class TestController {
 	
 	@GetMapping("/edit")
 	public String zeigeNeueTestForm(Model model, HttpSession session) {
-		if(userService.hasPermision(session, "create_test")) {
-			model.addAttribute("currentUser", userService.getCurrentUser(session));
-		}
+		userService.hasPermision(session, "create_test");
+		model.addAttribute("currentUser", userService.getCurrentUser(session));
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anforderungRepository.findAll();
 		model.addAttribute("anforderungen", anforderungen);
@@ -94,8 +93,11 @@ public class TestController {
 	}
 	
 	@GetMapping("/edit/{id}")
-	public String zeigEditForm(@PathVariable Long id, Model model) {
+	public String zeigEditForm(@PathVariable Long id, Model model, HttpSession session) {
 
+		userService.hasPermision(session, "edit_test");
+		model.addAttribute("currentUser", userService.getCurrentUser(session));
+		
 		Test test = service.getTestById(id);
 		model.addAttribute("test", test);
 		
@@ -286,10 +288,15 @@ public class TestController {
 	
 	
 	@PostMapping("/delete/{id}")
-	public String deleteTest(@PathVariable Long id) {
+	public String deleteTest(@PathVariable Long id, HttpSession session, Model model) {
+		userService.hasPermision(session, "delete_test");
+		model.addAttribute("currentUser", userService.getCurrentUser(session));
 		Test test = service.getTestById(id);
 		
+		
 		service.deleteTest(test);
+		
+		
 		return "redirect:/test/all";
 	}
 	

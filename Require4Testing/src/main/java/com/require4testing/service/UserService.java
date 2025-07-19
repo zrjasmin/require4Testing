@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.require4testing.repository.BerechtigungRepository;
 import com.require4testing.repository.RoleRepository;
 import com.require4testing.repository.UserRepository;
+import com.require4testing.exception.UnauthorizedException;
 import com.require4testing.model.Berechtigung;
 import com.require4testing.model.Role;
 import com.require4testing.model.User;
@@ -55,22 +56,34 @@ public class UserService {
     	return user;
     }
     
-    public boolean hasPermision(HttpSession session, String berechtigungName) {
+    public void hasPermision(HttpSession session, String berechtigungName) {
     	User user =  (User) session.getAttribute("currentUser");
-    	System.out.println(user);
+    	System.out.println(user.getName());
+    	boolean check = false;
     	
-    	
+    	outerLoop:
     	for(Role role : user.getRoles()) {
     		for(Berechtigung berechtigung : role.getBerechtigungen()) {
     			if(berechtigung.getName().equals(berechtigungName)) {
-    				System.out.println("haben Berechtigung");
-    				return true;
+    				
+    				check = true;
+    				System.out.println(check);
+    				break outerLoop;
+    				
+    			} else {
+    				System.out.println(check);
+    				check = false;
     			}
     		}
     	}
-    	System.out.println("keine Berechtigung");
-    	return false;
+    	
+    	if(!check) {
+    		throw new UnauthorizedException("kein Zugriff");
+    	}
+    	
+    	
     }
+  
     
     
     
