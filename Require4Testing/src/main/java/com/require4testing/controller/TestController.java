@@ -67,7 +67,9 @@ public class TestController {
 	
 	@GetMapping("/edit")
 	public String zeigeNeueTestForm(Model model, HttpSession session) {
-		if(userService.hasPermision(session, "create_test"))
+		if(userService.hasPermision(session, "create_test")) {
+			model.addAttribute("currentUser", userService.getCurrentUser(session));
+		}
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anforderungRepository.findAll();
 		model.addAttribute("anforderungen", anforderungen);
@@ -131,11 +133,21 @@ public class TestController {
 	
 	
 	@PostMapping("/save") 
-	public String neuenTestSpeichern(@ModelAttribute Test test, @RequestParam("reihenfolge") String reihenfolgeJSON) {
+	public String neuenTestSpeichern(@ModelAttribute Test test, 
+			@RequestParam("reihenfolge") String reihenfolgeJSON, 
+			@RequestParam("erstellerId") Long erstellerId) {
 		
+	
 		List<Testschritt> sortierteSchritte = assignStepNumber(test, reihenfolgeJSON);
-		test.getTestschritte().clear();
+		if(test.getTestschritte() != null) {
+			test.getTestschritte().clear();
+		}
         test.setTestschritte(sortierteSchritte);
+        
+        System.out.println(erstellerId);
+        
+        User ersteller = userService.findById(erstellerId);
+        test.setErsteller(ersteller);
         
 		Long anfID = test.getAnforderung().getId();
 		
@@ -157,7 +169,7 @@ public class TestController {
             List<String> reihenfolgeListe = mapper.readValue(schrittReihenfolge, new TypeReference<List<String>>() {});
             
             int i = 1;
-            System.out.println(test.getTestschritte().size());
+          
             for(String s : reihenfolgeListe) {
             	System.out.println("Sortierung durch JS:  " +s);
             	System.out.println("Schritt: " +i);

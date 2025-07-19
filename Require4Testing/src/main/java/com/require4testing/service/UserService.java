@@ -47,8 +47,11 @@ public class UserService {
     
     public User findById(Long id) {
     	User user = repository.findById(id).get();
-    	
-    	
+    	return user;
+    }
+    
+    public User getCurrentUser(HttpSession session) {
+    	User user =  (User) session.getAttribute("currentUser");
     	return user;
     }
     
