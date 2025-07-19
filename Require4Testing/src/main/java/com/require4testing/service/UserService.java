@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
+
 @Service
 public class UserService {
 
@@ -44,14 +46,33 @@ public class UserService {
     }
     
     public User findById(Long id) {
-    	Optional<User> optUser = repository.findById(id);
-    	User user = null;
-    	if(optUser.isPresent()) {
-    		user = optUser.get();
-    	}
+    	User user = repository.findById(id).get();
+    	
     	
     	return user;
     }
+    
+    public boolean hasPermision(HttpSession session, String berechtigungName) {
+    	User user =  (User) session.getAttribute("currentUser");
+    	System.out.println(user);
+    	
+    	
+    	for(Role role : user.getRoles()) {
+    		for(Berechtigung berechtigung : role.getBerechtigungen()) {
+    			if(berechtigung.getName().equals(berechtigungName)) {
+    				System.out.println("haben Berechtigung");
+    				return true;
+    			}
+    		}
+    	}
+    	System.out.println("keine Berechtigung");
+    	return false;
+    }
+    
+    
+    
+    
+    
     
     public void initialiseUser() {
     	List<Berechtigung> initalBerechtigungen = new ArrayList<>();

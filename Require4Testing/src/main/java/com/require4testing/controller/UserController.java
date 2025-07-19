@@ -45,7 +45,9 @@ public class UserController {
 	
 	@PostMapping("/user/selectRole")
 	public String handleSelectRole(@RequestParam("selectedUserId") Long userId, HttpSession session) {
-		session.setAttribute("currentUser", service.findById(userId));
+		User user = service.findById(userId);
+	
+		session.setAttribute("currentUser", user);
 		
 		return "redirect:/test/all";
 		

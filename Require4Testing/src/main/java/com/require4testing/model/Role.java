@@ -40,7 +40,7 @@ public class Role {
 		return berechtigungen;
 	}
 	
-	public  void getBerechtigungen(Set<Berechtigung> b) {
+	public  void setBerechtigungen(Set<Berechtigung> b) {
 		this.berechtigungen = b;
 	}
 	

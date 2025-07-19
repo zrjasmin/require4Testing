@@ -29,11 +29,13 @@ import com.require4testing.dto.*;
 import com.require4testing.model.Anforderung;
 import com.require4testing.model.Test;
 import com.require4testing.model.Testschritt;
+import com.require4testing.model.User;
 import com.require4testing.repository.AnforderungRepository;
 import com.require4testing.repository.TestRepository;
 import com.require4testing.repository.TestschrittRepository;
 import com.require4testing.service.AnforderungService;
 import com.require4testing.service.TestService;
+import com.require4testing.service.UserService;
 
 @Controller
 @RequestMapping("/test")
@@ -48,18 +50,24 @@ public class TestController {
 	private AnforderungRepository anforderungRepository;
 	@Autowired
 	private AnforderungService anfService;
+	@Autowired
+	private UserService userService;
 	private TestDto testDto;
 	
 
 	@GetMapping("/all") 
 	public String alleTests(Model model, HttpSession session) {
 		model.addAttribute("test", repository.findAll());
-		model.addAttribute("aktuellerUser", session.getAttribute("currentUser"));
+		
+		User user = (User) session.getAttribute("currentUser");		
+		model.addAttribute("aktuellerUser", user);
+		
 		return "test_uebersicht";
 	}
 	
 	@GetMapping("/edit")
-	public String zeigeNeueTestForm(Model model) {
+	public String zeigeNeueTestForm(Model model, HttpSession session) {
+		if(userService.hasPermision(session, "create_test"))
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anforderungRepository.findAll();
 		model.addAttribute("anforderungen", anforderungen);
