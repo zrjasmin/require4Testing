@@ -27,7 +27,9 @@ public class Role {
 		this.name = name;
 		this.berechtigungen = berechtigungen;
 	}
-	
+	public Long getId() {
+		return id;
+	}
 	public String getName() {
 		return name;
 	}

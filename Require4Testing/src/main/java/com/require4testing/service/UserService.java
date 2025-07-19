@@ -56,6 +56,39 @@ public class UserService {
     	return user;
     }
     
+    public List<User> getAllOfRole(String roleName) {
+    	Role role = roleRep.findByName(roleName);
+    	List<User> alleUser = alleEntities();
+    	List<User> allOneRole = new ArrayList<>();
+    	for(User u : alleUser) {
+    		for(Role r : u.getRoles()) {
+    			if(r.getId().equals(role.getId())) {
+    				
+    				allOneRole.add(u);
+    			}
+    		}
+    	}
+       	return allOneRole;
+    	
+    	
+    }
+    
+    public boolean hasRole(HttpSession session, String roleName) {
+    	User user = getCurrentUser(session);
+    	Role role = roleRep.findByName(roleName);
+    	boolean check = false;
+    	for(Role r : user.getRoles()) {
+        	if(role.getId().equals(r.getId())) {
+        		check = true;
+        		break;
+        	}
+
+    	}
+    	System.out.println(check);
+    	
+    	return check;
+    }
+    
     public void hasPermision(HttpSession session, String berechtigungName) {
     	User user =  (User) session.getAttribute("currentUser");
     	System.out.println(user.getName());
@@ -65,13 +98,10 @@ public class UserService {
     	for(Role role : user.getRoles()) {
     		for(Berechtigung berechtigung : role.getBerechtigungen()) {
     			if(berechtigung.getName().equals(berechtigungName)) {
-    				
     				check = true;
-    				System.out.println(check);
     				break outerLoop;
     				
     			} else {
-    				System.out.println(check);
     				check = false;
     			}
     		}

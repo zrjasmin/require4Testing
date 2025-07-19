@@ -69,6 +69,9 @@ public class TestController {
 	public String zeigeNeueTestForm(Model model, HttpSession session) {
 		userService.hasPermision(session, "create_test");
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
+		model.addAttribute("isManager", userService.hasRole(session, "Testmanager:in"));
+		model.addAttribute("moeglicheTester", userService.getAllOfRole("Tester:in"));
+		
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anforderungRepository.findAll();
 		model.addAttribute("anforderungen", anforderungen);
@@ -97,6 +100,9 @@ public class TestController {
 
 		userService.hasPermision(session, "edit_test");
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
+		model.addAttribute("isManager", userService.hasRole(session, "Testmanager:in"));
+		model.addAttribute("moeglicheTester", userService.getAllOfRole("Tester:in"));
+		
 		
 		Test test = service.getTestById(id);
 		model.addAttribute("test", test);
@@ -110,6 +116,7 @@ public class TestController {
 		dto.setBeschreibung(test.getBeschreibung());
 		dto.setErwartetesErgebnis(test.getErwartetesErgebnis());
 		dto.setAnforderung(test.getAnforderung());
+		dto.setTester(test.getTester());
 		
 		List<TestschrittDto> schritteDtos = new ArrayList<>();
 		for(Testschritt schritt : test.getTestschritte()) {
@@ -211,6 +218,7 @@ public class TestController {
 		bestehenderTest.setTitle(testDto.getTitle());
 		bestehenderTest.setBeschreibung(testDto.getBeschreibung());
 		bestehenderTest.setAnforderung(testDto.getAnforderung());
+		bestehenderTest.setTester(testDto.getTester());
 		model.addAttribute("test", bestehenderTest);
 		
 		List<Testschritt> bestehendeSchritte = bestehenderTest.getTestschritte();
@@ -222,6 +230,9 @@ public class TestController {
 		
 		 
 		 // Aktualisieren / Neue hinzufügen
+		 if(testDto.getTestschritte() != null) {
+			 
+		
 		 for(TestschrittDto schrittDTO : testDto.getTestschritte()) {
 		
 			 if (schrittDTO.getId() != null && bestehendeSchritteMap.containsKey(schrittDTO.getId())) {
@@ -240,6 +251,7 @@ public class TestController {
 		        	}
 		            
 		        }
+		 }
 		 }
 		 
 		 //löschte Schritte

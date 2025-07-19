@@ -13,6 +13,17 @@
 		    <input type="text" id="title" th:field="*{title}" required />
 		
 		    <br/>
+		    
+		    <div th:if="${isManager}">
+		    	<label for="tester">Test zuweisen:</label>
+       			<select th:field="*{tester}" id="Tester">
+			        <option value="" selected>Bitte wählen</option>
+			        <option th:each="t : ${moeglicheTester}"
+			                th:value="${t.id}"
+			                th:text="${t.name}">
+			        </option>
+		    </select>
+       		</div>
 		
 		    <label for="beschreibung">Beschreibung:</label>
 		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
@@ -53,7 +64,7 @@
 		    <br/>
 		   
 		    <button type="submit">Test speichern</button>
-		    <button >Test speichern</button>
+		   
 		</form>
 		
 		<form th:action="@{/test/delete/{id}(id=${test.id})}" method="post">

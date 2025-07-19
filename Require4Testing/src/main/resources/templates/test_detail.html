@@ -5,10 +5,16 @@
    </head>
    <body>
 		<h1>TestDetails</h1>
+		
 		<p th:text="'erstellt von '+ ${test.ersteller.name}"></p>
 		<img th:src="@{${test.ersteller.profileImagePath}}"/>
+		
 		<p th:text="${testNummer}">name</p>
    		<h2 th:text="${test.title}">name</h2>
+   		
+   	 
+   		<p th:text="${test.tester != null} ? ${test.tester.name} : ''"></p>
+   		
    		
    		<h3>Beschreibung</h3>
    		<p th:text="${test.beschreibung}"></p>

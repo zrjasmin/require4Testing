@@ -9,7 +9,20 @@
    <body>
       
        <form th:action="@{/test/save}" th:object="${test}" method="post">
+       		
        		<input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
+       		
+       		<div th:if="${isManager}">
+       			<select th:field="*{tester}" id="verlinkteAnf">
+			        <option value="" selected>Bitte wählen</option>
+			        <option th:each="t : ${moeglicheTester}"
+			                th:value="${t.id}"
+			                th:text="${t.name}">
+			        </option>
+		    </select>
+       		</div>
+       		<label for="title">Zugewiesen an</label>
+		    <input type="text" id="title" th:field="*{title}" required />
        	    
 		    <label for="title">Name:</label>
 		    <input type="text" id="title" th:field="*{title}" required />
