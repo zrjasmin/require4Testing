@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -27,6 +28,10 @@ public class Anforderung {
     private String beschreibung;
     private String priotiät;
     private Date erstelltAm;
+    
+    @ManyToOne
+    @JoinColumn(name="ersteller_id")
+    private User ersteller;
     
     @OneToMany(mappedBy="anforderung", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Kriterium> kriterien = new ArrayList<>();
@@ -91,6 +96,14 @@ public class Anforderung {
 
 	public void setKriterien(List<Kriterium> kriterien) {
 	    this.kriterien = kriterien;
+	}
+
+	public User getErsteller() {
+		return ersteller;
+	}
+
+	public void setErsteller(User ersteller) {
+		this.ersteller = ersteller;
 	}
 	
 	

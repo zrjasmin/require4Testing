@@ -69,8 +69,6 @@ public class TestController {
 	public String zeigeNeueTestForm(Model model, HttpSession session) {
 		userService.hasPermision(session, "create_test");
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
-		model.addAttribute("isManager", userService.hasRole(session, "Testmanager:in"));
-		model.addAttribute("moeglicheTester", userService.getAllOfRole("Tester:in"));
 		
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anforderungRepository.findAll();
@@ -297,7 +295,6 @@ public class TestController {
 		
 		return "redirect:/test/detail/"+id;
 	}
-	
 	
 	@PostMapping("/delete/{id}")
 	public String deleteTest(@PathVariable Long id, HttpSession session, Model model) {

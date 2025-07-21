@@ -9,6 +9,8 @@
        
        
        <form th:action="@{/anforderung/save}" th:object="${anforderung}" method="post">
+       		<input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
+       		
 		    <label for="title">Name:</label>
 		    <input type="text" id="title" th:field="*{title}" required />
 		
