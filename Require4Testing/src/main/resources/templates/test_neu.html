@@ -13,8 +13,7 @@
        		<input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
        		
        		
-       		<label for="title">Zugewiesen an</label>
-		    <input type="text" id="title" th:field="*{title}" required />
+       		
        	    
 		    <label for="title">Name:</label>
 		    <input type="text" id="title" th:field="*{title}" required />
@@ -35,6 +34,9 @@
 			 
 		   	<label for="ergebnis">Erwartetes Ergebnis:</label>
 		    <textarea id="ergebnis" th:field="*{erwartetesErgebnis}"></textarea>
+		    <br/>
+		    <label for="testdaten">Testdaten:</label>
+		    <textarea id="testdaten" th:field="*{testdaten}"></textarea>
 		    
 			<br/>
 			

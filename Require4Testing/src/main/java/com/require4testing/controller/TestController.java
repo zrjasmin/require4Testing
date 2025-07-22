@@ -52,7 +52,7 @@ public class TestController {
 	private AnforderungService anfService;
 	@Autowired
 	private UserService userService;
-	private TestDto testDto;
+
 	
 
 	@GetMapping("/all") 
@@ -71,7 +71,7 @@ public class TestController {
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
 		
 		model.addAttribute("test", new Test());
-		List<Anforderung> anforderungen = anforderungRepository.findAll();
+		List<Anforderung> anforderungen = anfService.alleEntities();
 		model.addAttribute("anforderungen", anforderungen);
 		return "test_neu";
 	}
@@ -115,6 +115,7 @@ public class TestController {
 		dto.setErwartetesErgebnis(test.getErwartetesErgebnis());
 		dto.setAnforderung(test.getAnforderung());
 		dto.setTester(test.getTester());
+		dto.setTestdaten(test.getTestdaten());
 		
 		List<TestschrittDto> schritteDtos = new ArrayList<>();
 		for(Testschritt schritt : test.getTestschritte()) {
@@ -144,12 +145,15 @@ public class TestController {
 			@RequestParam("reihenfolge") String reihenfolgeJSON, 
 			@RequestParam("erstellerId") Long erstellerId) {
 		
-	
-		List<Testschritt> sortierteSchritte = assignStepNumber(test, reihenfolgeJSON);
-		if(test.getTestschritte() != null) {
-			test.getTestschritte().clear();
+		if(reihenfolgeJSON != "") {
+			List<Testschritt> sortierteSchritte = assignStepNumber(test, reihenfolgeJSON);
+			if(test.getTestschritte() != null) {
+				test.getTestschritte().clear();
+			}
+	        test.setTestschritte(sortierteSchritte);
 		}
-        test.setTestschritte(sortierteSchritte);
+		
+		
         
         System.out.println(erstellerId);
         
@@ -217,6 +221,7 @@ public class TestController {
 		bestehenderTest.setBeschreibung(testDto.getBeschreibung());
 		bestehenderTest.setAnforderung(testDto.getAnforderung());
 		bestehenderTest.setTester(testDto.getTester());
+		bestehenderTest.setTestdaten(testDto.getTestdaten());
 		model.addAttribute("test", bestehenderTest);
 		
 		List<Testschritt> bestehendeSchritte = bestehenderTest.getTestschritte();
@@ -261,28 +266,31 @@ public class TestController {
 		 
 		 //sortiert Schritte neu
 		 try {
-			 List<String> stepValues = mapper.readValue(reihenfolgeJSON, new TypeReference<List<String>>() {});;
-					 
-			 int i = 1;
-			 for(String s : stepValues) {
-				Integer intS = Integer.parseInt(s);
-             	System.out.println(intS);
+			 if(reihenfolgeJSON != "") {
+				 List<String> stepValues = mapper.readValue(reihenfolgeJSON, new TypeReference<List<String>>() {});;
+				 
+				 int i = 1;
+				 for(String s : stepValues) {
+					Integer intS = Integer.parseInt(s);
+	             	System.out.println(intS);
 
-             	//
-				 if(idZuSchrittNummer.containsKey(intS)) {
-					 Long schrittId = idZuSchrittNummer.get(intS);
-					 Optional<Testschritt> optSchritt = schrittRepository.findById(schrittId);
-					 if(optSchritt.isPresent()) {
-						 Testschritt schritt  = optSchritt.get();
-						
-						 schritt.setStepNumber(i);
-				
-						 i++; 
-					 }
+	             	//
+					 if(idZuSchrittNummer.containsKey(intS)) {
+						 Long schrittId = idZuSchrittNummer.get(intS);
+						 Optional<Testschritt> optSchritt = schrittRepository.findById(schrittId);
+						 if(optSchritt.isPresent()) {
+							 Testschritt schritt  = optSchritt.get();
+							
+							 schritt.setStepNumber(i);
 					
-				 }
-	            	
+							 i++; 
+						 }
+						
+					 }
+		            	
+				 } 
 			 }
+			 
 			 
 		 } catch (Exception e) {
 			    e.printStackTrace();

@@ -72,10 +72,6 @@ public class AnforderungService {
     	else {
             throw new RuntimeException("Benutzer nicht gefunden");
     	} 
-      
-    
-    	   	
-     
     }
     
     

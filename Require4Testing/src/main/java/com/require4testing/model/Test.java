@@ -24,6 +24,7 @@ public class Test {
     private String title;
     private String beschreibung;
     private String erwartetesErgebnis;
+    private String testdaten;
     
     
     @ManyToOne
@@ -121,6 +122,14 @@ public class Test {
 	public void removeSchritt(Testschritt schritt) {
 		testschritte.remove(schritt);
 		schritt.setTest(null);
+	}
+
+	public String getTestdaten() {
+		return testdaten;
+	}
+
+	public void setTestdaten(String testdaten) {
+		this.testdaten = testdaten;
 	}
 
    

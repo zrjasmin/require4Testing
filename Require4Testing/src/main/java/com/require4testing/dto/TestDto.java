@@ -12,6 +12,7 @@ public class TestDto {
 	 private String title;
 	 private String beschreibung;
 	 private String erwartetesErgebnis;
+	 private String testdaten;
 	 private User ersteller;
 	 private User tester;
 	 private Anforderung anforderung;
@@ -64,6 +65,12 @@ public class TestDto {
 	}
 	public void setTestschritte(List<TestschrittDto> testschritte) {
 		this.testschritte = testschritte;
+	}
+	public String getTestdaten() {
+		return testdaten;
+	}
+	public void setTestdaten(String testdaten) {
+		this.testdaten = testdaten;
 	}
 	
 }

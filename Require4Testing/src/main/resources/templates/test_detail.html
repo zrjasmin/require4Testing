@@ -29,6 +29,10 @@
    		<h3>Erwartetes Ergebnis</h3>
    		<p th:text="${test.erwartetesErgebnis}"></p>
    		
+   		<h3>Testdaten</h3>
+   		<p th:text="${test.testdaten}"></p>
+   		
+   		
    		<h3>Anforderung</h3>
    		<p th:text="${test.anforderung} ? ${test.anforderung.beschreibung} : 'nicht ausgewählt'"></p>
    		

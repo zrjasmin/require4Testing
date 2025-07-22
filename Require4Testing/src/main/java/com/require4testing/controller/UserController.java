@@ -50,7 +50,7 @@ public class UserController {
 	
 		session.setAttribute("currentUser", user);
 		
-		return "redirect:/anforderung/all";
+		return "redirect:/test/all";
 		
 	    // Hier kannst du den User anhand der ID laden und weiterverarbeiten
 	}
