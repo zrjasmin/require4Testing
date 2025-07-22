@@ -11,6 +11,9 @@
 		<img th:src="@{${anforderung.ersteller.profileImagePath}}"/>
    		
    		<h3>Aktuelle Kriterien:</h3>
+   		<ul th:each="k: ${anforderung.kriterien}">
+   			<li th:text="${k.beschreibung}"></li>
+   		</ul>
 			
        
        	<a th:href="@{/anforderung/edit/{id}(id=${anforderung.id})}">

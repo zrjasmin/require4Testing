@@ -33,7 +33,7 @@ public class Anforderung {
     @JoinColumn(name="ersteller_id")
     private User ersteller;
     
-    @OneToMany(mappedBy="anforderung", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy="anforderung", cascade = CascadeType.ALL)
     private List<Kriterium> kriterien = new ArrayList<>();
 
     // Standard-Konstruktor
@@ -106,6 +106,11 @@ public class Anforderung {
 		this.ersteller = ersteller;
 	}
 	
+	public void removeKriterium(Kriterium k) {
+		kriterien.remove(k);
+		k.setAnforderung(null);
+	}
+
 	
 
    

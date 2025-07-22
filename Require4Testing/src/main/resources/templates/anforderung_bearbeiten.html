@@ -2,12 +2,13 @@
    <html xmlns:th="http://www.thymeleaf.org">
    <head>
        <title>Anfordung: Edit</title>
+       <script type="text/javascript" th:src="@{/script.js}"></script>
    </head>
    <body>
 		<h1>Anforderung bearbeiten</h1>
 		
    		
-   		<form th:action="@{/anforderung/update}" th:object="${anforderung}" method="post">
+   		<form th:action="@{/anforderung/update/{id}(id=${anforderung.id})}" th:object="${anforderungDto}" method="post">
    			<input type="hidden" th:field="*{id}"/>
 		    <label for="title">Name:</label>
 		    <input type="text" id="title" th:field="*{title}" required />
@@ -18,14 +19,19 @@
 		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
 		    
 			<br/>
-		
-			 <div th:each="kriterium, iterStat : *{kriterien}">
-		        <!-- Hidden Input für ID -->
-		        <input type="hidden" th:field="*{kriterien[__${iterStat.index}__].id}"/>
-		
-		        <!-- Weitere Felder -->
-		        <input type="text" th:field="*{kriterien[__${iterStat.index}__].beschreibung}" />
+			<div id="kriteriencontainer">
+				<div th:each="kriterium, iterStat: *{kriterien}"  class="kriterium">
+			        <!-- Hidden Input für ID -->
+			        <input type="hidden" th:field="*{kriterien[__${iterStat.index}__].id}"/>
+			
+			        <!-- Weitere Felder -->
+			        <input type="text" th:field="*{kriterien[__${iterStat.index}__].beschreibung}" />
+			        <button  onclick="loescheKriterium(this.parentElement)">Entfernen</button>
+			     </div>
 		     </div>
+			 
+		     
+		     <button type="button" onclick="hinzufuegenKriterium()" value="hinzufuegen">Neues Kriterium</button>
 		
 			
 			
