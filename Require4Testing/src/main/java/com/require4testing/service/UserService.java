@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpSession;
 
 @Service
@@ -47,8 +48,8 @@ public class UserService {
     }
     
     public User findById(Long id) {
-    	User user = repository.findById(id).get();
-    	return user;
+    	 return repository.findById(id)
+    		        .orElseThrow(() -> new EntityNotFoundException("User mit ID " + id + " wurde nicht gefunden."));
     }
     
     public User getCurrentUser(HttpSession session) {
