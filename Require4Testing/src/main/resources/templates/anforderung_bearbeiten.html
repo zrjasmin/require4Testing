@@ -39,7 +39,10 @@
 		   
 		    <button type="submit">Anforderung speichern</button>
 		</form>
-       
+       <form th:action="@{/anforderung/delete/{id}(id=${anforderung.id})}" method="post">
+		    <input type="hidden" name="_method" value="delete"/>
+		    <button type="submit" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
+		</form>
      
    </body>
    </html>

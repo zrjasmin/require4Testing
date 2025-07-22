@@ -1,8 +1,10 @@
 package com.require4testing.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import com.require4testing.service.UserService;
 
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PatchMapping;
 
 import com.require4testing.repository.AnforderungRepository;
@@ -13,6 +15,7 @@ import com.require4testing.model.User;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 @Service
@@ -23,6 +26,9 @@ public class AnforderungService {
     
     @Autowired
     private UserRepository userRepository;
+    
+    @Autowired 
+    private UserService userService;
 
     public List<Anforderung> alleEntities() {
         return repository.findAll();
@@ -57,4 +63,34 @@ public class AnforderungService {
     	}    	
      
     }
+    
+    
+    public void deleteAnf(Long id,HttpSession session) {
+    	userService.hasPermision(session, "delete_requirement");
+    	Anforderung anf = getAnfById(id);
+    	repository.delete(anf);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
