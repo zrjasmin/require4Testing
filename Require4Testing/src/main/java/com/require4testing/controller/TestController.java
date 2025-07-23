@@ -114,7 +114,6 @@ public class TestController {
 		dto.setBeschreibung(test.getBeschreibung());
 		dto.setErwartetesErgebnis(test.getErwartetesErgebnis());
 		dto.setAnforderung(test.getAnforderung());
-		dto.setTester(test.getTester());
 		dto.setTestdaten(test.getTestdaten());
 		
 		List<TestschrittDto> schritteDtos = new ArrayList<>();
@@ -220,7 +219,6 @@ public class TestController {
 		bestehenderTest.setTitle(testDto.getTitle());
 		bestehenderTest.setBeschreibung(testDto.getBeschreibung());
 		bestehenderTest.setAnforderung(testDto.getAnforderung());
-		bestehenderTest.setTester(testDto.getTester());
 		bestehenderTest.setTestdaten(testDto.getTestdaten());
 		model.addAttribute("test", bestehenderTest);
 		

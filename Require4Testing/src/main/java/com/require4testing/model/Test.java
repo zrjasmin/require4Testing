@@ -30,10 +30,7 @@ public class Test {
     @ManyToOne
     @JoinColumn(name="ersteller_id")
     private User ersteller;
-    
-    @ManyToOne
-    @JoinColumn(name="tester_id")
-    private User tester;
+   
     
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "anf_id", referencedColumnName = "id")
@@ -86,14 +83,6 @@ public class Test {
 		
 	}
 	
-	public User getTester() {
-		return tester;
-	}
-	
-	public void setTester(User tester) {
-		this.tester = tester;
-		
-	}
 	
 	public Anforderung getAnforderung() {
 		return anforderung;

@@ -6,6 +6,8 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name="testlauf")
@@ -16,6 +18,19 @@ public class Testlauf {
     private Long id;
     private String title;
     private String beschreibung;
+    private String kommentar;
+    private String testumgebung;
+    
+    
+    
+    
+    @ManyToOne
+    @JoinColumn(name="tester_id")
+    private User tester;
+    
+    @ManyToOne
+    @JoinColumn(name="ersteller_id")
+    private User ersteller;
    
   
 
