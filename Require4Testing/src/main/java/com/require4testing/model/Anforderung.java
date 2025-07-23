@@ -6,16 +6,7 @@ import java.util.List;
 
 import com.require4testing.model.Kriterium;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 @Table(name="anforderung")
@@ -27,7 +18,12 @@ public class Anforderung {
     private String title;
     private String beschreibung;
     private String priotiät;
-    private Date erstelltAm;
+    private String quelle;
+    private String notizen;
+    
+    @Enumerated(EnumType.STRING)
+    private AnfKategorie kategorie;
+   
     
     @ManyToOne
     @JoinColumn(name="ersteller_id")
@@ -73,13 +69,7 @@ public class Anforderung {
 		this.beschreibung = beschreibung;
 	}
 
-	public Date getErstelltAm() {
-		return erstelltAm;
-	}
-
-	public void setErstelltAm(Date erstelltAm) {
-		this.erstelltAm = erstelltAm;
-	}
+	
 
 	public String getPriotiät() {
 		return priotiät;
@@ -111,6 +101,29 @@ public class Anforderung {
 		k.setAnforderung(null);
 	}
 
+	public String getQuelle() {
+		return quelle;
+	}
+
+	public void setQuelle(String quelle) {
+		this.quelle = quelle;
+	}
+
+	public String getNotizen() {
+		return notizen;
+	}
+
+	public void setNotizen(String notizen) {
+		this.notizen = notizen;
+	}
+
+	public AnfKategorie getAnfKategorie() {
+		return kategorie;
+	}
+	
+	public  void setAnfKategorie(AnfKategorie kategorie) {
+		this.kategorie = kategorie;
+	}
 	
 
    
