@@ -22,20 +22,40 @@
 			<br/>
 			
 			<label for="priotiät">Priorität:</label>
-		    <input id="priotiät" th:field="*{priotiät}" required></input>
+		    <input id="priotiät" th:field="*{priotiät}" ></input>
 		    
 		    <br/>
 		    
 		   	<label for="neuesKriterium">Neues Akzeptanzkriterien</label>
 		   	<div id="kriteriencontainer">
-		   	
-		   		
-	
 		   	</div>
 			
 			<button type="button" onclick="hinzufuegenKriterium()" value="hinzufuegen">Neues Kriterium</button>
 			
+			<br/>
+		   	
+		   	
+		   	<label for="quelle">Quelle der Anforderung:</label>
+		    <input type="text" id="quelle" th:field="*{quelle}"  />
+		    
+		    <br/>
+		    
+		    <label for="notizen">weitere Notizen:</label>
+		    <textarea id="notizen" th:field="*{notizen}" ></textarea>
 
+ 			<br/>
+ 			
+ 			<label for="kategorie">Katgegorie:</label>
+		   	<select th:field="*{kategorie}" id="kategorie">
+		        <option value="" selected>Bitte wählen</option>
+		        <option th:each="k : ${kategorien}"
+		                th:value="${k}"
+		                th:text="${k}">
+		        </option>
+		    </select>
+ 			
+ 			
+ 			
 		    <button type="submit">Anforderung speichern</button>
 		</form>
 		

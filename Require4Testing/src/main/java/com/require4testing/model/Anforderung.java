@@ -117,11 +117,11 @@ public class Anforderung {
 		this.notizen = notizen;
 	}
 
-	public AnfKategorie getAnfKategorie() {
+	public AnfKategorie getKategorie() {
 		return kategorie;
 	}
 	
-	public  void setAnfKategorie(AnfKategorie kategorie) {
+	public  void setKategorie(AnfKategorie kategorie) {
 		this.kategorie = kategorie;
 	}
 	

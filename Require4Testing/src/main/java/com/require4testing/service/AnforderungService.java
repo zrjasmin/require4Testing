@@ -87,6 +87,9 @@ public class AnforderungService {
 		dto.setTitle(anf.getTitle());
 		dto.setBeschreibung(anf.getBeschreibung());
 		dto.setPriotiät(anf.getPriotiät());
+		dto.setKategorie(anf.getKategorie());
+		dto.setQuelle(anf.getQuelle());
+		dto.setNotizen(anf.getNotizen());
 		
 		
 		List<KriteriumDto> kriterienDto = new ArrayList<>();
@@ -110,6 +113,9 @@ public class AnforderungService {
 		bestehendeAnf.setTitle(anfDto.getTitle());
 		bestehendeAnf.setBeschreibung(anfDto.getBeschreibung());
 		bestehendeAnf.setPriotiät(anfDto.getPriotiät());
+		bestehendeAnf.setKategorie(anfDto.getKategorie());
+		bestehendeAnf.setQuelle(anfDto.getQuelle());
+		bestehendeAnf.setNotizen(anfDto.getNotizen());
 		
 		updateKriterien(anfDto, bestehendeAnf);
 		

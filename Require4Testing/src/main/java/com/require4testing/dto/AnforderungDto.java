@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.require4testing.model.AnfKategorie;
+
 
 
 public class AnforderungDto {
@@ -12,6 +14,9 @@ public class AnforderungDto {
     private String title;
     private String beschreibung;
     private String priotiät;
+    private String quelle;
+    private String notizen;
+    private AnfKategorie kategorie;
     
     private List<KriteriumDto> kriterien = new ArrayList<>();
     
@@ -57,5 +62,29 @@ public class AnforderungDto {
 
 	public void setKriterien(List<KriteriumDto> kriterien) {
 		this.kriterien = kriterien;
+	}
+
+	public String getQuelle() {
+		return quelle;
+	}
+
+	public void setQuelle(String quelle) {
+		this.quelle = quelle;
+	}
+
+	public String getNotizen() {
+		return notizen;
+	}
+
+	public void setNotizen(String notizen) {
+		this.notizen = notizen;
+	}
+
+	public AnfKategorie getKategorie() {
+		return kategorie;
+	}
+
+	public void setKategorie(AnfKategorie kategorie) {
+		this.kategorie = kategorie;
 	}
 }
