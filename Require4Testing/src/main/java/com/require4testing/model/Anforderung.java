@@ -15,6 +15,7 @@ public class Anforderung {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nr;
     private String title;
     private String beschreibung;
     private String priotiät;
@@ -123,6 +124,14 @@ public class Anforderung {
 	
 	public  void setKategorie(AnfKategorie kategorie) {
 		this.kategorie = kategorie;
+	}
+
+	public String getNr() {
+		return nr;
+	}
+
+	public void setNr(String nr) {
+		this.nr = nr;
 	}
 	
 

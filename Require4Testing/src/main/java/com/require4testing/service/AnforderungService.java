@@ -168,7 +168,7 @@ public class AnforderungService {
     	
     	User ersteller = userService.findById(erstellerId);
         anforderung.setErsteller(ersteller);
-		
+      
 		//bidrektionale Beziehung setzen
 		for(Kriterium k:anforderung.getKriterien()) {
 			//Inhalt des Kriterium prüfen
@@ -181,8 +181,23 @@ public class AnforderungService {
 		}
 		
 		speichereEntity(anforderung);
+		saveNumber(anforderung);
+		System.out.println("nach speicherung: "+anforderung.getNr());
+
     }
     
+   public void saveNumber(Anforderung anf) {
+	   String formattedNumber = null;
+	   if(anf != null) {
+		   Long id = anf.getId();
+		   formattedNumber = String.format("AR-%03d", id);
+		   
+	   } 
+	   anf.setNr(formattedNumber);
+	   System.out.println(formattedNumber);
+	   
+	   speichereEntity(anf);
+   }
     
     
     
