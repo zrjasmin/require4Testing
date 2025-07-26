@@ -98,37 +98,16 @@ public class TestController {
 
 		userService.hasPermision(session, "edit_test");
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
-		model.addAttribute("isManager", userService.hasRole(session, "Testmanager:in"));
-		model.addAttribute("moeglicheTester", userService.getAllOfRole("Tester:in"));
-		
-		
+	
+
 		Test test = service.getTestById(id);
 		model.addAttribute("test", test);
 		
 		List<Anforderung> anforderungen = anforderungRepository.findAll();
 		model.addAttribute("anforderungen", anforderungen);
 		
-		
-		TestDto dto = new TestDto();
-		dto.setTitle(test.getTitle());
-		dto.setBeschreibung(test.getBeschreibung());
-		dto.setErwartetesErgebnis(test.getErwartetesErgebnis());
-		dto.setAnforderung(test.getAnforderung());
-		dto.setTestdaten(test.getTestdaten());
-		
-		List<TestschrittDto> schritteDtos = new ArrayList<>();
-		for(Testschritt schritt : test.getTestschritte()) {
-			TestschrittDto schrittDto = new TestschrittDto();
-			schrittDto.setId(schritt.getId());
-			
-			schrittDto.setBeschreibung(schritt.getBeschreibung());
-			schrittDto.setStepNumber(schritt.getStepNumber());
-			schritteDtos.add(schrittDto);
-		}
-		dto.setTestschritte(schritteDtos);
-		
-	
-		
+
+		TestDto dto = service.convertToDto(id);
 		model.addAttribute("testDto", dto);
 
 
@@ -143,162 +122,23 @@ public class TestController {
 	public String neuenTestSpeichern(@ModelAttribute Test test, 
 			@RequestParam("reihenfolge") String reihenfolgeJSON, 
 			@RequestParam("erstellerId") Long erstellerId) {
-		
-		if(reihenfolgeJSON != "") {
-			List<Testschritt> sortierteSchritte = assignStepNumber(test, reihenfolgeJSON);
-			if(test.getTestschritte() != null) {
-				test.getTestschritte().clear();
-			}
-	        test.setTestschritte(sortierteSchritte);
-		}
-		
-		
-        
-        System.out.println(erstellerId);
-        
-        User ersteller = userService.findById(erstellerId);
-        test.setErsteller(ersteller);
-        
-		Long anfID = test.getAnforderung().getId();
-		
-		Anforderung anf = anfService.getAnfById(anfID);
-		
-		test.setAnforderung(anf);
-		
-		repository.save(test);
-		
+				
+		service.neuenTestSpeichern(test, reihenfolgeJSON, erstellerId);
+      
 		return "redirect:/test/all";
 	}
 	
 	
-	public List<Testschritt> assignStepNumber(Test test, String schrittReihenfolge) {
-		ObjectMapper mapper = new ObjectMapper();
-		List<Testschritt> sortierteSchritte = new ArrayList<>();
-		try {
-			//6,5,1,7
-            List<String> reihenfolgeListe = mapper.readValue(schrittReihenfolge, new TypeReference<List<String>>() {});
-            
-            int i = 1;
-          
-            for(String s : reihenfolgeListe) {
-            	System.out.println("Sortierung durch JS:  " +s);
-            	System.out.println("Schritt: " +i);
-            	int stellenIndex = Integer.parseInt(s);
-            	// sucht Testschritt anhand der Reihenfolge
-            	Testschritt currentSchritt = test.getTestschritte().get(stellenIndex);
-            	
-            	//prüft auf Inhalt des Schrittes
-            	if(currentSchritt.getBeschreibung() != "") {
-            		sortierteSchritte.add(currentSchritt);
-                	System.out.println(currentSchritt.getBeschreibung());
-                	//setzt die SchrittNumme richtig
-                	currentSchritt.setStepNumber(i);
-                	currentSchritt.setTest(test);
-                	i++;
-            	}
-            	
-            }
-            
-            System.out.println(sortierteSchritte);
-		} catch(Exception e) {
-			 e.printStackTrace();
-		}
-		
-		return sortierteSchritte;
-	}
+	
 	
 	
 	@Transactional
 	@PostMapping("/update/{id}")
 	public String updateTest(@PathVariable Long id, Model model, @ModelAttribute TestDto testDto, @RequestParam("reihenfolge") String reihenfolgeJSON) {
-		ObjectMapper mapper = new ObjectMapper();
 		
-		//Test aus Datenbank laden
-		Test bestehenderTest = service.getTestById(id);
-		
-		bestehenderTest.setTitle(testDto.getTitle());
-		bestehenderTest.setBeschreibung(testDto.getBeschreibung());
-		bestehenderTest.setAnforderung(testDto.getAnforderung());
-		bestehenderTest.setTestdaten(testDto.getTestdaten());
-		model.addAttribute("test", bestehenderTest);
-		
-		List<Testschritt> bestehendeSchritte = bestehenderTest.getTestschritte();
-		Map<Long, Testschritt> bestehendeSchritteMap = bestehendeSchritte.stream()
-			        .collect(Collectors.toMap(Testschritt::getId, Function.identity()));
-		
-		//speichert ID und tempräre Schrittnummer
-		 Map<Integer, Long> idZuSchrittNummer = new HashMap<>();
-		
-		 
-		 // Aktualisieren / Neue hinzufügen
-		 if(testDto.getTestschritte() != null) {
-			 
-		
-		 for(TestschrittDto schrittDTO : testDto.getTestschritte()) {
-		
-			 if (schrittDTO.getId() != null && bestehendeSchritteMap.containsKey(schrittDTO.getId())) {
-		            // Bestehender Schritt: aktualisieren
-				 	Testschritt schritt = bestehendeSchritteMap.get(schrittDTO.getId());
-		            schritt.setBeschreibung(schrittDTO.getBeschreibung());
-		            System.out.println("Kriterium ist bereits gespeichert: "+schrittDTO.getId());
-		            bestehendeSchritteMap.remove(schrittDTO.getId());
-		            idZuSchrittNummer.put(schritt.getStepNumber(), schritt.getId());
-		           
-		        } else {
-		            // Neuer Schritt: erstellen
-		        	if(schrittDTO.getBeschreibung() != null) {
-		        		Testschritt neuerSchritt = createNeuerSchritt(schrittDTO, bestehenderTest);
-		        		idZuSchrittNummer.put(neuerSchritt.getStepNumber(), neuerSchritt.getId());
-		        	}
-		            
-		        }
-		 }
-		 }
-		 
-		 //löschte Schritte
-		 for(Testschritt zuLöschen : bestehendeSchritteMap.values()) {
-			 bestehenderTest.removeSchritt(zuLöschen);
-			 schrittRepository.delete(zuLöschen);
-		 }
-		 
-		 
-		 //sortiert Schritte neu
-		 try {
-			 if(reihenfolgeJSON != "") {
-				 List<String> stepValues = mapper.readValue(reihenfolgeJSON, new TypeReference<List<String>>() {});;
-				 
-				 int i = 1;
-				 for(String s : stepValues) {
-					Integer intS = Integer.parseInt(s);
-	             	System.out.println(intS);
+		Test updatedTest = service.updateTest(id, testDto, reihenfolgeJSON);
+		model.addAttribute("test", updatedTest);
 
-	             	//
-					 if(idZuSchrittNummer.containsKey(intS)) {
-						 Long schrittId = idZuSchrittNummer.get(intS);
-						 Optional<Testschritt> optSchritt = schrittRepository.findById(schrittId);
-						 if(optSchritt.isPresent()) {
-							 Testschritt schritt  = optSchritt.get();
-							
-							 schritt.setStepNumber(i);
-					
-							 i++; 
-						 }
-						
-					 }
-		            	
-				 } 
-			 }
-			 
-			 
-		 } catch (Exception e) {
-			    e.printStackTrace();
-		 }
-		
-		
-		repository.save(bestehenderTest);
-		
-
-		
 		return "redirect:/test/detail/"+id;
 	}
 	
@@ -306,22 +146,12 @@ public class TestController {
 	public String deleteTest(@PathVariable Long id, HttpSession session, Model model) {
 		userService.hasPermision(session, "delete_test");
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
-		Test test = service.getTestById(id);
 		
-		
-		service.deleteTest(test);
-		
+		service.deleteTest(id);
 		
 		return "redirect:/test/all";
 	}
 	
-	public Testschritt createNeuerSchritt(TestschrittDto schrittDto, Test test) {
-		Testschritt neuerSchritt = new Testschritt();
-        neuerSchritt.setBeschreibung(schrittDto.getBeschreibung());
-        neuerSchritt.setTest(test);
-        neuerSchritt.setStepNumber(schrittDto.getStepNumber());
-        schrittRepository.save(neuerSchritt);
-        return neuerSchritt;
-	}
+	
 	
 }

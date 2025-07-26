@@ -1,0 +1,62 @@
+   <!DOCTYPE html>
+   <html xmlns:th="http://www.thymeleaf.org"
+>
+   <head>
+      
+        <title th:text="${pageTitle}">Standardtitel</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+	    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+	     <link rel="stylesheet" th:if="${additionalCss != null}" 
+          th:href="@{${additionalCss}}" />
+		<script src="https://kit.fontawesome.com/8f1aeb96f2.js" crossorigin="anonymous"></script>   
+   </head>
+   <body>
+		 <nav>
+       		<div class="logo_container">
+       			<i class="fa-solid fa-scroll fa-xl" style="color: #131416;"></i>
+       			<p class="collapsible">Require4Testing</p>
+       		</div>
+       		<div class="link_container">
+       			<p>Overview</p>
+       			<ul>
+       				<li>
+       					<a>
+       						<i class="fa-solid fa-house" style="color: #051759;"></i>
+       						<span class="collapsible">Dashboard</span>
+       					</a>
+       				</li>
+       			</ul>
+       			<ul>
+       				<li>
+       					<a>
+       						<i class="fa-solid fa-clipboard-check" style="color: #051759;"></i>
+       						<span class="collapsible">Anforderungen</span>
+       					</a>
+       				</li>
+       			</ul>
+       			<ul>
+       				<li>
+       					<a>
+							<i class="fa-solid fa-list-ul" style="color: #051759;"></i>       		
+							<span class="collapsible">Testfälle</span>
+       					</a>
+       				</li>
+       			</ul>
+       			<ul>
+       				<li>
+       					<a>
+       						<i class="fa-solid fa-play" style="color: #051759;"></i>
+       						<span class="collapsible">Testläufe</span>
+       					</a>
+       				</li>
+       			</ul>
+       		</div>
+       </nav>
+       <!-- Platz für den Inhalt -->
+    	 <div th:replace="${mainContent}"></div>
+       
+     
+   </body>
+   </html>

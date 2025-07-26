@@ -1,23 +1,20 @@
-   <!DOCTYPE html>
-   <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-       <title>Anfordungen: Übersicht</title>
-   </head>
-   <body>
-       <h1>Anforderungübersicht</h1>
-       <a th:href="@{/anforderung/edit}">
-       		<button>neue Anforderung</button>
-       	</a>
-       
-   		<div th:each="anf: ${anforderungen}">
-   			<h3 th:text="${anf.title}">Titel</h3>
-   			<p th:text="${anf.beschreibung}">Titel</p>
-   			<a th:href="@{/anforderung/detail/{id}(id=${anf.id})}">
-   				<button>Details</button>
-   			</a>
-   			
-   		</div>
-       
-       
-   </body>
-   </html>
+
+		
+	<div>       
+		<h1>Anforderungübersicht</h1>
+		<i class="fa-solid fa-house"></i>       
+		<i class="fa-solid fa-trash fa-lg" style="color: #9cb4dd;"></i>
+			<a th:href="@{/anforderung/edit}" class="anf_button">
+	       		<button >neue Anforderung</button>
+	       	</a>
+	      	<div class="anf_container">
+		   		<div th:each="anf: ${anforderungen}" class="anf_info">
+		   			<h2 th:text="${anf.title}">Titel</h2>
+		   			<p th:text="${anf.beschreibung}">Titel</p>
+		   			<a th:href="@{/anforderung/detail/{id}(id=${anf.id})}">
+		   				<button>Details</button>
+		   			</a>
+		   			
+		   		</div>
+	       </div>
+	</div>   

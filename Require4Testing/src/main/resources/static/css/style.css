@@ -1,0 +1,100 @@
+
+
+html {
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, p, button, a {
+	margin: 0;
+}
+
+body {
+	background-color: #F6F7FB;
+	font-family: "Poppins", Sans-serif;
+}
+
+
+h1 {
+	color: #051759;
+	font-size: 38px;
+}
+
+h2 {
+	color: #494B53;
+	font-size: 16px;
+	font-weight: 700;
+}
+
+p {
+	color: #676D7B;
+	font-size: 14px;
+}
+.welcome-container {
+	background-color: #FFFFFF;
+	max-width: 585px;
+	padding: 25px;
+}
+.welcome-text{
+	color: #777A8D;
+	font-size: 18px;
+}
+
+
+.scrollmenu{}
+
+
+.user-info{
+	background-color: #F6F7FB;
+	display:flex;
+	margin: 20px 0;
+	align-items:center;
+	padding: 16px;
+	border-radius: 15px;
+	border: 1px solid #F6F7FB; 
+}
+
+.user-info:hover {
+		background-color: #DFEAFF;
+		transition: ease-in-out 0.2s;
+	
+}
+
+.selected {
+	border: 1px solid #051759; 
+	background-color: #DFEAFF;
+	
+}
+
+.user-info > img {
+	width: 60px;
+	height: 60px;
+	margin-right: 20px;
+	
+}
+
+.user-text{
+	color: #4B5767;
+}
+
+
+.user-button {
+
+	font-family: "Poppins", sans-serif;
+	background-color: #1154ED;
+	color:#E7EAF2;
+	border:none;
+	border-radius: 25px;
+	padding: 10px 20px;
+	font-size: 18px;
+}
+
+.user-button:hover {
+		background-color: #02369C;
+		transition: ease-in-out 0.2s;
+	
+}
+
+
+
+
+

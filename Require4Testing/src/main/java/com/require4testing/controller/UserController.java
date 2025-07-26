@@ -37,8 +37,8 @@ public class UserController {
 		List<User> users = service.alleEntities();
 		model.addAttribute("users", users);
 	
-		
-		return "welcome";
+		//bearbeiten
+		return "anforderungen";
 		
 	}
 
