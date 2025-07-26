@@ -12,16 +12,22 @@
 	      	<div class="anf_container">
 	      	
 		   		<div th:each="anf: ${anforderungen}" class="anf_info">
-		   			<span th:text="${anf.title}" class="anf_chip"></span>
-		   			<h2 th:text="${anf.title}">Titel</h2>
-		   			<p th:text="${anf.beschreibung}">Titel</p>
+		   			<div class="container_top">
+		   				<span th:text="${anf.title}" class="anf_chip"></span>
+		   			</div>
+		   			
+		   			<div class="container_center">
+		   				<h2 th:text="${anf.title}">Titel</h2>
+		   				<p th:text="${anf.beschreibung}">Titel</p>
+		   			</div>
+		   			
 		   			<div class="container_bottom">
 		   				<div class="creator">
 		   					<img th:src="@{${anf.ersteller.profileImagePath}}"/>
 		   					<p th:text="'erstellt von '+${anf.ersteller.vorname} "></p>
 		   				</div>
-			   			<a th:href="@{/anforderung/detail/{id}(id=${anf.id})}">
-			   				<button>Details</button>
+			   			<a th:href="@{/anforderung/detail/{id}(id=${anf.id})}" class="button_detail">
+			   				Details
 			   			</a>
 		   			</div>
 		   			

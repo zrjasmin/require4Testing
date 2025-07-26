@@ -8,9 +8,12 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 	    <link rel="stylesheet" th:href="@{/css/style.css}"/>
-	     <link rel="stylesheet" th:if="${additionalCss != null}" 
-          th:href="@{${additionalCss}}" />
-		<script src="https://kit.fontawesome.com/8f1aeb96f2.js" crossorigin="anonymous"></script>   
+	    <link rel="stylesheet" th:if="${additionalCss != null}" 
+	           th:href="@{${additionalCss}}" />
+		<script src="https://kit.fontawesome.com/8f1aeb96f2.js" crossorigin="anonymous"></script>
+		<th:block th:if="${additionalJs != null}">
+		    <script th:src="@{${additionalJs}}"></script>
+		</th:block>
    </head>
    <body>
 		 <nav>
@@ -53,6 +56,11 @@
        				</li>
        			</ul>
        		</div>
+       		
+       		<a th:href="@{/}">
+       			<i class="fa-solid fa-users" style="color: #051759;"></i>
+			   	Nutzer wechseln
+			</a>
        </nav>
        <!-- Platz für den Inhalt -->
     	 <div th:replace="${mainContent}"></div>

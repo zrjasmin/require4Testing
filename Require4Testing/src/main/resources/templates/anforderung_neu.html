@@ -1,64 +1,63 @@
-   <!DOCTYPE html>
-   <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-       <title>neue Anforderung erstellen</title>
-       <script type="text/javascript" th:src="@{/script.js}"></script>
-   </head>
-   <body>
-       <h1 th:text="${message}">Anforderung neu</h1>
+<div>
+       <h1 th:text="${message}">Anforderung - Neu</h1>
        
        
        <form th:action="@{/anforderung/save}" th:object="${anforderung}" method="post">
        		<input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
        		
-		    <label for="title">Name:</label>
-		    <input type="text" id="title" th:field="*{title}" required />
-		
-		    <br/>
-		
-		    <label for="beschreibung">Beschreibung:</label>
-		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
-		    
-			<br/>
-			
-			<label for="priotiät">Priorität:</label>
-		    <input id="priotiät" th:field="*{priotiät}" ></input>
-		    
-		    <br/>
-		    
-		   	<label for="neuesKriterium">Neues Akzeptanzkriterien</label>
-		   	<div id="kriteriencontainer">
-		   	</div>
-			
-			<button type="button" onclick="hinzufuegenKriterium()" value="hinzufuegen">Neues Kriterium</button>
-			
-			<br/>
-		   	
-		   	
-		   	<label for="quelle">Quelle der Anforderung:</label>
-		    <input type="text" id="quelle" th:field="*{quelle}"  />
-		    
-		    <br/>
-		    
-		    <label for="notizen">weitere Notizen:</label>
-		    <textarea id="notizen" th:field="*{notizen}" ></textarea>
+       		<div class="form_flex">
+       			<p class="form_description">Allgemeine Informationen</p>
+       			<div class="input_container">
+       				<label for="title">Name:</label>
+		    		<input type="text" id="title" th:field="*{title}" required />
+		    		
+		    		<label for="priotiät">Priorität:</label>
+		    		<input id="priotiät" th:field="*{priotiät}" ></input>
+		    		
+		    		<label for="kategorie">Katgegorie:</label>
+			   		<select th:field="*{kategorie}" id="kategorie">
+				        <option value="" selected>Bitte wählen</option>
+				        <option th:each="k : ${kategorien}"
+				                th:value="${k}"
+				                th:text="${k}">
+				        </option>
+		    		</select>
+       			</div>
+       		</div>
+       		<span class="container_divider"></span>
+       		<div class="form_flex">
+       			<p class="form_description">Inhalt der Anforderung</p>
+       			<div class="input_container">
+	       			<label for="beschreibung">Beschreibung:</label>
+			    	<textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+			    	
+					<br/>
+					
+					<label for="quelle">Quelle der Anforderung:</label>
+				    <input type="text" id="quelle" th:field="*{quelle}"  />
+				    
+				    <br/>
+				    
+				    <label for="notizen">weitere Notizen:</label>
+		   			<textarea id="notizen" th:field="*{notizen}" ></textarea>
+       			</div>
+       		</div>
+       		
+       		<span class="container_divider"></span>
+       		<div class="form_flex">
+       			<p class="form_description">Validierung & Bezug</p>
+       			<div class="input_container">
+       				<label for="neuesKriterium">Neues Akzeptanzkriterien</label>
+				   	<div id="kriteriencontainer">
+				   	</div>
+					
+					<button type="button" onclick="hinzufuegenKriterium()" value="hinzufuegen">Neues Kriterium</button>
+				
+					
+       			</div>
+       		</div>
+       		 <button type="submit">Anforderung speichern</button>
 
- 			<br/>
- 			
- 			<label for="kategorie">Katgegorie:</label>
-		   	<select th:field="*{kategorie}" id="kategorie">
-		        <option value="" selected>Bitte wählen</option>
-		        <option th:each="k : ${kategorien}"
-		                th:value="${k}"
-		                th:text="${k}">
-		        </option>
-		    </select>
- 			
- 			
- 			
-		    <button type="submit">Anforderung speichern</button>
 		</form>
 		
-		
-   </body>
-   </html>
+</div>
