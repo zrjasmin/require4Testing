@@ -16,6 +16,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String vorname;
     private String email;
     private String profileImagePath;
     @ManyToMany(fetch = FetchType.EAGER)
@@ -79,6 +80,14 @@ public class User {
 
 	public void setProfileImagePath(String profileImagePath) {
 		this.profileImagePath = profileImagePath;
+	}
+
+	public String getVorname() {
+		return vorname;
+	}
+
+	public void setVorname(String vorname) {
+		this.vorname = vorname;
 	}
 
 

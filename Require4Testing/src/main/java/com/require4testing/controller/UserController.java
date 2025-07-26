@@ -38,7 +38,7 @@ public class UserController {
 		model.addAttribute("users", users);
 	
 		//bearbeiten
-		return "anforderungen";
+		return "welcome";
 		
 	}
 

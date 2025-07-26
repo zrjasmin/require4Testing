@@ -1,19 +1,30 @@
 
-		
-	<div>       
-		<h1>Anforderungübersicht</h1>
-		<i class="fa-solid fa-house"></i>       
-		<i class="fa-solid fa-trash fa-lg" style="color: #9cb4dd;"></i>
+	
+	<div class="contentWrapper">  
+		<div class="header">
+			<h1>Anforderungübersicht</h1>
 			<a th:href="@{/anforderung/edit}" class="anf_button">
-	       		<button >neue Anforderung</button>
+	       		<i class="fa-solid fa-plus" style="color: #f6f7fb;"></i>
+	       		Neu
 	       	</a>
+		</div>     
+		
 	      	<div class="anf_container">
+	      	
 		   		<div th:each="anf: ${anforderungen}" class="anf_info">
+		   			<span th:text="${anf.title}" class="anf_chip"></span>
 		   			<h2 th:text="${anf.title}">Titel</h2>
 		   			<p th:text="${anf.beschreibung}">Titel</p>
-		   			<a th:href="@{/anforderung/detail/{id}(id=${anf.id})}">
-		   				<button>Details</button>
-		   			</a>
+		   			<div class="container_bottom">
+		   				<div class="creator">
+		   					<img th:src="@{${anf.ersteller.profileImagePath}}"/>
+		   					<p th:text="'erstellt von '+${anf.ersteller.vorname} "></p>
+		   				</div>
+			   			<a th:href="@{/anforderung/detail/{id}(id=${anf.id})}">
+			   				<button>Details</button>
+			   			</a>
+		   			</div>
+		   			
 		   			
 		   		</div>
 	       </div>

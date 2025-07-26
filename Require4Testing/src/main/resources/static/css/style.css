@@ -1,5 +1,5 @@
 
-
+/*globale Styles*/
 html {
 	margin: 0;
 }
@@ -9,6 +9,9 @@ h1, h2, h3, h4, h5, p, button, a {
 }
 
 body {
+	margin: 0;
+	box-sizing: inherit;
+	width: 100%;
 	background-color: #F6F7FB;
 	font-family: "Poppins", Sans-serif;
 }
@@ -29,6 +32,82 @@ p {
 	color: #676D7B;
 	font-size: 14px;
 }
+
+/*layout*/
+body {
+	display:grid;
+	grid-template-columns: 2fr 9fr;
+}
+
+nav {
+	background-color: #FFFFFF;
+	padding: 30px 20px 0 30px;
+	
+}
+
+.contentWrapper {
+}
+
+
+/*nav styling*/
+.logo_container{
+	display:flex;
+	 align-items: center;
+	 margin-bottom: 50px;
+	
+}
+
+
+
+.logo_container > p {
+		color: #131416;
+		font-weight: 700;
+		font-size: 21px;
+		padding-left: 10px;
+		
+	
+}
+
+.link_container {
+	
+	
+	
+}
+
+.link_container > p{
+	margin-bottom: 20px;
+}
+
+.link_list {
+	margin: 0;
+	padding-left: 0;
+	list-style: none;
+	}
+
+.list_items {
+	margin-bottom: 30px;
+	color: #051759;
+	
+}
+
+.list_items >a > i {
+	margin-right:10px;
+}
+
+.list_items:hover {
+	cursor: pointer;
+	font-weight: 600;
+	transition: ease-in-out 0.1s;
+
+}
+
+.list_items:hover {
+	cursor: pointer;
+}
+
+
+/*user*/
+
 .welcome-container {
 	background-color: #FFFFFF;
 	max-width: 585px;
@@ -38,11 +117,7 @@ p {
 	color: #777A8D;
 	font-size: 18px;
 }
-
-
 .scrollmenu{}
-
-
 .user-info{
 	background-color: #F6F7FB;
 	display:flex;
