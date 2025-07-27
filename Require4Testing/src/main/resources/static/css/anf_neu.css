@@ -1,0 +1,130 @@
+
+	
+.edit_form {
+	background-color: white;
+	padding: 20px;
+	border-radius: 20px;
+	max-width: 900px;
+}
+
+.form_flex {
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+	
+}
+
+
+.form_description {
+	color: #051759;
+	font-weight: 600;
+}
+.input_container {
+ padding: 10px 20px;
+	
+
+	
+}
+
+.two-column{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 20px;
+}
+
+.container_divider {
+	background-color:#E7E8EE;
+	width: 100%;
+	
+	display: block;
+	height: 2px;
+	margin: 10px 0;
+}
+
+label {
+	display:block;
+	font-size: 14px;
+	color: #777A8D;
+	
+}
+input, textarea, select {
+	width: 100%;
+	margin: 0 0 15px 0;
+	padding: 10px 10px 10px 5px;
+	background-color: #E7E8EE;
+	border: 1px solid #E7E8EE;
+	border-radius: 10px;
+	font-size: 14px;
+	
+}
+
+/*spezifische Styles (anforderungen)*/
+.anf_neu {
+.kriterium{
+	display: flex;
+	
+	
+}
+
+.kriterium > input {
+	margin-right: 15px;
+}
+
+
+
+.kriterium > button {
+	border: none;
+	padding: 3px 5px;
+	margin-bottom: 15px;
+	border-radius: 5px;
+	background: none;
+	
+	
+}
+
+.kriterium > button:hover {
+	background-color: #DFEAFF;
+}
+
+.kriteriumBtn {
+	border: 1px solid #7296E8;
+	padding: 10px 5px;
+	border-radius: 10px;
+	background: #7296E8;
+	color: white;
+	
+}
+
+.kriteriumBtn:hover>i {
+	color: white;
+}
+
+.kriteriumBtn:hover {
+	border: 1px solid #02369C;
+	color: #02369C;
+}
+.kriteriumBtn:hover>i {
+	color: #02369C;
+}
+
+
+
+.float-right {
+	 display:flex;
+	 justify-content: flex-end;
+}
+
+
+}
+
+
+
+
+
+	
+
+
+.kriterium > i {
+	font-size: 20px;
+	color: #051759;
+}
+

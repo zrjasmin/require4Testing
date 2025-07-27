@@ -1,27 +1,31 @@
-<div>
-       <h1 th:text="${message}">Anforderung - Neu</h1>
+	<div class="contentWrapper anf_neu">  
+       <h1>Anforderung - Neu</h1>
        
        
-       <form th:action="@{/anforderung/save}" th:object="${anforderung}" method="post">
+       <form th:action="@{/anforderung/save}" th:object="${anforderung}" class="edit_form" method="post">
        		<input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
        		
        		<div class="form_flex">
        			<p class="form_description">Allgemeine Informationen</p>
-       			<div class="input_container">
-       				<label for="title">Name:</label>
-		    		<input type="text" id="title" th:field="*{title}" required />
-		    		
-		    		<label for="priotiät">Priorität:</label>
-		    		<input id="priotiät" th:field="*{priotiät}" ></input>
-		    		
-		    		<label for="kategorie">Katgegorie:</label>
-			   		<select th:field="*{kategorie}" id="kategorie">
-				        <option value="" selected>Bitte wählen</option>
-				        <option th:each="k : ${kategorien}"
-				                th:value="${k}"
-				                th:text="${k}">
-				        </option>
-		    		</select>
+       			<div class="input_container two-column">
+       				<div class="title_container">
+	       				<label for="title">Name:</label>
+			    		<input type="text" id="title" th:field="*{title}" required />
+		    		</div>
+		    		<div class="title_container">
+			    		<label for="priotiät">Priorität:</label>
+			    		<input id="priotiät" th:field="*{priotiät}" ></input>
+		    		</div>
+		    		<div class="title_container">
+			    		<label for="kategorie">Katgegorie:</label>
+				   		<select th:field="*{kategorie}" id="kategorie">
+					        <option value="" selected>Bitte wählen</option>
+					        <option th:each="k : ${kategorien}"
+					                th:value="${k}"
+					                th:text="${k}">
+					        </option>
+			    		</select>
+		    		</div>
        			</div>
        		</div>
        		<span class="container_divider"></span>
@@ -29,11 +33,13 @@
        			<p class="form_description">Inhalt der Anforderung</p>
        			<div class="input_container">
 	       			<label for="beschreibung">Beschreibung:</label>
+	       			
 			    	<textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
 			    	
-					<br/>
+					
 					
 					<label for="quelle">Quelle der Anforderung:</label>
+					
 				    <input type="text" id="quelle" th:field="*{quelle}"  />
 				    
 				    <br/>
@@ -51,13 +57,16 @@
 				   	<div id="kriteriencontainer">
 				   	</div>
 					
-					<button type="button" onclick="hinzufuegenKriterium()" value="hinzufuegen">Neues Kriterium</button>
+					<button type="button" onclick="hinzufuegenKriterium()" value="hinzufuegen" class="kriteriumBtn">
+					<i class="fa-solid fa-plus"></i>
+					Neues Kriterium</button>
 				
 					
        			</div>
        		</div>
-       		 <button type="submit">Anforderung speichern</button>
-
+       		<div class="float-right">
+       		 <button type="submit" class="primaryBtn">Anforderung speichern</button>
+			</div>
 		</form>
 		
 </div>

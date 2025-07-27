@@ -20,6 +20,7 @@ body {
 h1 {
 	color: #051759;
 	font-size: 38px;
+	font-weight: 600;
 }
 
 h2 {
@@ -31,6 +32,48 @@ h2 {
 p {
 	color: #676D7B;
 	font-size: 14px;
+}
+
+button {
+		font-family: "Poppins", Sans-serif;
+}
+
+
+.primaryBtn {
+	padding: 10px 15px;
+	border: none;
+	border-radius: 10px;
+	background-color: #1154ED;
+	color: white;
+}
+
+.primaryBtn:hover {
+	background-color: #7296E8;
+}
+.primaryBtn:active {
+	background-color: #02369C;
+}
+
+.secondaryBtn {
+	padding: 10px 15px;
+	border-radius: 10px;
+	background-color: none;
+	color: #4B5767;
+	border: 1px solid #4B5767;
+	
+}
+
+.secondaryBtn:hover {
+	color: #02369C;
+	border: 1px solid #02369C;
+
+	
+}
+
+
+.secondaryBtn:active {
+	background-color: #DAE1E9;
+	
 }
 
 /*layout*/
@@ -46,6 +89,7 @@ nav {
 }
 
 .contentWrapper {
+	padding: 50px 50px 0 50px;
 }
 
 

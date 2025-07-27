@@ -28,7 +28,7 @@ function hinzufuegenKriterium() {
     div.innerHTML = `
         <input type="hidden" name="kriterien[${kriteriumIndex}].id" />
         <input type="text" name="${beschreibung}" placeholder="Kriterium" />
-        <button type="button" onclick="loescheKriterium(this.parentElement)" >Entfernen</button>
+        <button type="button" onclick="loescheKriterium(this.parentElement)"><i class="fa-solid fa-trash"></i></button>
         <br/>
     `;
     container.appendChild(div);
