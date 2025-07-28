@@ -90,7 +90,9 @@ public class TestService {
 		dto.setTitle(test.getTitle());
 		dto.setBeschreibung(test.getBeschreibung());
 		dto.setErwartetesErgebnis(test.getErwartetesErgebnis());
-		dto.setAnforderung(test.getAnforderung());
+		dto.setAnforderungId(test.getAnforderung().getId());
+		System.out.println("speichern: "+ test.getAnforderung().getId());
+		System.out.println("speichern in dto: "+ dto.getAnforderungId());
 		dto.setTestdaten(test.getTestdaten());
 		dto.setNotizen(test.getNotizen());
 		
@@ -174,7 +176,12 @@ public class TestService {
     	Test bestehenderTest = getTestById(id);
     	bestehenderTest.setTitle(testDto.getTitle());
 		bestehenderTest.setBeschreibung(testDto.getBeschreibung());
-		bestehenderTest.setAnforderung(testDto.getAnforderung());
+		
+		Long anfID = testDto.getAnforderungId();
+		
+		Anforderung anf = anfService.getAnfById(anfID);
+		bestehenderTest.setAnforderung(anf);
+		System.out.println("speichern: "+ testDto.getAnforderungId());
 		bestehenderTest.setTestdaten(testDto.getTestdaten());
 		bestehenderTest.setNotizen(testDto.getNotizen());
 		
@@ -233,7 +240,7 @@ public class TestService {
     	
     	ObjectMapper mapper = new ObjectMapper();
     	 try {
-			 if(reihenfolgeJSON != "") {
+			 if(reihenfolgeJSON != "" && reihenfolgeJSON!=null) {
 				 List<String> stepValues = mapper.readValue(reihenfolgeJSON, new TypeReference<List<String>>() {});;
 				 
 				 int i = 1;

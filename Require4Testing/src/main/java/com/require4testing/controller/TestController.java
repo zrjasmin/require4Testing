@@ -93,7 +93,8 @@ public class TestController {
 		
 		
 		model.addAttribute("testNummer", service.generateTestNumber(test));
-		return "test_detail";
+		util.setPageModelAttributes(model, "Test: Detail", "test_detail", "/js/testschritt.js","/css/form.css", "");
+		return "layout";
 	}
 	
 	@GetMapping("/edit/{id}")
@@ -112,14 +113,28 @@ public class TestController {
 
 		TestDto dto = service.convertToDto(id);
 		model.addAttribute("testDto", dto);
+		util.setPageModelAttributes(model, "Test: Bearbeiten", "test_bearbeiten", "/js/testschritt.js","/css/form.css", "");
 
-
-		return "test_bearbeiten";
+		return "layout";
 	}
 	
 	
 	
-	
+	@PostMapping("/handleForm/{id}")
+	public String handleForm(@PathVariable Long id, 
+    		@ModelAttribute TestDto testDto,
+    		@RequestParam String action,
+    		@RequestParam("reihenfolge") String reihenfolgeJSON,
+    		HttpSession session,
+    		Model model) {
+		
+		if("speichern".equals(action)) {
+			updateTest(id,model, testDto, reihenfolgeJSON);	
+		} else if("loeschen".equals(action)) {
+			deleteTest(id,session, model);
+		}
+		return "redirect:/test/all";
+	}
 	
 	@PostMapping("/save") 
 	public String neuenTestSpeichern(@ModelAttribute Test test, 
@@ -137,7 +152,7 @@ public class TestController {
 	
 	@Transactional
 	@PostMapping("/update/{id}")
-	public String updateTest(@PathVariable Long id, Model model, @ModelAttribute TestDto testDto, @RequestParam("reihenfolge") String reihenfolgeJSON) {
+	public String updateTest(@PathVariable Long id, Model model, @ModelAttribute TestDto testDto,  String reihenfolgeJSON) {
 		
 		Test updatedTest = service.updateTest(id, testDto, reihenfolgeJSON);
 		model.addAttribute("test", updatedTest);

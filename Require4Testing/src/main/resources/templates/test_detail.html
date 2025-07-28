@@ -1,53 +1,87 @@
-   <!DOCTYPE html>
-   <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-       <title>Test: Details</title>
-   </head>
-   <body>
-		<h1>TestDetails</h1>
+  
+ 
+<div class="contentWrapper test_detail">  
+	
+	<h1>Testdetails</h1>
+	<div class="detail_page">
+		<div class="form_flex">
+			<p class="form_description">Allgemeine Informationen</p>
+			<div class="text_container two-column">
+				<div>
+					<p th:text="${test.nr}" class="chip">name</p>
+				</div>
+				<div class="creator">
+   					<img th:src="@{${test.ersteller.profileImagePath}}"/>
+   					<p th:text="'erstellt von '+${test.ersteller.vorname} "></p>
+		   		</div> 
+		   		<div>
+		   			<label for="title">Titel:</label>
+					<p  id="title" th:text="${test.title}" ></p>
+		   		</div>
+		   		<div>
+		   			<label for="prio">verknüpfte Anforderung:</label>
+					<p  id="prio" th:text="${test.anforderung} ? ${test.anforderung.title} : 'nicht ausgewählt'"></p>
+				</div>
+			</div>
 		
-		<p th:text="'erstellt von '+ ${test.ersteller.name}"></p>
-		<img th:src="@{${test.ersteller.profileImagePath}}"/>
 		
-		<p th:text="${testNummer}">name</p>
-   		<h2 th:text="${test.title}">name</h2>
-   		
-   	 
-   		
-   		
-   		<h3>Beschreibung</h3>
-   		<p th:text="${test.beschreibung}"></p>
-   		
-   		
-   		
-   		<h3>Testschritte</h3>
-   		<div th:each="s: ${schritte}">
-   			<p th:text="${s.stepNumber}"></p>
-   			<p th:text="${s.beschreibung}"></p>
-   		</div>
-   		
-   		<h3>Erwartetes Ergebnis</h3>
-   		<p th:text="${test.erwartetesErgebnis}"></p>
-   		
-   		<h3>Testdaten</h3>
-   		<p th:text="${test.testdaten}"></p>
-   		
-   		
-   		<h3>Anforderung</h3>
-   		<p th:text="${test.anforderung} ? ${test.anforderung.beschreibung} : 'nicht ausgewählt'"></p>
-   		
-   		
+  		</div>
+  		<span class="container_divider"></span>
+  		<div class="form_flex">
+			<p class="form_description">Beschreibung & Kontext</p>
+			<div class="text_container">
+		   		<div>
+		   			<label for="beschreibung">Beschreibung:</label>
+					<p  id="beschreibung" th:text="${test.beschreibung}" ></p>
+		   		</div>
+		   		<div>
+		   			<label for="quelle">Quelle:</label>
+					<p  id="quelle" th:text="${test.testdaten}"></p>
+				</div>
+				<div>
+		   			<label for="notizen">weitere Notizen:</label>
+					<p  id="notizen" th:text="${test.notizen}"></p>
+				</div>
+			</div>
+		</div>
+		<span class="container_divider"></span>
+  		<div class="form_flex">
+			<p class="form_description">Testdetails</p>
+			<div class="text_container">
+		   		<div>
+		   			<label for="beschreibung">Testschritte:</label>
+					<div th:each="s: ${schritte}">
+			   			<p th:text="${s.stepNumber}"></p>
+			   			<p th:text="${s.beschreibung}"></p>
+			   		</div>
+		   		</div>
+		   		<div>
+		   			<label for="quelle">Quelle:</label>
+					<p  id="quelle" th:text="${test.testdaten}"></p>
+				</div>
+				<div>
+		   			<label for="ergebenis">erwartetes:</label>
+					<p id="" th:text="${test.erwartetesErgebnis}"></p>
+				</div>
+			</div>
+			
+			
+		</div>
+ 		<div class="float-right">
+  			<a th:href="@{/test/edit/{id}(id=${test.id})}">
+      			<button class="primaryBtn">Änderungen</button>
+      		</a>
+  		</div>
+  	</div>
+  	
+</div>
+  
+  
+ 
+   
+   	
    		
 			
 			
        
-       	<a th:href="@{/test/edit/{id}(id=${test.id})}">
-       		<button>Änderungen</button>
-       	</a>
-       	
-       	<form th:action="@{/test/delete/{id}(id=${test.id})}" method="post">
-		    <input type="hidden" name="_method" value="delete"/>
-		    <button type="submit" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
-		</form>
-   </body>
-   </html>
+      

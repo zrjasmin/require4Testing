@@ -1,74 +1,91 @@
-   <!DOCTYPE html>
-   <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-       <title>Test: Edit</title>
-       <script type="text/javascript" th:src="@{/script.js}"></script>	
-   </head>
-   <body>
+  <div class="contentWrapper test_edit">  
 		<h1>Test bearbeiten</h1>
 		
    		
-   		<form action="#" th:action="@{/test/update/{id}(id=${test.id})}" th:object="${testDto}" method="post">
-		    <label for="title">Name:</label>
-		    <input type="text" id="title" th:field="*{title}" required />
-		
-		    <br/>
-		    
-		
-		    <label for="beschreibung">Beschreibung:</label>
-		    <textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
-		    
-		    <br/>
-		    
-		    <label>Testschritte</label>
-		    <div id="stepContainer" >
-		    	<div class="schritte dynamicInput"  th:each="schritt, iterStat : *{testschritte}"  draggable="true">
-			    	<input type="hidden" th:field="*{testschritte[__${iterStat.index}__].id}"/>
-			        <input type="hidden" th:value="${test.testschritte[__${iterStat.index}__].stepNumber}" class="schritt"/>
-			        <input type="text" th:field="*{testschritte[__${iterStat.index}__].beschreibung}"  class="schrittvalue" oninput="updateReihenfolge()"/>
-		       		<button type="button" onclick="deleteSchritt(this.parentElement)">Entfernen</button>
+   		<form action="#" th:action="@{/test/handleForm/{id}(id=${test.id})}" class="edit_form" th:object="${testDto}" method="post">
+   			<div class="form_flex">
+   				<p class="form_description">Allgemeine Informationen</p>
+   				<div class="input_container two-column">
+	   				<div>
+					    <p th:text="${test.nr}" class="chip"></p>
+	   				</div>   				
+	   				<div class="creator">
+	   					<img th:src="@{${test.ersteller.profileImagePath}}"/>
+	   					<p th:text="'erstellt von '+${test.ersteller.vorname} "></p>
+			   		</div>  				
+			   		<div>
+		   				<label for="title">Titel:</label>
+					    <input type="text" id="title" th:field="*{title}" required />
+	   				</div>
+			    	<div>
+			    		<label for="anforderung">Anforderung auswählen:</label>
+					    <select id="anforderung" th:field="*{anforderungId}">
+					        <option value="" disabled selected>Bitte wählen</option>
+					        <option th:each="a : ${anforderungen}"
+					                th:value="${a.id}"
+					                th:text="${a.nr} + ' '+${a.title}">
+					        </option>
+					    </select>
+			    	</div>
 		    	</div>
-	        </div>
-		    
-		    <br/>
-		    
-		   	<button type="button" id="addStepButton" class="schrittBtn customBtn" >Neuen Schritt hinzufügen</button>
-		   	<input type='hidden' id='reihenfolge' name='reihenfolge'/>
-		   	
-		   	<br/>
-		   	
-		   	<label for="ergebnis">Erwartetes Ergebnis:</label>
-		    <textarea id="ergebnis" th:field="*{erwartetesErgebnis}"></textarea>
-		     	
-		     <br/>
-		     
-		    <label for="testdaten">Testdaten:</label>
-		    <textarea id="testdaten" th:field="*{testdaten}"></textarea>
-		   	
-		   	<br/>
-		   	
-			<label for="anforderung">Anforderung auswählen:</label>
-		    <select th:field="*{anforderung.id}">
-		        <option value="" disabled selected>Bitte wählen</option>
-		        <option th:each="a : ${anforderungen}"
-		                th:value="${a.id}"
-		                th:text="${a.beschreibung}">
-		        </option>
-		    </select>
-		    
-		    <br/>
+			</div>
+   		
+   			<span class="container_divider"></span>
 		   
-		    <button type="submit">Test speichern</button>
+		   <div class="form_flex">
+       			<p class="form_description">Beschreibung & Kontext</p>
+       			<div class="input_container">
+       				<label for="beschreibung">Beschreibung:</label>
+			    	<textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+					
+					<label for="testdaten">Testdaten:</label>
+				    <input type="text" id="testdaten" th:field="*{testdaten}"  />
+				    
+				    
+				    <label for="notizen">weitere Notizen:</label>
+		   			<textarea id="notizen" th:field="*{notizen}" ></textarea>
+		  		 </div>
+			</div>
+		   
+			<span class="container_divider"></span>
+   		
+	   		<div class="form_flex">
+	       			<p class="form_description">Testdetails</p>
+	       			<div class="input_container">
+	       				<label for="neuesKriterium">Testschritte</label>
+					   	<div id="stepContainer" >
+					    	<div class="schritte dynamicInput"  th:each="schritt, iterStat : *{testschritte}"  draggable="true">
+						    	<input type="hidden" th:field="*{testschritte[__${iterStat.index}__].id}"/>
+						        <input type="hidden" th:value="${test.testschritte[__${iterStat.index}__].stepNumber}" class="schritt"/>
+						        <input type="text" th:field="*{testschritte[__${iterStat.index}__].beschreibung}"  class="schrittvalue" oninput="updateReihenfolge()"/>
+					       		<button type="button" onclick="deleteSchritt(this.parentElement)"><i class="fa-solid fa-trash"></i></button>
+					    	</div>
+				        </div>
+						
+			
+		   				
+						<button type="button" onclick="hinzufuegenKriterium()" id="addStepButton" value="hinzufuegen" class="schrittBtn customBtn">
+						<i class="fa-solid fa-plus"></i>
+						Neuen Schritt hinzufügen</button>
+						<input type='hidden' id='reihenfolge' name='reihenfolge'/>
+						
+						<label for="ergebnis">Erwartetes Ergebnis:</label>
+		    			<textarea id="ergebnis" th:field="*{erwartetesErgebnis}"></textarea>
+						
+	       			</div>
+	       		</div>
+   		
+	   		  <div class="float-right">
+			 	<button type="submit" class="secondaryBtn" name="action" value="loeschen" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
+			    <button type="submit" class="primaryBtn"  name="action" value="speichern">Testfall speichern</button>
+			    
+			   </div>
+   		
+ 
 		   
 		</form>
 		
-		<form th:action="@{/test/delete/{id}(id=${test.id})}" method="post">
-		    <input type="hidden" name="_method" value="delete"/>
-		    <button type="submit" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
-		</form>
-	
 		
-       
-     
-   </body>
-   </html>
+	</div>
+		
+  

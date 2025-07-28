@@ -15,7 +15,7 @@ public class TestDto {
 	 private String testdaten;
 	 private User ersteller;
 	 private User tester;
-	 private Anforderung anforderung;
+	 private Long anforderungId;
 	 private List<TestschrittDto> testschritte;
 	 private String notizen;
 	 
@@ -55,11 +55,11 @@ public class TestDto {
 	public void setTester(User tester) {
 		this.tester = tester;
 	}
-	public Anforderung getAnforderung() {
-		return anforderung;
+	public Long getAnforderungId() {
+		return anforderungId;
 	}
-	public void setAnforderung(Anforderung anforderung) {
-		this.anforderung = anforderung;
+	public void setAnforderungId(Long anforderungId) {
+		this.anforderungId = anforderungId;
 	}
 	public List<TestschrittDto> getTestschritte() {
 		return testschritte;
