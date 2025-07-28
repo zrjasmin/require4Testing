@@ -17,6 +17,7 @@ public class TestDto {
 	 private User tester;
 	 private Anforderung anforderung;
 	 private List<TestschrittDto> testschritte;
+	 private String notizen;
 	 
 	public Long getId() {
 		return id;
@@ -71,6 +72,12 @@ public class TestDto {
 	}
 	public void setTestdaten(String testdaten) {
 		this.testdaten = testdaten;
+	}
+	public String getNotizen() {
+		return notizen;
+	}
+	public void setNotizen(String notizen) {
+		this.notizen = notizen;
 	}
 	
 }

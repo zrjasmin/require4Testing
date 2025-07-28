@@ -18,7 +18,7 @@ public class Anforderung {
     private String nr;
     private String title;
     private String beschreibung;
-    private String priotiät;
+    private String prioritaet;
     private String quelle;
     private String notizen;
     
@@ -72,12 +72,12 @@ public class Anforderung {
 
 	
 
-	public String getPriotiät() {
-		return priotiät;
+	public String getPrioritaet() {
+		return prioritaet;
 	}
 
-	public void setPriotiät(String priotiät) {
-		this.priotiät = priotiät;
+	public void setPrioritaet(String prioritaet) {
+		this.prioritaet = prioritaet;
 	}
 	
 	

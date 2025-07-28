@@ -30,34 +30,42 @@ h2 {
 }
 
 p {
-	color: #676D7B;
+	
 	font-size: 14px;
+}
+
+a {
+	text-decoration: none;
 }
 
 button {
 		font-family: "Poppins", Sans-serif;
 }
 
-
+/*global Styling (components)*/
 .primaryBtn {
 	padding: 10px 15px;
 	border: none;
 	border-radius: 10px;
 	background-color: #1154ED;
 	color: white;
+	text-decoration: none;
 }
 
 .primaryBtn:hover {
 	background-color: #7296E8;
+	transition: ease-in-out 0.1s;
 }
 .primaryBtn:active {
 	background-color: #02369C;
+	transition: ease-in-out 0.1s;
+	
 }
 
 .secondaryBtn {
 	padding: 10px 15px;
 	border-radius: 10px;
-	background-color: none;
+	background-color: #F6F7FB;
 	color: #4B5767;
 	border: 1px solid #4B5767;
 	
@@ -65,15 +73,38 @@ button {
 
 .secondaryBtn:hover {
 	color: #02369C;
-	border: 1px solid #02369C;
-
-	
+	border: 2px solid #02369C;
 }
 
 
 .secondaryBtn:active {
 	background-color: #DAE1E9;
 	
+}
+
+
+.creator {
+	display: flex;
+	align-items: center;
+}
+.creator >img{
+	width: 25px;
+	margin-right: 10px;
+}
+
+.chip{
+	font-size: 14px;
+	background-color: #DFEAFF;
+	color:#02369C;
+	padding: 3px 8px;
+	border-radius: 10px;
+	display: inline-block;
+	
+}
+
+ul {
+	font-size: 14px;
+	margin-block: 7px;
 }
 
 /*layout*/
@@ -93,6 +124,7 @@ nav {
 }
 
 
+
 /*nav styling*/
 .logo_container{
 	display:flex;
@@ -100,6 +132,7 @@ nav {
 	 margin-bottom: 50px;
 	
 }
+
 
 
 

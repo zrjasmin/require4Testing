@@ -1,24 +1,41 @@
-   <!DOCTYPE html>
-   <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-       <title>Test: Übersicht</title>
-   </head>
-   <body>
-       <h1>Testübersicht</h1>
-       <h1 th:text=${aktuellerUser.name}></h1>
-       <a th:href="@{/test/edit}">
-       		<button>neuer Testfall</button>
-       	</a>
-       
-   		<div th:each="test: ${test}">
-   			<h3 th:text="${test.title}">Titel</h3>
-   			<p th:text="${test.beschreibung}">Titel</p>
-   			<a th:href="@{/test/detail/{id}(id=${test.id})}">
-   				<button>Details</button>
-   			</a>
+<div class="contentWrapper">  
+
+	<div class="header">
+		<h1>Testübersicht</h1>
+		<a th:href="@{/test/edit}" class="new_button primaryBtn">
+       		<i class="fa-solid fa-plus" style="color: #f6f7fb;"></i>
+       		Neu
+	    </a>
+	</div>
+	
+	<div class="card_container">
+		<div th:each="test: ${test}" class="card">
+			<div class="card_top">
+   				<span th:text="${test.nr}" class="chip"></span>
+   			</div>
    			
-   		</div>
+   			<div class="card_center">
+   				<h2 th:text="${test.title}">Titel</h2>
+   				<p th:text="${test.beschreibung}">Titel</p>
+   			</div>
+   			
+   			<div class="card_bottom">
+   				<div class="creator">
+   					<img th:src="@{${test.ersteller.profileImagePath}}"/>
+   					<p th:text="'erstellt von '+${test.ersteller.vorname} "></p>
+   				</div>
+	   			<a th:href="@{/test/detail/{id}(id=${test.id})}" class="button_detail">
+	   				Details
+	   			</a>
+   			</div>
+		</div>
+	</div>
+	
+</div>
+
        
+      
        
-   </body>
-   </html>
+   		
+   
+   

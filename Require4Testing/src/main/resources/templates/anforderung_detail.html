@@ -1,23 +1,85 @@
-   <!DOCTYPE html>
-   <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-       <title>Anfordung: Details</title>
-   </head>
-   <body>
-		<h1>Anforderungdetails</h1>
-   		<p th:text="${anforderung.title}">name</p>
-   		
-   		<p th:text="'erstellt von '+ ${anforderung.ersteller.name}"></p>
-		<img th:src="@{${anforderung.ersteller.profileImagePath}}"/>
-   		
-   		<h3>Aktuelle Kriterien:</h3>
-   		<ul th:each="k: ${anforderung.kriterien}">
-   			<li th:text="${k.beschreibung}"></li>
-   		</ul>
+   
+<div class="contentWrapper anf_detail">  
+	
+	<h1>Anforderungdetails</h1>
+	<div class="detail_page">
+		<div class="form_flex">
+			<p class="form_description">Allgemeine Informationen</p>
+			<div class="text_container two-column">
+				<div>
+					<p th:text="${anforderung.nr}" class="chip">name</p>
+				</div>
+				<div class="creator">
+   					<img th:src="@{${anforderung.ersteller.profileImagePath}}"/>
+   					<p th:text="'erstellt von '+${anforderung.ersteller.vorname} "></p>
+		   		</div> 
+		   		<div>
+		   			<label for="title">Titel:</label>
+					<p  id="title" th:text="${anforderung.title}" ></p>
+		   		</div>
+		   		<div>
+		   			<label for="prio">Priorität:</label>
+					<p  id="prio" th:text="${anforderung.prioritaet}"></p>
+				</div>
+			</div>
 			
-       
-       	<a th:href="@{/anforderung/edit/{id}(id=${anforderung.id})}">
-       		<button>Änderungen</button>
-       	</a>
-   </body>
-   </html>
+			
+		</div>
+		<span class="container_divider"></span>
+			<div class="form_flex">
+				<p class="form_description">Inhalt der Anforderung</p>
+				<div class="text_container">
+			   		<div>
+			   			<label for="beschreibung">Beschreibung:</label>
+						<p  id="beschreibung" th:text="${anforderung.beschreibung}" ></p>
+			   		</div>
+			   		<div>
+			   			<label for="quelle">Quelle:</label>
+						<p  id="quelle" th:text="${anforderung.quelle}"> Keine Quelle angegeben</p>
+					</div>
+					<div>
+			   			<label for="notizen">weitere Notizen:</label>
+						<p  id="notizen" th:text="${anforderung.notizen} ?: 'Keine Notizen angegeben'"></p>
+					</div>
+				</div>
+			</div>
+			
+			<span class="container_divider"></span>
+			
+			<div class="form_flex">
+				<p class="form_description">Validierung & Bezug</p>
+				<div class="text_container">
+			   		<div>
+			   			<label for="beschreibung">Akzeptanzkriterien:</label>
+						<ul th:each="k: ${anforderung.kriterien}">
+				  			<li th:text="${k.beschreibung}"></li>
+				  		</ul>
+			   		</div>
+			   		<div>
+			   			<label for="quelle">verknüpfte Testfälle:</label>
+			   			<ul th:each="test : ${verknuepfteTest}">
+			   				<li>
+			   					<a th:href="@{/test/detail/{id}(id=${test.id})}">
+			   					
+			   						<span th:text="${test.nr} + ' ' + ${test.title}"></span>
+			   					</a>
+			   				</li>
+			   			</ul>
+					
+					</div>
+					
+			   		
+				</div>
+			</div>
+  		
+  		<div class="float-right">
+  			<a th:href="@{/anforderung/edit/{id}(id=${anforderung.id})}">
+      			<button class="primaryBtn">Änderungen</button>
+      		</a>
+  		</div>
+  		
+  	
+      
+      	
+      </div>
+</div>

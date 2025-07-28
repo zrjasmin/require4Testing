@@ -92,6 +92,7 @@ public class TestService {
 		dto.setErwartetesErgebnis(test.getErwartetesErgebnis());
 		dto.setAnforderung(test.getAnforderung());
 		dto.setTestdaten(test.getTestdaten());
+		dto.setNotizen(test.getNotizen());
 		
 		List<TestschrittDto> schritteDtos = new ArrayList<>();
 		for(Testschritt schritt : test.getTestschritte()) {
@@ -127,6 +128,7 @@ public class TestService {
 		
 		test.setAnforderung(anf);
 		repository.save(test);
+		saveNumber(test);
     	
     }
     
@@ -174,6 +176,7 @@ public class TestService {
 		bestehenderTest.setBeschreibung(testDto.getBeschreibung());
 		bestehenderTest.setAnforderung(testDto.getAnforderung());
 		bestehenderTest.setTestdaten(testDto.getTestdaten());
+		bestehenderTest.setNotizen(testDto.getNotizen());
 		
 		updateSchritte(bestehenderTest, testDto,reihenfolgeJSON);
 		
@@ -277,7 +280,18 @@ public class TestService {
     }
     
     
-    
+    public void saveNumber(Test test) {
+    	String formattedNumber = null;
+ 	   if(test != null) {
+ 		   Long id = test.getId();
+ 		   formattedNumber = String.format("TF-%03d", id);
+ 		   
+ 	   } 
+ 	   test.setNr(formattedNumber);
+ 	   System.out.println(formattedNumber);
+ 	   
+ 	   speichereEntity(test);
+    }
     
     
     

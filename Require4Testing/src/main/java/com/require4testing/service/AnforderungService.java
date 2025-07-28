@@ -14,6 +14,7 @@ import com.require4testing.dto.AnforderungDto;
 import com.require4testing.dto.KriteriumDto;
 import com.require4testing.model.Anforderung;
 import com.require4testing.model.Kriterium;
+import com.require4testing.model.Test;
 import com.require4testing.model.User;
 
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class AnforderungService {
     
     @Autowired 
     private UserService userService;
+    
     
     @Autowired
     private  KriteriumRepository akzRepository;
@@ -86,10 +88,11 @@ public class AnforderungService {
 		dto.setId(anf.getId());
 		dto.setTitle(anf.getTitle());
 		dto.setBeschreibung(anf.getBeschreibung());
-		dto.setPriotiät(anf.getPriotiät());
+		dto.setPriotiät(anf.getPrioritaet());
 		dto.setKategorie(anf.getKategorie());
 		dto.setQuelle(anf.getQuelle());
 		dto.setNotizen(anf.getNotizen());
+		
 		
 		
 		List<KriteriumDto> kriterienDto = new ArrayList<>();
@@ -112,7 +115,7 @@ public class AnforderungService {
 		
 		bestehendeAnf.setTitle(anfDto.getTitle());
 		bestehendeAnf.setBeschreibung(anfDto.getBeschreibung());
-		bestehendeAnf.setPriotiät(anfDto.getPriotiät());
+		bestehendeAnf.setPrioritaet(anfDto.getPriotiät());
 		bestehendeAnf.setKategorie(anfDto.getKategorie());
 		bestehendeAnf.setQuelle(anfDto.getQuelle());
 		bestehendeAnf.setNotizen(anfDto.getNotizen());
@@ -199,7 +202,13 @@ public class AnforderungService {
 	   speichereEntity(anf);
    }
     
-    
+    public List<Test> getTestforAnf(Long id) {
+    	List<Test> verknüpfteTest = new ArrayList<>();
+    	
+    	
+    	
+    	return verknüpfteTest;
+    }
     
     
     

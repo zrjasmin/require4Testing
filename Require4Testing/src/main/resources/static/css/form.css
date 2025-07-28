@@ -1,10 +1,11 @@
 
 	
-.edit_form {
+.edit_form, .detail_page {
 	background-color: white;
 	padding: 20px;
 	border-radius: 20px;
 	max-width: 900px;
+	margin-block: 40px 150px;
 }
 
 .form_flex {
@@ -20,9 +21,7 @@
 }
 .input_container {
  padding: 10px 20px;
-	
 
-	
 }
 
 .two-column{
@@ -46,6 +45,14 @@ label {
 	color: #777A8D;
 	
 }
+
+.detail_page {
+p{
+		margin-bottom: 15px;
+		}
+	
+
+}
 input, textarea, select {
 	width: 100%;
 	margin: 0 0 15px 0;
@@ -54,24 +61,31 @@ input, textarea, select {
 	border: 1px solid #E7E8EE;
 	border-radius: 10px;
 	font-size: 14px;
+	font-family: "Poppins", sans-serif;
 	
 }
 
-/*spezifische Styles (anforderungen)*/
-.anf_neu {
-.kriterium{
-	display: flex;
-	
+.float-right {
+	display:flex;
+	justify-content: flex-end;
+	gap: 15px;
 	
 }
 
-.kriterium > input {
+
+
+	.dynamicInput{
+		display: flex;
+	}
+	
+
+.dynamicInput > input {
 	margin-right: 15px;
 }
 
 
 
-.kriterium > button {
+.dynamicInput > button {
 	border: none;
 	padding: 3px 5px;
 	margin-bottom: 15px;
@@ -81,50 +95,41 @@ input, textarea, select {
 	
 }
 
-.kriterium > button:hover {
+.dynamicInput > button:hover {
 	background-color: #DFEAFF;
 }
 
-.kriteriumBtn {
+.dynamicInput > i {
+	font-size: 20px;
+	color: #051759;
+}
+
+.customBtn {
 	border: 1px solid #7296E8;
 	padding: 10px 5px;
 	border-radius: 10px;
 	background: #7296E8;
 	color: white;
+	margin-block: 10px;
 	
 }
 
-.kriteriumBtn:hover>i {
+.customBtnn:hover>i {
 	color: white;
 }
 
-.kriteriumBtn:hover {
+.customBtn:hover {
 	border: 1px solid #02369C;
 	color: #02369C;
 }
-.kriteriumBtn:hover>i {
+.customBtn:hover>i {
 	color: #02369C;
 }
 
 
 
-.float-right {
-	 display:flex;
-	 justify-content: flex-end;
-}
-
-
-}
 
 
 
 
-
-	
-
-
-.kriterium > i {
-	font-size: 20px;
-	color: #051759;
-}
 

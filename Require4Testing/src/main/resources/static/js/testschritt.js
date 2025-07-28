@@ -44,12 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
 		    const div = document.createElement('div');
 			
 			div.classList.add("schritte");
+			div.classList.add("dynamicInput");
+
 			div.draggable ="true";
 		    div.innerHTML = `
 					<input type="hidden" name="testschritte[${stepIndex}].id"/>
 			        <input type="text" name="testschritte[${stepIndex}].beschreibung" class="schrittvalue" oninput="updateReihenfolge()"/>
-					<input type="hidden" name="testschritte[${stepIndex}].stepNumber"  class="schritt" value="${stepIndex}"/>
-		    		<button type="button" onclick="deleteSchritt(this.parentElement)">Entfernen</button>
+					<input type="hidden" name="testschritte[${stepIndex}].stepNumber"  class="schritt dynamicInput" value="${stepIndex}"/>
+		    		<button type="button" onclick="deleteSchritt(this.parentElement)"><i class="fa-solid fa-trash"></i></button>
 					`;
 			
 			

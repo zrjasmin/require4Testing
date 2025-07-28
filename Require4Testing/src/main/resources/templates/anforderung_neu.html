@@ -8,15 +8,15 @@
        		<div class="form_flex">
        			<p class="form_description">Allgemeine Informationen</p>
        			<div class="input_container two-column">
-       				<div class="title_container">
+       				<div>
 	       				<label for="title">Name:</label>
 			    		<input type="text" id="title" th:field="*{title}" required />
 		    		</div>
-		    		<div class="title_container">
+		    		<div>
 			    		<label for="priotiät">Priorität:</label>
-			    		<input id="priotiät" th:field="*{priotiät}" ></input>
+			    		<input id="priotiät" th:field="*{prioritaet}" ></input>
 		    		</div>
-		    		<div class="title_container">
+		    		<div>
 			    		<label for="kategorie">Katgegorie:</label>
 				   		<select th:field="*{kategorie}" id="kategorie">
 					        <option value="" selected>Bitte wählen</option>
@@ -57,7 +57,7 @@
 				   	<div id="kriteriencontainer">
 				   	</div>
 					
-					<button type="button" onclick="hinzufuegenKriterium()" value="hinzufuegen" class="kriteriumBtn">
+					<button type="button" onclick="hinzufuegenKriterium()" value="hinzufuegen" class="kriteriumBtn customBtn">
 					<i class="fa-solid fa-plus"></i>
 					Neues Kriterium</button>
 				

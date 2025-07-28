@@ -25,6 +25,7 @@ function hinzufuegenKriterium() {
     // Name-Attribut für die Eingabe
    	const beschreibung = `kriterien[${kriteriumIndex}].beschreibung`;
 	div.classList.add("kriterium");
+	div.classList.add("dynamicInput");
     div.innerHTML = `
         <input type="hidden" name="kriterien[${kriteriumIndex}].id" />
         <input type="text" name="${beschreibung}" placeholder="Kriterium" />

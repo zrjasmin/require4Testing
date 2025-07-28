@@ -22,7 +22,7 @@
 		    
 		    <label>Testschritte</label>
 		    <div id="stepContainer" >
-		    	<div class="schritte"  th:each="schritt, iterStat : *{testschritte}"  draggable="true">
+		    	<div class="schritte dynamicInput"  th:each="schritt, iterStat : *{testschritte}"  draggable="true">
 			    	<input type="hidden" th:field="*{testschritte[__${iterStat.index}__].id}"/>
 			        <input type="hidden" th:value="${test.testschritte[__${iterStat.index}__].stepNumber}" class="schritt"/>
 			        <input type="text" th:field="*{testschritte[__${iterStat.index}__].beschreibung}"  class="schrittvalue" oninput="updateReihenfolge()"/>
@@ -32,7 +32,7 @@
 		    
 		    <br/>
 		    
-		   	<button type="button" id="addStepButton" >Neuen Schritt hinzufügen</button>
+		   	<button type="button" id="addStepButton" class="schrittBtn customBtn" >Neuen Schritt hinzufügen</button>
 		   	<input type='hidden' id='reihenfolge' name='reihenfolge'/>
 		   	
 		   	<br/>

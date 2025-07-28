@@ -1,56 +1,79 @@
-   <!DOCTYPE html>
-   <html xmlns:th="http://www.thymeleaf.org">
-   <head>
-       <title>neue Anforderung erstellen</title>
-       <script type="text/javascript" th:src="@{/script.js}"></script>
-       
+   <div class="contentWrapper test_neu">  
+       <h1>Test - Neu</h1>
       
-   </head>
-   <body>
-      
-       <form th:action="@{/test/save}" th:object="${test}" method="post">
-       		
+       <form th:action="@{/test/save}" th:object="${test}" method="post" class="edit_form">
        		<input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
        		
        		
+       		<div class="form_flex">
+       			<p class="form_description">Allgemeine Informationen</p>
+       			<div class="input_container two-column">
+       				<div>
+	       				<label for="title">Name:</label>
+			    		<input type="text" id="title" th:field="*{title}" required />
+		    		</div>
+		    		<div>
+	       				<label for="verlinkteAnf">Verlinkte Anforderung:</label>
+					   	<select th:field="*{anforderung.id}" id="verlinkteAnf">
+					        <option value="" disabled selected>Bitte wählen</option>
+					        <option th:each="a : ${anforderungen}"
+					                th:value="${a.id}"
+					                th:text="${a.title}">
+					        </option>
+					    </select>
+		    		</div>
+		    		
+       			</div>
+       		</div>
        		
+       		<span class="container_divider"></span>
        	    
-		    <label for="title">Name:</label>
-		    <input type="text" id="title" th:field="*{title}" required />
-		
-		    <br/>
-		
-		    <label for="beschreibung">Beschreibung:</label>
-		    <textarea id="beschreibung" th:field="*{beschreibung}"></textarea>
-		    <br/>
+       	    
+       	    <div class="form_flex">
+       			<p class="form_description">Beschreibung & Kontext</p>
+       			<div class="input_container">
+	       			<label for="beschreibung">Beschreibung:</label>
+			    	<textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+			    	
+					
+					
+					<label for="quelle">Testdaten:</label>
+				    <input type="text" id="quelle" th:field="*{testdaten}"  />
+				    
+				    <br/>
+				    
+				    <label for="notizen">weitere Notizen:</label>
+		   			<textarea id="notizen" th:field="*{notizen}" ></textarea>
+       			</div>
+       		</div>
+       	    
+       	    <span class="container_divider"></span>
+       	    
 		    
-		    <label>Testschritte</label>
-		    <div id="stepContainer"></div>
-		   	<button type="button" id="addStepButton" >Neuen Schritt hinzufügen</button>
-		   	<input type='hidden' id='reihenfolge' name='reihenfolge'/>
-		   	
+		    
+		    <div class="form_flex">
+       			<p class="form_description">Testdetails</p>
+       			<div class="input_container">
+	       			<label>Testschritte</label>
+				    <div id="stepContainer"></div>
+				   	<button type="button" id="addStepButton" class="schrittBtn customBtn" >
+					   	<i class="fa-solid fa-plus"></i>
+					   	Neuen Schritt hinzufügen
+					 </button>
+				   	<input type='hidden' id='reihenfolge' name='reihenfolge'/>
+				   	
+		   			<label for="ergebnis">Erwartetes Ergebnis:</label>
+		    		<textarea id="ergebnis" th:field="*{erwartetesErgebnis}"></textarea>
+       			</div>
+       		</div>
+		    
+		   <div class="float-right">
+       		 <button type="submit" class="primaryBtn">Test speichern</button>
+			</div>
 		 
-			 <br/>
-			 
-		   	<label for="ergebnis">Erwartetes Ergebnis:</label>
-		    <textarea id="ergebnis" th:field="*{erwartetesErgebnis}"></textarea>
-		    <br/>
-		    <label for="testdaten">Testdaten:</label>
-		    <textarea id="testdaten" th:field="*{testdaten}"></textarea>
-		    
-			<br/>
 			
-		   	<label for="verlinkteAnf">Verlinkte Anforderung:</label>
-		   	<select th:field="*{anforderung.id}" id="verlinkteAnf">
-		        <option value="" disabled selected>Bitte wählen</option>
-		        <option th:each="a : ${anforderungen}"
-		                th:value="${a.id}"
-		                th:text="${a.title}">
-		        </option>
-		    </select>
 	
-		   	<br/>
-		    <button type="submit">Test speichern</button>
+		  
 		</form>
 		
 		

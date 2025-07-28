@@ -52,7 +52,8 @@ public class TestController {
 	private AnforderungService anfService;
 	@Autowired
 	private UserService userService;
-
+	
+	private  UtilController util = new UtilController();
 	
 
 	@GetMapping("/all") 
@@ -61,8 +62,9 @@ public class TestController {
 		
 		User user = (User) session.getAttribute("currentUser");		
 		model.addAttribute("aktuellerUser", user);
-		
-		return "test_uebersicht";
+		util.setPageModelAttributes(model, "Tests", "test_uebersicht", "","/css/uebersicht.css", "");
+
+		return "layout";
 	}
 	
 	@GetMapping("/edit")
@@ -73,7 +75,8 @@ public class TestController {
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anfService.alleEntities();
 		model.addAttribute("anforderungen", anforderungen);
-		return "test_neu";
+		util.setPageModelAttributes(model, "Test: Neu", "test_neu", "/js/testschritt.js","/css/form.css", "");
+		return "layout";
 	}
 	
 	@GetMapping("/detail/{id}")

@@ -3,25 +3,25 @@
 	<div class="contentWrapper">  
 		<div class="header">
 			<h1>Anforderungübersicht</h1>
-			<a th:href="@{/anforderung/edit}" class="anf_button">
+			<a th:href="@{/anforderung/edit}" class="new_button primaryBtn">
 	       		<i class="fa-solid fa-plus" style="color: #f6f7fb;"></i>
 	       		Neu
 	       	</a>
 		</div>     
 		
-	      	<div class="anf_container">
+	      	<div class="card_container">
 	      	
-		   		<div th:each="anf: ${anforderungen}" class="anf_info">
-		   			<div class="container_top">
-		   				<span th:text="${anf.title}" class="anf_chip"></span>
+		   		<div th:each="anf: ${anforderungen}" class="card">
+		   			<div class="card_top">
+		   				<span th:text="${anf.title}" class="chip"></span>
 		   			</div>
 		   			
-		   			<div class="container_center">
+		   			<div class="card_center">
 		   				<h2 th:text="${anf.title}">Titel</h2>
 		   				<p th:text="${anf.beschreibung}">Titel</p>
 		   			</div>
 		   			
-		   			<div class="container_bottom">
+		   			<div class="card_bottom">
 		   				<div class="creator">
 		   					<img th:src="@{${anf.ersteller.profileImagePath}}"/>
 		   					<p th:text="'erstellt von '+${anf.ersteller.vorname} "></p>
@@ -30,8 +30,9 @@
 			   				Details
 			   			</a>
 		   			</div>
-		   			
-		   			
 		   		</div>
-	       </div>
-	</div>   
+		   	</div>
+	</div>		
+		   			
+		   	
+	

@@ -21,10 +21,12 @@ public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nr;
     private String title;
     private String beschreibung;
     private String erwartetesErgebnis;
     private String testdaten;
+    private String notizen;
     
     
     @ManyToOne
@@ -119,6 +121,22 @@ public class Test {
 
 	public void setTestdaten(String testdaten) {
 		this.testdaten = testdaten;
+	}
+
+	public String getNr() {
+		return nr;
+	}
+
+	public void setNr(String nr) {
+		this.nr = nr;
+	}
+
+	public String getNotizen() {
+		return notizen;
+	}
+
+	public void setNotizen(String notizen) {
+		this.notizen = notizen;
 	}
 
    
