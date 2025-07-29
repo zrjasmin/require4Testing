@@ -17,9 +17,11 @@ import com.require4testing.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,26 @@ public class TestService {
 
     public Test speichereEntity(Test entity) {
         return repository.save(entity);
+    }
+    
+    public Set<Test> findTestByString(String list) {
+    	ObjectMapper mapper = new ObjectMapper();
+		Set<Test> verknüpfteTests = new HashSet<>();
+		try {
+			//6,5,1,7
+            List<String> testIds = mapper.readValue(list, new TypeReference<List<String>>() {});
+            
+            for(String id : testIds) {
+            	Long longId = Long.parseLong(id);
+            	Test test = getTestById(longId);
+            
+            	verknüpfteTests.add(test);
+            }
+            
+		} catch (Exception e) {
+			
+		}
+    	return verknüpfteTests;
     }
    
 

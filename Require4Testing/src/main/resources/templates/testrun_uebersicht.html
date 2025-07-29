@@ -1,12 +1,46 @@
-<div th:if="${isManager}">
-       			<select th:field="*{tester}" id="verlinkteAnf">
-			        <option value="" selected>Bitte wählen</option>
-			        <option th:each="t : ${moeglicheTester}"
-			                th:value="${t.id}"
-			                th:text="${t.name}">
-			        </option>
-		    </select>
-       		</div>
-       		
-       		<p th:text="${test.tester != null} ? ${test.tester.name} : ''"></p>
-   		
+<div class="contentWrapper">  
+
+	<div class="header">
+		<h1>Testübersicht</h1>
+		<a th:href="@{/testlauf/edit}" class="new_button primaryBtn">
+       		<i class="fa-solid fa-plus" style="color: #f6f7fb;"></i>
+       		Neu
+	    </a>
+	</div>
+
+	<div class="card_container">
+		<table>
+			<tr>
+				<th>Nr</th>
+				<th>Titel</th>
+				<th>Testfälle</th>
+				<th>Testumgebung</th>
+				<th>Status</th>
+				<th>Tester</th>
+				<th> </th>
+			</tr>
+		    <tr th:each="testlauf : ${testlaeufe}">
+		        <td th:text="${testlauf.nr}">...</td>
+		        <td th:text="${testlauf.title}">...</td>
+		        
+		        <td>
+		        <th:block th:if="${testlauf.tests == null or testlauf.tests.size() == 0}">
+				    <p>kein Inhalt</p>
+				</th:block>
+				
+				<th:block th:if="${testlauf.tests != null and testlauf.tests.size() > 0}" th:each="test : ${testlauf.tests}">
+				    <p th:text="${test.title}"></p>
+				</th:block>
+				</td>
+				
+				
+		       
+				<td th:text="${testlauf.testumgebung} ? '': ' '" class="umgebung">...</td>
+	            <td th:text="${testlauf.status.beschreibung}">...</td>
+	            <td th:text="${testlauf.tester.vorname}">...</td>
+	            <td><a th:href="@{/testlauf/detail/{id}(id=${testlauf.id})}">Details</a></td>
+		    </tr>
+		</table>
+	
+	</div>
+</div>

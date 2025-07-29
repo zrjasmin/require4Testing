@@ -1,0 +1,95 @@
+<div class="contentWrapper"> 
+
+	
+		<h1>Testlauf erstellen</h1>
+	
+	
+	<form th:action="@{/testlauf/save}" th:object="${testlauf}" method="post" class="edit_form">
+       <input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
+		
+		<div class="form_flex">
+      			<p class="form_description">Allgemeine Informationen</p>
+      			<div class="input_container">
+      				<div>
+       				<label for="title">Name:</label>
+		    		<input type="text" id="title" th:field="*{title}" required />
+	    		</div>
+	    		
+	    		<div>
+       				<label for="beschreibung">Beschreibung:</label>
+		    		<textarea type="text" id="beschreibung" th:field="*{beschreibung}" ></textarea>
+	    		</div>
+      			</div>
+     		</div>
+       		
+       	<span class="container_divider"></span>
+       		
+       	
+		<div class="form_flex">
+      			<p class="form_description">Kommentare und Umgebung</p>
+      			<div class="input_container">
+      				<div>
+	       				<label for="umgebung">Testumgebung:</label>
+			    		<textarea type="text" id="umgebung" th:field="*{testumgebung}"></textarea>
+		    		</div>
+		    		<div>
+	       				<label for="kommentar">Kommentare:</label>
+			    		<textarea type="text" id="kommentar" th:field="*{kommentar}" ></textarea>
+		    		</div>
+      			</div>
+     		</div>
+     		
+     	<span class="container_divider"></span>
+	
+	
+		<div class="form_flex">
+      			<p class="form_description">Status & Verantwortlichkeit</p>
+      			<div class="input_container two-column">
+      				<div>
+	       				<label for="tester">zugeordnerter Tester:</label>
+					   	<select th:field="*{tester.id}" id="tester">
+					        <option value="" disabled selected>Bitte wählen</option>
+					        <option th:each="t : ${testerListe}"
+					                th:value="${t.id}"
+					                th:text="${t.vorname}">
+					        </option>
+					    </select>
+		    		</div>
+		    		<div>
+	       				<label for="status">Status:</label>
+					   	<select th:field="*{status}" id="status">
+					        <option value="" disabled selected>Bitte wählen</option>
+					        <option th:each="s : ${status}"
+					                th:value="${s.id}"
+					                th:text="${s.beschreibung}">
+					        </option>
+					    </select>
+		    		</div>
+      			</div>
+     		</div>
+     		
+     		<span class="container_divider"></span>
+     		
+     		<div class="form_flex">
+      			<p class="form_description">Verknüpfte Tests</p>
+      			<div class="input_container">
+      				<div id="testContainer"></div>
+      				<div class="testOption" th:each="t : ${tests}" >
+      					<label>
+      						<input type="checkbox" th:value="${t.id}" th:text="${t.title}"  onchange="toggleTest(this)" class="checkbox"/>
+      					</label>
+      				</div>
+      				<input type="hidden" id="checkedInputs" name="checkedInputs"/>
+      			</div>
+     		</div>
+     		
+     		<div class="float-right">
+       		 <button type="submit" class="primaryBtn">Test speichern</button>
+			</div>
+	</form>
+ </div>
+ 
+ 
+
+	       				
+		    		

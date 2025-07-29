@@ -1,0 +1,82 @@
+<div class="contentWrapper"> 
+
+	
+	<h1>Testlauf: Detail</h1>
+	<div class="detail_page">
+		<div class="form_flex">
+			<p class="form_description">Allgemeine Informationen</p>
+			<div class="text_container two-column">
+				<div>
+					<p th:text="${testlauf.nr}" class="chip"></p>
+				</div>
+				<div class="creator">
+   					<img th:src="@{${testlauf.ersteller.profileImagePath}}"/>
+   					<p th:text="'erstellt von '+${testlauf.ersteller.vorname}"></p>
+		   		</div> 
+		   		<div>
+		   			<label for="title">Titel:</label>
+					<p  id="title" th:text="${testlauf.title}" ></p>
+		   		</div>
+		   		<div>
+		   			<label for="beschreibung">Beschreibung:</label>
+					<p  id="beschreibung" th:text="${testlauf.beschreibung}"></p>
+				</div>
+			</div>
+  		</div>
+	
+	    <span class="container_divider"></span>
+	    
+	    <div class="form_flex">
+			<p class="form_description">Kommentare und Umgebung</p>
+			<div class="text_container"> 
+		   		<div>
+		   			<label for="testumgebung">Testumgebung:</label>
+					<p  id="testumgebung" th:text="${testlauf.testumgebung}" ></p>
+		   		</div>
+		   		<div>
+		   			<label for="kommentar">Kommentare:</label>
+					<p  id="kommentar" th:text="${testlauf.kommentar}"></p>
+				</div>
+			</div>
+  		</div>
+	
+	    <span class="container_divider"></span>
+	    <div class="form_flex">
+			<p class="form_description">Status & Verantwortlichkeit</p>
+			<div class="text_container two-column"> 
+		   		<div>
+		   			<label for="tester">Tester:</label>
+					<p  id="tester" th:text="${testlauf.tester.vorname}" ></p>
+		   		</div>
+		   		<div>
+		   			<label for="status">Status:</label>
+					<p  id="status" th:text="${testlauf.status.beschreibung}"></p>
+				</div>
+			</div>
+  		</div>
+	      <span class="container_divider"></span>
+	    <div class="form_flex">
+			<p class="form_description">Verknüpfte Testfälle</p>
+			<div class="text_container"> 
+		   		<div th:each="test : ${testlauf.tests}">
+		   			
+					<p  id="test" th:text="${test.nr} + ' '+ ${test.title}" ></p>
+		   		</div>
+		   		
+			</div>
+  		</div>
+  		<div class="float-right">
+  			<a th:href="@{/testlauf/edit/{id}(id=${test.id})}">
+      			<button class="primaryBtn">Änderungen</button>
+      		</a>
+  		</div>
+	    
+	    </div>
+	    </div>
+	    
+	    
+	
+	
+
+	       				
+		    		
