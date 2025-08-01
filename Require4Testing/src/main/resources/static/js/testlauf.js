@@ -2,11 +2,14 @@ let container;
 let checkboxArray;
 let selectedId = new Array(); 
 let testId;
+let existingInputs = 0;
 document.addEventListener('DOMContentLoaded', () => {
 	container = document.getElementById('testContainer');
 	checkboxArray = document.querySelectorAll(".checkbox");
-	console.log(checkboxArray);
+	
+	registerExistingDivs();
 	updateInputs();
+	
 	
 	
 					
@@ -20,11 +23,32 @@ function updateInputs() {
 	}
 
 
-				
+function registerExistingDivs() {
+	existingInputs = document.querySelectorAll('#testContainer > div');
+	const selectBoxes = document.querySelectorAll(`.testOption input[type=checkbox]`);
+	
+	let testId;
+	
+		existingInputs.forEach(div => {
+		  testId = div.getAttribute('data-test-id');
+		  selectedId.push(testId);
+		 
+		  //markiert gespeicherte Test als checked
+		  selectBoxes.forEach(box => {
+			if(box.value == testId) {
+				box.checked = true;
+				};
+			})
+		});
+		
+				 	
+			
+		
+}		
 				
 function toggleTest(checkbox) {
 		testId = checkbox.value;
-		console.log("testid: "+ testId);
+		
 		const testTitel = checkbox.parentNode.textContent.trim();
 		container = document.getElementById('testContainer');
 		
@@ -32,14 +56,15 @@ function toggleTest(checkbox) {
 		if(checkbox.checked) {
 			const div = document.createElement("div");
 			div.setAttribute('data-test-id', testId);
+			div.classList.add("test")
 			div.innerHTML = `
 				<p>${testTitel}</p>
-				<button type="button" onclick="removeTest('${testId}', this)">Entfernen</button>
+				<button type="button" onclick="removeTest(this)">Entfernen</button>
 			`;
 			selectedId.push(testId);
 				
 			container.appendChild(div);
-			console.log(selectedId)
+			
 			
 		} else {
 			//löscht durch Unselect
@@ -54,16 +79,20 @@ function toggleTest(checkbox) {
 	}
 	
 	//löscht durch Button Klick
-	function removeTest(testId, button) {
+	function removeTest(button) {
 	
 		
-		const divToRemove = button.parentNode;
-		divToRemove.remove()
+		const parentDiv = button.closest('div[data-test-id]');
+		
+		const inputId = parentDiv.getAttribute("data-test-id");
+		
+		parentDiv.remove()
+		
 		
 		const selectedBoxes = document.querySelectorAll(`.testOption input[type=checkbox]`);
 		
 		selectedBoxes.forEach(box =>  {
-			if (box.value === testId){
+			if (box.value === inputId){
 				box.checked =false;
 				removeFromList(box)
 		}})

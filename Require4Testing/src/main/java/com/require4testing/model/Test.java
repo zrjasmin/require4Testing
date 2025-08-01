@@ -1,7 +1,9 @@
 package com.require4testing.model;
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -41,7 +44,8 @@ public class Test {
     @OneToMany(mappedBy="test", cascade = CascadeType.ALL)
     private List<Testschritt> testschritte;
   
-
+    @ManyToMany(mappedBy = "tests")
+    private Set<Testlauf> testlaeufe = new HashSet<>();
     // Standard-Konstruktor
     public Test() {}
 
@@ -137,6 +141,14 @@ public class Test {
 
 	public void setNotizen(String notizen) {
 		this.notizen = notizen;
+	}
+	
+	public Set<Testlauf> getTestlaeufe() {
+		return testlaeufe;
+	}
+	
+	public void setTestlaeufe(Set<Testlauf> testlaeufe) {
+		this.testlaeufe = testlaeufe;
 	}
 
    

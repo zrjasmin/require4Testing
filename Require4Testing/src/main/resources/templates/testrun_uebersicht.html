@@ -36,8 +36,14 @@
 				
 		       
 				<td th:text="${testlauf.testumgebung} ? '': ' '" class="umgebung">...</td>
-	            <td th:text="${testlauf.status.beschreibung}">...</td>
-	            <td th:text="${testlauf.tester.vorname}">...</td>
+	            <td th:text="${testlauf.status}?${testlauf.status.beschreibung}">...</td>
+	            <th:block th:if="${testlauf.tester != null}">
+				    <td th:text="${testlauf.tester.vorname}">...</td>
+				</th:block>
+				<th:block th:if="${testlauf.tester == null}">
+				    <td>kein Inhalt</td>
+				</th:block>
+	            
 	            <td><a th:href="@{/testlauf/detail/{id}(id=${testlauf.id})}">Details</a></td>
 		    </tr>
 		</table>

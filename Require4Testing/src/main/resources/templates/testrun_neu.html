@@ -47,8 +47,8 @@
       			<div class="input_container two-column">
       				<div>
 	       				<label for="tester">zugeordnerter Tester:</label>
-					   	<select th:field="*{tester.id}" id="tester">
-					        <option value="" disabled selected>Bitte wählen</option>
+					   	<select id="tester" name="testerId">
+					        <option value=""  selected>Bitte wählen</option>
 					        <option th:each="t : ${testerListe}"
 					                th:value="${t.id}"
 					                th:text="${t.vorname}">
@@ -58,7 +58,7 @@
 		    		<div>
 	       				<label for="status">Status:</label>
 					   	<select th:field="*{status}" id="status">
-					        <option value="" disabled selected>Bitte wählen</option>
+					        <option value="" selected>Bitte wählen</option>
 					        <option th:each="s : ${status}"
 					                th:value="${s.id}"
 					                th:text="${s.beschreibung}">
@@ -74,7 +74,7 @@
       			<p class="form_description">Verknüpfte Tests</p>
       			<div class="input_container">
       				<div id="testContainer"></div>
-      				<div class="testOption" th:each="t : ${tests}" >
+      				<div class="testOption" th:each="t : ${tests}">
       					<label>
       						<input type="checkbox" th:value="${t.id}" th:text="${t.title}"  onchange="toggleTest(this)" class="checkbox"/>
       					</label>

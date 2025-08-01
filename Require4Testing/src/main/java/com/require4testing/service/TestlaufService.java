@@ -4,19 +4,25 @@ package com.require4testing.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.require4testing.dto.TestDto;
 import com.require4testing.dto.TestlaufDto;
 import com.require4testing.model.Anforderung;
 import com.require4testing.model.Status;
 import com.require4testing.model.Test;
 import com.require4testing.model.Testlauf;
+import com.require4testing.model.Testschritt;
 import com.require4testing.model.User;
 import com.require4testing.repository.StatusRepository;
 import com.require4testing.repository.TestlaufRepository;
@@ -55,9 +61,15 @@ public class TestlaufService {
     	return repository.findById(id).get();
     }
 	
-	public void saveNewTestlauf(Testlauf testlauf, Long erstellerId, String verknüpfteTestId) {
+	
+	
+	public void saveNewTestlauf(Testlauf testlauf, Long erstellerId, String verknüpfteTestId, Long testerId) {
 		User ersteller = userService.findById(erstellerId);
 		testlauf.setErsteller(ersteller);
+		System.out.println(testerId);
+		if(testerId != null) {
+			testlauf.setTester(userService.findById(testerId));
+		}
 		
 		testlauf.setTests(testService.findTestByString(verknüpfteTestId));
 		speichereEntity(testlauf);
@@ -74,16 +86,20 @@ public class TestlaufService {
 		dto.setId(id);
 		dto.setKommentar(testlauf.getKommentar());
 		dto.setStatus(testlauf.getStatus());
-		dto.setTester(testlauf.getTester());
+		System.out.println(testlauf.getTester());
+		if(testlauf.getTester() != null) {
+			dto.setTester(testlauf.getTester());
+		} else {
+			dto.setTester(null);
+		}
 		
 		dto.setTestumgebung(testlauf.getTestumgebung());
 		dto.setTitle(testlauf.getTitle());
 		
-		Set<TestDto> testsDto = new HashSet<>();
+		//Test Id speichern
+		Set<Long> testsDto = new HashSet<>();
 		for(Test test : testlauf.getTests()) {
-			TestDto tDto = new TestDto();
-			tDto.setId(test.getId());
-			testsDto.add(tDto);
+			testsDto.add(test.getId());
 		}
 		dto.setTests(testsDto);;
 		
@@ -91,11 +107,69 @@ public class TestlaufService {
 		
 	}
 	
+	public Testlauf updateTestlauf(Long id, TestlaufDto testlaufDto, String testIds) {
+		Testlauf bestehenderTestlauf = getTestlaufById(id);
+		
+		
+		System.out.println("dto "+testlaufDto.getTester().getId());
+		System.out.println("dto "+testlaufDto.getTester());
+		System.out.println("db "+ bestehenderTestlauf.getTester().getId());
+		
+		
+		if (bestehenderTestlauf != null && bestehenderTestlauf.getTester() != null && testlaufDto.getTester().getId() == null) {
+	    	System.out.println("Fehler im Service");
+
+            throw new IllegalArgumentException("Das Tester-Feld darf nicht entfernt werden, wenn bereits ein Tester zugeordnet war.");
+        }
+		if(testlaufDto.getTester() != null) {
+			bestehenderTestlauf.setTester(testlaufDto.getTester());
+		} else {
+			bestehenderTestlauf.setTester(null);
+		}
+	
+		
+		bestehenderTestlauf.setBeschreibung(testlaufDto.getBeschreibung());
+		bestehenderTestlauf.setKommentar(testlaufDto.getKommentar());
+		bestehenderTestlauf.setStatus(testlaufDto.getStatus());
+		
+		bestehenderTestlauf.setTestumgebung(testlaufDto.getTestumgebung());
+		bestehenderTestlauf.setTitle(testlaufDto.getTitle());
+		
+		updateVerknüpfteTests(bestehenderTestlauf, testlaufDto, testIds);
+		repository.save(bestehenderTestlauf);
+
+		return bestehenderTestlauf;
+	}
 	
 	
 	
 	
+	public void updateVerknüpfteTests(Testlauf testlauf,TestlaufDto dto, String testIds) {
+		Set<Test> aktuelleTests = testlauf.getTests();
 	
+		
+		//Ids aus der DTO
+		Set<Test> neueTestsListe = testService.findTestByString(testIds);
+
+		 Set<Test> neueTestSet = new HashSet<>(neueTestsListe);
+
+		 aktuelleTests.removeIf(test -> !neueTestSet.contains(test));
+		 aktuelleTests.addAll(neueTestSet.stream()
+			        .filter(test -> !aktuelleTests.contains(test))
+			        .collect(Collectors.toSet()));		 
+	}
+	
+	
+	public void deleteTestlauf(Long id) {
+		Testlauf testlauf = getTestlaufById(id);
+		
+		for(Test t : testlauf.getTests()) {
+    		t.getTestlaeufe().remove(testlauf);
+    		
+    	}
+    	testlauf.setTests(null);
+    	repository.delete(testlauf);
+	}
 	
 	public void saveNumber(Testlauf testlauf) {
 		   String formattedNumber = null;

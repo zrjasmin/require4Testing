@@ -12,6 +12,7 @@ import com.require4testing.dto.TestDto;
 import com.require4testing.dto.TestschrittDto;
 import com.require4testing.model.Anforderung;
 import com.require4testing.model.Test;
+import com.require4testing.model.Testlauf;
 import com.require4testing.model.Testschritt;
 import com.require4testing.model.User;
 
@@ -304,8 +305,13 @@ public class TestService {
     
     public void deleteTest(Long id) {
     	Test test = getTestById(id);
+    	for(Testlauf t : test.getTestlaeufe()) {
+    		t.getTests().remove(test);
+    		
+    	}
     	test.setAnforderung(null);
     	repository.delete(test);
+    	
     }
     
     

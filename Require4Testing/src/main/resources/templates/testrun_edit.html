@@ -1,0 +1,115 @@
+<div class="contentWrapper"> 
+
+	
+		<h1>Testlauf erstellen</h1>
+	
+	
+	<form th:action="@{/testlauf/handleForm/{id}(id=${testlauf.id})}" th:object="${testlaufDto}" method="post" class="edit_form">
+		
+		<div class="form_flex">
+      			<p class="form_description">Allgemeine Informationen</p>
+      			<div class="input_container two-column">
+      			<div>
+					    <p th:text="${testlauf.nr}" class="chip"></p>
+	   				</div>   				
+	   				<div class="creator">
+	   					<img th:src="@{${testlauf.ersteller.profileImagePath}}"/>
+	   					<p th:text="'erstellt von '+${testlauf.ersteller.vorname} "></p>
+			   		</div>  
+      			
+      				<div>
+       				<label for="title">Name:</label>
+		    		<input type="text" id="title" th:field="*{title}" required />
+	    		</div>
+	    		
+	    		<div>
+       				<label for="beschreibung">Beschreibung:</label>
+		    		<textarea type="text" id="beschreibung" th:field="*{beschreibung}" ></textarea>
+	    		</div>
+      			</div>
+     		</div>
+       		
+       	<span class="container_divider"></span>
+       		
+       	
+		<div class="form_flex">
+      			<p class="form_description">Kommentare und Umgebung</p>
+      			<div class="input_container">
+      				<div>
+	       				<label for="umgebung">Testumgebung:</label>
+			    		<textarea type="text" id="umgebung" th:field="*{testumgebung}"></textarea>
+		    		</div>
+		    		<div>
+	       				<label for="kommentar">Kommentare:</label>
+			    		<textarea type="text" id="kommentar" th:field="*{kommentar}" ></textarea>
+		    		</div>
+      			</div>
+     		</div>
+     		
+     	<span class="container_divider"></span>
+	
+	
+		<div class="form_flex">
+      			<p class="form_description">Status & Verantwortlichkeit</p>
+      			<div class="input_container two-column">
+      				<div>
+	       				<label for="tester">zugeordnerter Tester:</label>
+					   	<select th:field="*{tester.id} "name="testerId" id="tester">
+					        <option value=""  selected>Bitte wählen</option>
+					        <option th:each="t : ${testerListe}"
+					                th:value="${t.id}"
+					                th:text="${t.vorname}">
+					        </option>
+					    </select>
+					   <div th:if="${errorMessage}" style="color:red;">
+						    <p th:text="${errorMessage}"></p>
+						</div>
+					    
+		    		</div>
+		    		<div>
+	       				<label for="status">Status:</label>
+					   	<select th:field="*{status}" id="status">
+					        <option value=""  selected>Bitte wählen</option>
+					        <option th:each="s : ${status}"
+					                th:value="${s.id}"
+					                th:text="${s.beschreibung}">
+					        </option>
+					    </select>
+		    		</div>
+      			</div>
+     		</div>
+     		
+     		<span class="container_divider"></span>
+     		
+     		  <div class="form_flex">
+      			<p class="form_description">Verknüpfte Tests</p>
+      			<div class="input_container">
+      				<div id="testContainer"  >
+      					<div th:attr="data-test-id=${t.id}" th:each="t : ${selectedTests}">
+	      					<p class="test" th:text="${t.title}"></p>
+							<button type="button" onclick="removeTest(this)">Entfernen</button>
+						</div>
+      				</div>
+      				<div class="testOption"  th:each="t : ${alleTests}">
+      					<label>
+      						<input type="checkbox" th:value="${t.id}" th:text="${t.title}"  onchange="toggleTest(this)" class="checkbox"/>
+      					</label>
+      				</div>
+      				<input type="hidden" id="checkedInputs" name="checkedInputs"/>
+      			</div>
+     		</div>
+     		
+     		
+			
+			<div class="float-right">
+			 	<button type="submit" class="secondaryBtn" name="action" value="loeschen" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
+			    <button type="submit" class="primaryBtn"  name="action" value="speichern">Testfall speichern</button>
+			    
+			   </div>
+	</form>
+ </div>
+ 
+ 
+
+	       				
+		    		

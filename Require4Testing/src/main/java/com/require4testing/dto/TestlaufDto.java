@@ -19,7 +19,7 @@ public class TestlaufDto {
     private String testumgebung;
     private Status status;
     private User tester;
-    private Set<TestDto> tests;
+    private Set<Long> testIds;
     
 	public Long getId() {
 		return id;
@@ -64,11 +64,11 @@ public class TestlaufDto {
 	public void setTester(User tester) {
 		this.tester = tester;
 	}
-	public Set<TestDto> getTests() {
-		return tests;
+	public Set<Long> getTests() {
+		return testIds;
 	}
-	public void setTests(Set<TestDto> tests) {
-		this.tests = tests;
+	public void setTests(Set<Long> tests) {
+		this.testIds = tests;
 	}
 
 }

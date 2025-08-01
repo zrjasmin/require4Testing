@@ -46,11 +46,11 @@
 			<div class="text_container two-column"> 
 		   		<div>
 		   			<label for="tester">Tester:</label>
-					<p  id="tester" th:text="${testlauf.tester.vorname}" ></p>
+					<p  id="tester" th:text="${testlauf.tester}?${testlauf.tester.vorname}" ></p>
 		   		</div>
 		   		<div>
 		   			<label for="status">Status:</label>
-					<p  id="status" th:text="${testlauf.status.beschreibung}"></p>
+					<p  id="status" th:text="${testlauf.status}?${testlauf.status.beschreibung}"></p>
 				</div>
 			</div>
   		</div>
@@ -66,7 +66,7 @@
 			</div>
   		</div>
   		<div class="float-right">
-  			<a th:href="@{/testlauf/edit/{id}(id=${test.id})}">
+  			<a th:href="@{/testlauf/edit/{id}(id=${testlauf.id})}">
       			<button class="primaryBtn">Änderungen</button>
       		</a>
   		</div>

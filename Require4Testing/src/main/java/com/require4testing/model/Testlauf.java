@@ -42,8 +42,8 @@ public class Testlauf {
     @ManyToMany
     @JoinTable(
             name = "testfall_testlauf",
-            joinColumns = @JoinColumn(name = "test_id"),
-            inverseJoinColumns = @JoinColumn(name = "testlau_id")
+            joinColumns = @JoinColumn(name = "testlauf_id"),
+            inverseJoinColumns = @JoinColumn(name = "test_id")
     )
 	private Set<Test> tests;
     
