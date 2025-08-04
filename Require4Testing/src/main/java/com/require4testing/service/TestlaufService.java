@@ -102,31 +102,27 @@ public class TestlaufService {
 			testsDto.add(test.getId());
 		}
 		dto.setTests(testsDto);;
-		
+		 
 		return dto;
 		
 	}
 	
 	public Testlauf updateTestlauf(Long id, TestlaufDto testlaufDto, String testIds) {
 		Testlauf bestehenderTestlauf = getTestlaufById(id);
-		
-		
-		System.out.println("dto "+testlaufDto.getTester().getId());
-		System.out.println("dto "+testlaufDto.getTester());
-		System.out.println("db "+ bestehenderTestlauf.getTester().getId());
-		
-		
-		if (bestehenderTestlauf != null && bestehenderTestlauf.getTester() != null && testlaufDto.getTester().getId() == null) {
+    	System.out.println(testlaufDto.getTester());
+
+		 if (bestehenderTestlauf != null && bestehenderTestlauf.getTester() != null && testlaufDto.getTester().getId() == null) {
 	    	System.out.println("Fehler im Service");
 
             throw new IllegalArgumentException("Das Tester-Feld darf nicht entfernt werden, wenn bereits ein Tester zugeordnet war.");
-        }
-		if(testlaufDto.getTester() != null) {
-			bestehenderTestlauf.setTester(testlaufDto.getTester());
-		} else {
-			bestehenderTestlauf.setTester(null);
-		}
-	
+        } else if(bestehenderTestlauf != null && bestehenderTestlauf.getTester() == null && testlaufDto.getTester().getId() == null) {
+        	System.out.println("in methode");
+        	bestehenderTestlauf.setTester(null);
+        } else if(testlaufDto.getTester() != null) {
+				bestehenderTestlauf.setTester(testlaufDto.getTester());
+	        	System.out.println("nicht null");
+
+			} 
 		
 		bestehenderTestlauf.setBeschreibung(testlaufDto.getBeschreibung());
 		bestehenderTestlauf.setKommentar(testlaufDto.getKommentar());

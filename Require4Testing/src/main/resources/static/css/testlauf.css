@@ -1,0 +1,155 @@
+.testrun_uebersicht {
+	.header {
+	margin-bottom:50px;
+	}
+}
+.table_container {
+	padding: 10px 30px 30px 30px;
+	border-radius: 20px;
+	background-color: white;
+	width: 1000px;
+	
+	
+}
+table {
+	
+    border-collapse: collapse;
+    color: #494B53;
+    font-size: 14px;
+}
+
+
+.empty {
+	color: #898D97;
+}
+
+th {
+	
+	padding-block: 5px;
+	text-align: left;
+}
+tr {
+	height: 40px;
+	
+}
+tr:not(:first-child) {
+	border-block: 1px solid #494B53;
+}
+tr:hover  {
+	background-color: #F6F7FB
+}
+td {
+	padding-right: 20px;
+}
+
+.test_connection {
+	display: flex;
+	margin-block: 5px;
+	
+}
+
+.col1 {
+	width: 100px;
+	
+}
+.col2 {
+width: 200px;
+		
+	
+}
+.col3 {
+	width: 220px;
+}
+.col4 {
+	width: 220px;
+ 
+      overflow: hidden; 
+      white-space: nowrap; 
+      text-overflow: ellipsis;
+}
+.col5 {
+		width: 130px;
+	
+}
+.col6 {
+	width: 60px;
+	font-size: 24px;
+	padding-inline: 10px;
+	
+	 a:visited{
+	 color: #494B53;
+	 }
+}
+
+
+
+
+/*Neu und Edit Page Styles*/
+.block {
+	grid-column: 1 / 4;
+}
+
+
+
+#testContainer {
+	background-color: #F6F7FB;
+	padding: 20px 20px 10px 20px;
+	border-radius: 15px;
+	margin-bottom: 20px;
+}
+
+.test {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	
+}
+
+.deleteTestBtn {
+	margin: 0;
+	color: #051759;
+	background: none;
+	border: none;
+	
+}
+
+.deleteTestBtn:hover {
+	
+	color: #1154ED;
+
+	
+}
+.scrollable {
+	max-height: 200px;
+	overflow-y: scroll;
+}
+
+.checkbox {
+	width: auto;
+	margin-right: 15px;
+}
+
+
+
+
+
+/*Detail Page*/
+.text_container {
+	p {
+	max-width: 700px;
+	 word-wrap: break-word;
+	white-space: normal;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+

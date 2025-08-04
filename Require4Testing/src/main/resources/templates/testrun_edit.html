@@ -9,7 +9,7 @@
 		<div class="form_flex">
       			<p class="form_description">Allgemeine Informationen</p>
       			<div class="input_container two-column">
-      			<div>
+      				<div>
 					    <p th:text="${testlauf.nr}" class="chip"></p>
 	   				</div>   				
 	   				<div class="creator">
@@ -17,15 +17,15 @@
 	   					<p th:text="'erstellt von '+${testlauf.ersteller.vorname} "></p>
 			   		</div>  
       			
-      				<div>
-       				<label for="title">Name:</label>
-		    		<input type="text" id="title" th:field="*{title}" required />
-	    		</div>
+      				<div class="block">
+	       				<label for="title">Name:</label>
+			    		<input type="text" id="title" th:field="*{title}" required />
+	    			</div>
 	    		
-	    		<div>
-       				<label for="beschreibung">Beschreibung:</label>
-		    		<textarea type="text" id="beschreibung" th:field="*{beschreibung}" ></textarea>
-	    		</div>
+		    		<div class="block">
+	       				<label for="beschreibung">Beschreibung:</label>
+			    		<textarea type="text" id="beschreibung" th:field="*{beschreibung}" ></textarea>
+		    		</div>
       			</div>
      		</div>
        		
@@ -85,15 +85,16 @@
       			<p class="form_description">Verknüpfte Tests</p>
       			<div class="input_container">
       				<div id="testContainer"  >
-      					<div th:attr="data-test-id=${t.id}" th:each="t : ${selectedTests}">
-	      					<p class="test" th:text="${t.title}"></p>
-							<button type="button" onclick="removeTest(this)">Entfernen</button>
+      					<div th:attr="data-test-id=${t.id}" th:each="t : ${selectedTests}" class="test">
+	      					<p class="test-text"  th:text="${t.nr}+ ' '+${t.title}"></p>
+							<button type="button" onclick="removeTest(this)" class="deleteTestBtn"><i class="fa-solid fa-trash"></i></button>
 						</div>
       				</div>
+      				<div class="scrollable">
       				<div class="testOption"  th:each="t : ${alleTests}">
-      					<label>
-      						<input type="checkbox" th:value="${t.id}" th:text="${t.title}"  onchange="toggleTest(this)" class="checkbox"/>
-      					</label>
+      					
+      					<input type="checkbox" th:value="${t.id}" th:text="${t.nr}+ ' '+${t.title}"  onchange="toggleTest(this)" class="checkbox"/>
+      				</div>
       				</div>
       				<input type="hidden" id="checkedInputs" name="checkedInputs"/>
       			</div>

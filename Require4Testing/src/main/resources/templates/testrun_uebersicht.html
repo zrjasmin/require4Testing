@@ -1,4 +1,4 @@
-<div class="contentWrapper">  
+<div class="contentWrapper testrun_uebersicht">  
 
 	<div class="header">
 		<h1>Testübersicht</h1>
@@ -8,43 +8,56 @@
 	    </a>
 	</div>
 
-	<div class="card_container">
+	<div class="table_container">
 		<table>
-			<tr>
+			<tr class="table_header">
 				<th>Nr</th>
 				<th>Titel</th>
 				<th>Testfälle</th>
-				<th>Testumgebung</th>
 				<th>Status</th>
 				<th>Tester</th>
 				<th> </th>
 			</tr>
 		    <tr th:each="testlauf : ${testlaeufe}">
-		        <td th:text="${testlauf.nr}">...</td>
-		        <td th:text="${testlauf.title}">...</td>
+		        <td th:text="${testlauf.nr}" class="col1">...</td>
+		        <td th:text="${testlauf.title}" class="col2">...</td>
 		        
-		        <td>
-		        <th:block th:if="${testlauf.tests == null or testlauf.tests.size() == 0}">
-				    <p>kein Inhalt</p>
-				</th:block>
-				
-				<th:block th:if="${testlauf.tests != null and testlauf.tests.size() > 0}" th:each="test : ${testlauf.tests}">
-				    <p th:text="${test.title}"></p>
-				</th:block>
+		        <td class="col3">
+			        <th:block th:if="${testlauf.tests == null or testlauf.tests.size() == 0}">
+					    <p class="empty">kein Inhalt</p>
+					</th:block>
+					
+					<th:block th:if="${testlauf.tests != null and testlauf.tests.size() > 0}" th:each="test : ${testlauf.tests}">
+					   <div class="test_connection">
+					    
+					    <p th:text="${test.nr}+ ' '+${test.title}"></p>
+					    </div>
+					</th:block>
 				</td>
 				
 				
 		       
-				<td th:text="${testlauf.testumgebung} ? '': ' '" class="umgebung">...</td>
-	            <td th:text="${testlauf.status}?${testlauf.status.beschreibung}">...</td>
-	            <th:block th:if="${testlauf.tester != null}">
-				    <td th:text="${testlauf.tester.vorname}">...</td>
-				</th:block>
-				<th:block th:if="${testlauf.tester == null}">
-				    <td>kein Inhalt</td>
-				</th:block>
+	            <td th:text="${testlauf.status}?${testlauf.status.beschreibung}" class="col4">...</td>
 	            
-	            <td><a th:href="@{/testlauf/detail/{id}(id=${testlauf.id})}">Details</a></td>
+	            <td class="col5">
+		            <th:block th:if="${testlauf.tester != null}">
+					    <div class="creator"> 
+					    	<img th:src="@{${testlauf.tester.profileImagePath}}"/>
+					    	<p th:text="${testlauf.tester.vorname}"></p>
+					    </div>
+	   						
+						
+					</th:block>
+					<th:block th:if="${testlauf.tester == null}">
+					    <p class="empty">kein Inhalt</p>
+					</th:block>
+				</td>
+	            
+	            <td class="col6">
+	            	<a th:href="@{/testlauf/detail/{id}(id=${testlauf.id})}">
+						>
+					</a>
+				</td>
 		    </tr>
 		</table>
 	

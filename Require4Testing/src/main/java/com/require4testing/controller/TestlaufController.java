@@ -44,7 +44,7 @@ public class TestlaufController {
 	@GetMapping("/all")
 	public String alleTestlaeufe(Model model) {
 		model.addAttribute("testlaeufe", service.alleEntities());
-		util.setPageModelAttributes(model, "Testläufe", "testrun_uebersicht", "","/css/uebersicht.css", "");
+		util.setPageModelAttributes(model, "Testläufe", "testrun_uebersicht", "","/css/uebersicht.css", "/css/testlauf.css");
 		return "layout";
 	}
 	
@@ -56,7 +56,7 @@ public class TestlaufController {
 		model.addAttribute("status", service.alleStatus());
 		model.addAttribute("testerListe", userService.getAllOfRole("Tester:in"));
 		model.addAttribute("tests", testService.alleEntities());
-		util.setPageModelAttributes(model, "Testlauf: Neu", "testrun_neu", "/js/testlauf.js","/css/form.css", "");
+		util.setPageModelAttributes(model, "Testlauf: Neu", "testrun_neu", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
 		
 		return "layout";
 	}
@@ -67,7 +67,7 @@ public class TestlaufController {
 	public String showDetailForm(@PathVariable Long id, Model model) {
 		Testlauf testlauf = service.getTestlaufById(id);
 		model.addAttribute("testlauf", testlauf);
-		util.setPageModelAttributes(model, "Testlauf: Detail", "testrun_detail", "","/css/form.css", "");
+		util.setPageModelAttributes(model, "Testlauf: Detail", "testrun_detail", "","/css/form.css", "/css/testlauf.css");
 		return "layout";
 	}
 	
@@ -100,7 +100,7 @@ public class TestlaufController {
 		
 		model.addAttribute("selectedTests",tests);
 		
-		util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_edit", "/js/testlauf.js","/css/form.css", "");
+		util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_edit", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
 		return "layout";
 	}
 	
@@ -146,7 +146,7 @@ public class TestlaufController {
 
 			
 			model.addAttribute("selectedTests",tests);
-			util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_edit", "/js/testlauf.js","/css/form.css", "");
+			util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_edit", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
 
 			return "layout";
 		}

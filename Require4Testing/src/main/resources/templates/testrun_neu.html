@@ -74,10 +74,12 @@
       			<p class="form_description">Verknüpfte Tests</p>
       			<div class="input_container">
       				<div id="testContainer"></div>
-      				<div class="testOption" th:each="t : ${tests}">
-      					<label>
-      						<input type="checkbox" th:value="${t.id}" th:text="${t.title}"  onchange="toggleTest(this)" class="checkbox"/>
-      					</label>
+      				<div class="scrollable">
+	      				<div class="testOption" th:each="t : ${tests}">
+	      					
+	      						<input type="checkbox" th:value="${t.id}"  th:text="${t.nr}+ ' '+${t.title}" onchange="toggleTest(this)" class="checkbox"/>
+	      				
+	      				</div>
       				</div>
       				<input type="hidden" id="checkedInputs" name="checkedInputs"/>
       			</div>

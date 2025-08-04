@@ -59,7 +59,7 @@ function toggleTest(checkbox) {
 			div.classList.add("test")
 			div.innerHTML = `
 				<p>${testTitel}</p>
-				<button type="button" onclick="removeTest(this)">Entfernen</button>
+				<button type="button" class="deleteTestBtn" onclick="removeTest(this)"><i class="fa-solid fa-trash"></i></button>
 			`;
 			selectedId.push(testId);
 				
