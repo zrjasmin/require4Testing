@@ -82,6 +82,11 @@ button {
 	
 }
 
+.error {
+	color: red;
+	font-size: 12px;
+}
+
 
 .creator {
 	display: flex;

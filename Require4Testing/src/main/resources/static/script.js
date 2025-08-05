@@ -3,6 +3,7 @@ let container;
 let existingInputs = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
+	console.log("neu laden");
 	container = document.getElementById('kriteriencontainer');
 	existingInputs = Array.from(container.children).map(el => el.querySelector('.kriterium')).length;
 	

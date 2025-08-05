@@ -28,6 +28,7 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	column-gap: 20px;
+
 }
 
 .container_divider {
@@ -40,6 +41,7 @@
 }
 
 label {
+	margin-top: 10px;
 	display:block;
 	font-size: 14px;
 	color: #777A8D;
@@ -55,7 +57,7 @@ p{
 }
 input, textarea, select {
 	width: 100%;
-	margin: 0 0 15px 0;
+	margin: 0 0 5px 0;
 	padding: 10px 10px 10px 5px;
 	background-color: #E7E8EE;
 	border: 1px solid #E7E8EE;
