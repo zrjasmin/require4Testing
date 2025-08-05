@@ -1,15 +1,12 @@
 package com.require4testing.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import com.require4testing.service.UserService;
+
 
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PatchMapping;
 
 import com.require4testing.repository.AnforderungRepository;
 import com.require4testing.repository.KriteriumRepository;
-import com.require4testing.repository.UserRepository;
 import com.require4testing.dto.AnforderungDto;
 import com.require4testing.dto.KriteriumDto;
 import com.require4testing.model.Anforderung;

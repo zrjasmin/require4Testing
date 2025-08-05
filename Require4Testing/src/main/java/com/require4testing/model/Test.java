@@ -37,7 +37,7 @@ public class Test {
     private User ersteller;
    
     
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "anf_id", referencedColumnName = "id")
     private Anforderung anforderung;
    

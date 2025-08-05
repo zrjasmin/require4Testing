@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.require4testing.model.Kriterium;
-
 import javax.persistence.*;
 
 @Entity
@@ -42,6 +40,7 @@ public class Anforderung {
     public Anforderung(String title, String beschreibung) {
         this.setTitle(title);
         this.setBeschreibung(beschreibung);
+       
    
     }
 
