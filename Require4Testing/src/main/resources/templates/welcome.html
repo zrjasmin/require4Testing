@@ -7,8 +7,9 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 	    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+	    <link rel="stylesheet" th:href="@{/css/welcome.css}"/>
 	 </head>
-	 <body>
+	 <body class="welcome-body">
 	     <div class="welcome-container">
 	     	<p class="welcome-text">Willkommen bei Require4Testing</p>
 	     	<h1 class="welcome-heading">Wähle deine Nutzer-Rolle</h1>
@@ -19,9 +20,9 @@
 	     		<div th:each="user : ${users}" class="user-info" th:data-user-id="${user.id}">
 	     			<img th:src="@{${user.profileImagePath}}"/>
 	     			<div class="user-text">
-		     			<h3 th:text="${user.name}"></h3>
-						<div th:each="r : ${user.roles}" class="roles">
-							<p th:text="${r.name}"></p>
+		     			<h3 th:text="${user.vorname} + ' '+ ${user.name}"></h3>
+						<div class="roles">
+							<p th:each="r : ${user.roles}" th:text="${r.name}"></p>
 						</div>
 					</div>
 	     			
