@@ -22,7 +22,7 @@ public class Anforderung {
     private String title;
     @Size(max = 1000, message = "Beschreibung darf maximal 1000 Zeichen haben.")
     private String beschreibung;
-    private String prioritaet;
+   
     @Size(max = 100, message = "Quelle darf maximal 100 Zeichen haben.")
     private String quelle;
     @Size(max = 1000, message = "Notizen dürfen maximal 1000 Zeichen haben.")
@@ -31,6 +31,8 @@ public class Anforderung {
     @Enumerated(EnumType.STRING)
     private AnfKategorie kategorie;
    
+    @Enumerated(EnumType.STRING)
+    private Prioritaet prioritaet;
     
     @ManyToOne
     @JoinColumn(name="ersteller_id")
@@ -79,11 +81,11 @@ public class Anforderung {
 
 	
 
-	public String getPrioritaet() {
+	public Prioritaet getPrioritaet() {
 		return prioritaet;
 	}
 
-	public void setPrioritaet(String prioritaet) {
+	public void setPrioritaet(Prioritaet prioritaet) {
 		this.prioritaet = prioritaet;
 	}
 	

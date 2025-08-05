@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.require4testing.model.AnfKategorie;
+import com.require4testing.model.Prioritaet;
 
 
 
@@ -13,7 +14,7 @@ public class AnforderungDto {
 	private Long id;
     private String title;
     private String beschreibung;
-    private String priotiät;
+    private Prioritaet prioritaet;
     private String quelle;
     private String notizen;
     private AnfKategorie kategorie;
@@ -47,12 +48,12 @@ public class AnforderungDto {
 		this.beschreibung = beschreibung;
 	}
 
-	public String getPriotiät() {
-		return priotiät;
+	public Prioritaet getPrioritaet() {
+		return prioritaet;
 	}
 
-	public void setPriotiät(String priotiät) {
-		this.priotiät = priotiät;
+	public void setPrioritaet(Prioritaet prioritaet) {
+		this.prioritaet = prioritaet;
 	}
 
 

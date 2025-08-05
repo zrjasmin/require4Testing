@@ -15,7 +15,13 @@
 		    		</div>
 		    		<div>
 			    		<label for="priotiät">Priorität:</label>
-			    		<input id="priotiät" th:field="*{prioritaet}" ></input>
+			    		<select th:field="*{prioritaet}" id="priotiät">
+					        <option value="" selected>Bitte wählen</option>
+					        <option th:each="p : ${prioritaeten}"
+					                th:value="${p}"
+					                th:text="${p.displayName}">
+					        </option>
+			    		</select>
 		    		</div>
 		    		<div>
 			    		<label for="kategorie">Katgegorie:</label>
@@ -36,13 +42,13 @@
 	       			<label for="beschreibung">Beschreibung:</label>
 	       			
 			    	<textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
-			    	<div th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}"></div>
+			    	<div th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}" class="error"></div>
 					
 					
 					<label for="quelle">Quelle der Anforderung:</label>
 					
 				    <input type="text" id="quelle" th:field="*{quelle}"  />
-				    
+				    <div th:if="${#fields.hasErrors('quelle')}" th:errors="*{quelle}" class="error"></div>
 				    <br/>
 				    
 				    <label for="notizen">weitere Notizen:</label>

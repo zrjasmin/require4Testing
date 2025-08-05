@@ -24,7 +24,15 @@
 	   
 	   				<div>
 			    		<label for="priotiät">Priorität:</label>
-			    		<input id="priotiät" th:field="*{priotiät}" ></input>
+			    		
+			    		
+			    		<select th:field="*{prioritaet}" id="priotiät">
+					        <option value="" selected>Bitte wählen</option>
+					        <option th:each="p : ${prioritaeten}"
+					                th:value="${p}"
+					                th:text="${p.displayName}">
+					        </option>
+			    		</select>
 			    	</div>
 			    	<div>
 			    		<label for="kategorie">Katgegorie:</label>

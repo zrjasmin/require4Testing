@@ -85,7 +85,7 @@ public class AnforderungService {
 		dto.setId(anf.getId());
 		dto.setTitle(anf.getTitle());
 		dto.setBeschreibung(anf.getBeschreibung());
-		dto.setPriotiät(anf.getPrioritaet());
+		dto.setPrioritaet(anf.getPrioritaet());
 		dto.setKategorie(anf.getKategorie());
 		dto.setQuelle(anf.getQuelle());
 		dto.setNotizen(anf.getNotizen());
@@ -112,7 +112,7 @@ public class AnforderungService {
 		
 		bestehendeAnf.setTitle(anfDto.getTitle());
 		bestehendeAnf.setBeschreibung(anfDto.getBeschreibung());
-		bestehendeAnf.setPrioritaet(anfDto.getPriotiät());
+		bestehendeAnf.setPrioritaet(anfDto.getPrioritaet());
 		bestehendeAnf.setKategorie(anfDto.getKategorie());
 		bestehendeAnf.setQuelle(anfDto.getQuelle());
 		bestehendeAnf.setNotizen(anfDto.getNotizen());
