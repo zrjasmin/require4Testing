@@ -27,7 +27,7 @@ public class UserController {
 	private UserService service;
 	@Autowired
 	private UserRepository repository;
-	
+	private  UtilController util = new UtilController();
 	
 	@GetMapping("")
 	public String loadSelectForm(Model model) {
@@ -40,6 +40,12 @@ public class UserController {
 		//bearbeiten
 		return "welcome";
 		
+	}
+	
+	@GetMapping("/dashboard")
+	public String showDashboard(Model model) {
+		util.setPageModelAttributes(model, "Startseite", "dashboard", "", "/css/uebersicht.css", "");
+		return "layout";
 	}
 
 	
