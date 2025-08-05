@@ -56,7 +56,7 @@
 					   	<div id="stepContainer" >
 					    	<div class="schritte dynamicInput"  th:each="schritt, iterStat : *{testschritte}"  draggable="true">
 						    	<input type="hidden" th:field="*{testschritte[__${iterStat.index}__].id}"/>
-						        <input type="hidden" th:value="${test.testschritte[__${iterStat.index}__].stepNumber}" class="schritt"/>
+						        <input type="hidden" th:value="*{testschritte[__${iterStat.index}__].stepNumber}" class="schritt"/>
 						        <input type="text" th:field="*{testschritte[__${iterStat.index}__].beschreibung}"  class="schrittvalue" oninput="updateReihenfolge()"/>
 					       		<button type="button" onclick="deleteSchritt(this.parentElement)"><i class="fa-solid fa-trash"></i></button>
 					    	</div>
@@ -64,7 +64,7 @@
 						
 			
 		   				
-						<button type="button" onclick="hinzufuegenKriterium()" id="addStepButton" value="hinzufuegen" class="schrittBtn customBtn">
+						<button type="button" id="addStepButton" value="hinzufuegen" class="schrittBtn customBtn">
 						<i class="fa-solid fa-plus"></i>
 						Neuen Schritt hinzufügen</button>
 						<input type='hidden' id='reihenfolge' name='reihenfolge'/>

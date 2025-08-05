@@ -7,6 +7,7 @@ let existingInputs = 0;
 function updateReihenfolge() {
 	let schritteValue = Array.from(container.children).map(el => el.querySelector('.schritt').value);
 	const reihenfolgeInput = document.getElementById("reihenfolge");		
+	
 	reihenfolgeInput.value = JSON.stringify(schritteValue);
 	console.log(reihenfolgeInput.value);
 	}

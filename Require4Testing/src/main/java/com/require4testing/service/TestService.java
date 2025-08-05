@@ -120,19 +120,26 @@ public class TestService {
 		dto.setNotizen(test.getNotizen());
 		
 		List<TestschrittDto> schritteDtos = new ArrayList<>();
-		for(Testschritt schritt : test.getTestschritte()) {
+		List<Testschritt> sortierteSchritte = schrittRepository.findByTestOrderByStepNumberAsc(test);
+		
+		
+		
+		for(Testschritt schritt :sortierteSchritte) {
+			System.out.println(schritt.getStepNumber() +" "+ schritt.getBeschreibung());
 			TestschrittDto schrittDto = new TestschrittDto();
 			schrittDto.setId(schritt.getId());
 			
 			schrittDto.setBeschreibung(schritt.getBeschreibung());
 			schrittDto.setStepNumber(schritt.getStepNumber());
 			schritteDtos.add(schrittDto);
+			System.out.println(schrittDto.getStepNumber() +" "+ schrittDto.getBeschreibung());
 		}
+		
 		dto.setTestschritte(schritteDtos);
 		
 		return dto;
     }
-    
+   
     
     public void neuenTestSpeichern(Test test, String reihenfolge, Long erstellerId) {
     	if(reihenfolge != "") {
@@ -265,11 +272,11 @@ public class TestService {
     	 try {
 			 if(reihenfolgeJSON != "" && reihenfolgeJSON!=null) {
 				 List<String> stepValues = mapper.readValue(reihenfolgeJSON, new TypeReference<List<String>>() {});;
-				 
+				 System.out.println("reihenfolgeJSon " + reihenfolgeJSON);
 				 int i = 1;
 				 for(String s : stepValues) {
 					Integer intS = Integer.parseInt(s);
-	             	System.out.println(intS);
+	             	//System.out.println("int S "+ intS);
 
 	             	//
 					 if(idZuSchrittNummer.containsKey(intS)) {
@@ -277,9 +284,10 @@ public class TestService {
 						 Optional<Testschritt> optSchritt = schrittRepository.findById(schrittId);
 						 if(optSchritt.isPresent()) {
 							 Testschritt schritt  = optSchritt.get();
-							
+							// System.out.println("schritt: "+ schritt + "hatte nummer: " + schritt.getStepNumber());
+							// System.out.println("schritt: "+ schritt + "hat nun nummer: " + i);
 							 schritt.setStepNumber(i);
-					
+							// System.out.println("neue Schrittnummer "+ i);
 							 i++; 
 						 }
 						
