@@ -162,28 +162,28 @@ public class AnforderungService {
 		return k;
 	}
     
-    public void saveNewAnf(Anforderung anf, Long erstellerId) {
+    public void saveNewAnf(AnforderungDto anf, Long erstellerId) {
     	Anforderung anforderung = new Anforderung();
     	User ersteller = userService.findById(erstellerId);
         anforderung.setErsteller(ersteller);
         
         
-       /* anforderung.setTitle(dto.getTitle());
-        anforderung.setBeschreibung(dto.getBeschreibung());
-        anforderung.setPrioritaet(dto.getPrioritaet());
-        anforderung.setKategorie(dto.getKategorie());
-        anforderung.setQuelle(dto.getQuelle());
-		anforderung.setNotizen(dto.getNotizen());
-      */
+        anforderung.setTitle(anf.getTitle());
+        anforderung.setBeschreibung(anf.getBeschreibung());
+        anforderung.setPrioritaet(anf.getPrioritaet());
+        anforderung.setKategorie(anf.getKategorie());
+        anforderung.setQuelle(anf.getQuelle());
+		anforderung.setNotizen(anf.getNotizen());
+      
 		
 		//bidrektionale Beziehung setzen
-		for(Kriterium k:anf.getKriterien()) {
+		for(KriteriumDto k:anf.getKriterien()) {
 			//Inhalt des Kriterium prüfen
 			if(k.getBeschreibung() !="" || k.getBeschreibung()!= null) {
-				//Kriterium kriterium = new Kriterium();
-				//kriterium.setBeschreibung(k.getBeschreibung());
-				k.setAnforderung(anforderung);
-				//anforderung.getKriterien().add(kriterium);
+				Kriterium kriterium = new Kriterium();
+				kriterium.setBeschreibung(k.getBeschreibung());
+				kriterium.setAnforderung(anforderung);
+				anforderung.getKriterien().add(kriterium);
 			} else {
 				anforderung.getKriterien().remove(k);
 			}

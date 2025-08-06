@@ -90,10 +90,10 @@ public class AnforderungController {
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
 		model.addAttribute("kategorien", AnfKategorie.values());
 		model.addAttribute("prioritaeten",Prioritaet.values());
-		model.addAttribute("anforderung", new AnforderungDto());
+		model.addAttribute("dto", new AnforderungDto());
 		model.addAttribute("anforderung", new Anforderung());
 		
-		util.setPageModelAttributes(model, "Anforderungen: Neu", "anforderung_neu", "/script.js","/css/form.css", "/css/anforderung.css");
+		util.setPageModelAttributes(model, "Anforderungen: Neu", "anforderung_form", "/script.js","/css/form.css", "/css/anforderung.css");
 
 		return "layout";
 	}
@@ -112,7 +112,7 @@ public class AnforderungController {
 		
 		AnforderungDto dto = service.convertToDto(anforderung);
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
-		model.addAttribute("editdto",dto);
+		model.addAttribute("dto",dto);
 		model.addAttribute("kategorien", AnfKategorie.values());
 		model.addAttribute("prioritaeten",Prioritaet.values());
 		
@@ -123,59 +123,53 @@ public class AnforderungController {
 	}
 	
 	
-	//Handhabt die Navigation nach Updaten und Löschen
+		//Handhabt die Navigation nach Updaten und Löschen
 		@PostMapping("/handleForm")
 		public String handleForm( 
-				@ModelAttribute @Valid AnforderungDto anfDto, 
+				@ModelAttribute("dto") @Valid AnforderungDto anfDto, 
 	    		BindingResult result,
 	    		@RequestParam String action,
 	    		HttpSession session,
 	    		Model model,
 	    		@RequestParam("erstellerId") Long erstellerId) {
 			
+			//Validierung der Eingabe
 			if(result.hasErrors()) {
-				System.out.println("Fehler update");
-
+				
 				userService.hasPermision(session, "create_requirement");
 				model.addAttribute("currentUser", userService.getCurrentUser(session));
-				model.addAttribute("editdto", anfDto);
+				model.addAttribute("dto", anfDto);
 				model.addAttribute("prioritaeten",Prioritaet.values());
 				model.addAttribute("kategorien", AnfKategorie.values());
+				if(anfDto.getId()!= null ) {
+					Anforderung anforderung = service.getAnfById(anfDto.getId());
+					model.addAttribute("anforderung", anforderung);
+				}
+				
 				util.setPageModelAttributes(model, "Anforderungen: bearbeiten", "anforderung_form", "/script.js","/css/form.css", "/css/anforderung.css");
 				
-				 result.getFieldErrors().forEach(error -> {
-				        System.out.println("Feld: " + error.getField() + " - " + error.getDefaultMessage());
-				    });
-				
 				return"layout";
-				
 			}
-			return "redirect:/anforderung/all";
+		
 			
-		/*	if("speichern".equals(action)) {
-				//Validierung der Eingaben
-				
-				
+			if("speichern".equals(action)) {
 				//Neue Anforderung erstellen
 				if(anfDto.getId() == null) {
 					
-					
-					//saveAnforderung(anfDto,result,erstellerId, session, model);
+					saveAnforderung(anfDto, erstellerId);
 					 
 				//Anforderung update
 				} else if(anfDto.getId() != null) {
-					
-					
+		
 					updateAnf(anfDto.getId(), anfDto, model);
 				}
 				
-			
 			//Anforderung löschen
 			} else if("loeschen".equals(action)) {
 				deleteAnf(anfDto.getId(),session);
 			}
 			return "redirect:/anforderung/all";
-			*/
+			
 		}
 		
 	
@@ -191,44 +185,14 @@ public class AnforderungController {
 		return "redirect:/anforderung/detail/"+ id;
     }
 	
-	
 
-
-	
-	
 	
 	@PostMapping("/save")
     public String saveAnforderung( 
-    		@ModelAttribute @Valid Anforderung anf, 
-    		BindingResult result,
-    		@RequestParam("erstellerId") Long erstellerId,
-    		HttpSession session,
-    		Model model) {
-    	
-		
-    	if(result.hasErrors()) {
-			System.out.println("Fehler update");
-
-			userService.hasPermision(session, "create_requirement");
-			model.addAttribute("currentUser", userService.getCurrentUser(session));
-			model.addAttribute("anforderung", anf);
-			
-			
-			model.addAttribute("prioritaeten",Prioritaet.values());
-			model.addAttribute("kategorien", AnfKategorie.values());
-			util.setPageModelAttributes(model, "Anforderungen: Neu", "anforderung_neu", "/script.js","/css/form.css", "/css/anforderung.css");
-			
-			 result.getFieldErrors().forEach(error -> {
-			        System.out.println("Feld: " + error.getField() + " - " + error.getDefaultMessage());
-			    });
-			
-			return"layout";
-			
-		}
-		service.saveNewAnf(anf, erstellerId);
-		
-		
-		
+    		AnforderungDto dto, 
+    		@RequestParam("erstellerId") Long erstellerId
+    		) {
+		service.saveNewAnf(dto, erstellerId);
         return "redirect:/anforderung/all";
      
     }
@@ -240,10 +204,6 @@ public class AnforderungController {
 		return "redirect:/anforderung/all";
 		
 	}
-	
-	
-	
-	
+
 	
 }
-

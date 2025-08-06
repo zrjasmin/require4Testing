@@ -2,14 +2,20 @@
        <h1>Anforderung - Neu</h1>
        
        
-       <form th:action="@{/anforderung/handleForm}" th:object="${editdto}" class="edit_form" method="post">
+       <form th:action="@{/anforderung/handleForm}" th:object="${dto}" class="edit_form" method="post">
        		<input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
-       		<input type="hidden" th:if="${editdto.id != null}" th:field="*{id}"/>
+       		<input type="hidden" th:if="${dto != null}" th:field="*{id}"/>
        	
        		<div class="form_flex">
        			<p class="form_description">Allgemeine Informationen</p>
        			<div class="input_container two-column">
-       			
+       				<div  th:if="${dto != null}">
+					    <p th:text="${anforderung.nr}" class="chip"></p>
+	   				</div>   				
+	   				<div class="creator"  th:if="${dto != null}">
+	   					<img th:src="@{${anforderung.ersteller.profileImagePath}}"/>
+	   					<p th:text="'erstellt von '+${anforderung.ersteller.vorname} "></p>
+			   		</div>  
        				<div>
 	       				<label for="title">Name:</label>
 			    		<input type="text" id="title" th:field="*{title}"/>
@@ -90,7 +96,8 @@
        			</ul>
        		</div>
        		<div class="float-right">
-       	
+       		 	<button th:if="${dto != null}" type="submit" class="secondaryBtn" name="action" value="loeschen" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
+
        		 	<button type="submit" class="primaryBtn" name="action" value="speichern">Anforderung speichern</button>
 			</div>
 		</form>
