@@ -1,7 +1,6 @@
 package com.require4testing.dto;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;

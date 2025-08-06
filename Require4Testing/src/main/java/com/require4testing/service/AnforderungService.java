@@ -90,8 +90,6 @@ public class AnforderungService {
 		dto.setQuelle(anf.getQuelle());
 		dto.setNotizen(anf.getNotizen());
 		
-		
-		
 		List<KriteriumDto> kriterienDto = new ArrayList<>();
 		if(anf.getKriterien() !=null) {
 			for(Kriterium k: anf.getKriterien()) {
@@ -164,16 +162,28 @@ public class AnforderungService {
 		return k;
 	}
     
-    public void saveNewAnf(Anforderung anforderung, Long erstellerId) {
-    	
+    public void saveNewAnf(Anforderung anf, Long erstellerId) {
+    	Anforderung anforderung = new Anforderung();
     	User ersteller = userService.findById(erstellerId);
         anforderung.setErsteller(ersteller);
-      
+        
+        
+       /* anforderung.setTitle(dto.getTitle());
+        anforderung.setBeschreibung(dto.getBeschreibung());
+        anforderung.setPrioritaet(dto.getPrioritaet());
+        anforderung.setKategorie(dto.getKategorie());
+        anforderung.setQuelle(dto.getQuelle());
+		anforderung.setNotizen(dto.getNotizen());
+      */
+		
 		//bidrektionale Beziehung setzen
-		for(Kriterium k:anforderung.getKriterien()) {
+		for(Kriterium k:anf.getKriterien()) {
 			//Inhalt des Kriterium prüfen
 			if(k.getBeschreibung() !="" || k.getBeschreibung()!= null) {
+				//Kriterium kriterium = new Kriterium();
+				//kriterium.setBeschreibung(k.getBeschreibung());
 				k.setAnforderung(anforderung);
+				//anforderung.getKriterien().add(kriterium);
 			} else {
 				anforderung.getKriterien().remove(k);
 			}
@@ -182,7 +192,7 @@ public class AnforderungService {
 		
 		speichereEntity(anforderung);
 		saveNumber(anforderung);
-		System.out.println("nach speicherung: "+anforderung.getNr());
+		
 
     }
     
@@ -194,7 +204,6 @@ public class AnforderungService {
 		   
 	   } 
 	   anf.setNr(formattedNumber);
-	   System.out.println(formattedNumber);
 	   
 	   speichereEntity(anf);
    }

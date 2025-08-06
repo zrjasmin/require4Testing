@@ -2,17 +2,19 @@
        <h1>Anforderung - Neu</h1>
        
        
-       <form th:action="@{/anforderung/save}" th:object="${anforderung}" class="edit_form" method="post">
+       <form th:action="@{/anforderung/handleForm}" th:object="${editdto}" class="edit_form" method="post">
        		<input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
-       		
+       		<input type="hidden" th:if="${editdto.id != null}" th:field="*{id}"/>
+       	
        		<div class="form_flex">
        			<p class="form_description">Allgemeine Informationen</p>
        			<div class="input_container two-column">
+       			
        				<div>
 	       				<label for="title">Name:</label>
-			    		<input type="text" id="title" th:field="*{title}" />
+			    		<input type="text" id="title" th:field="*{title}"/>
 			    		<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></div>
-		    		</div>
+					</div>
 		    		<div>
 			    		<label for="priotiät">Priorität:</label>
 			    		<select th:field="*{prioritaet}" id="priotiät">
@@ -63,7 +65,7 @@
        		<div class="form_flex">
        			<p class="form_description">Validierung & Bezug</p>
        			<div class="input_container">
-       				<label for="neuesKriterium">Neues Akzeptanzkriterien</label>
+       				<label>Neues Akzeptanzkriterien</label>
 				   	<div id="kriteriencontainer">
 				   		<div th:each="kriterium, iterStat: *{kriterien}"  class="kriterium dynamicInput">
 					       
@@ -82,8 +84,14 @@
 					
        			</div>
        		</div>
+       		<div th:if="${#fields.hasAnyErrors()}">
+       			<ul>
+       				<li th:each="err: ${#fields.errors('*')}"></li>
+       			</ul>
+       		</div>
        		<div class="float-right">
-       		 <button type="submit" class="primaryBtn">Anforderung speichern</button>
+       	
+       		 	<button type="submit" class="primaryBtn" name="action" value="speichern">Anforderung speichern</button>
 			</div>
 		</form>
 		
