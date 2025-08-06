@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -20,7 +21,7 @@ public class Anforderung {
     @NotBlank(message = "Der Titel darf nicht leer sein.")
     @Size(min = 3, max = 100, message = "Der Titel muss zwischen 3 und 100 Zeichen lang sein.")
     private String title;
-    @Size(max = 1000, message = "Beschreibung darf maximal 1000 Zeichen haben.")
+    @Size(max =1000, message = "Beschreibung darf maximal 1000 Zeichen haben.")
     private String beschreibung;
    
     @Size(max = 100, message = "Quelle darf maximal 100 Zeichen haben.")
@@ -31,6 +32,7 @@ public class Anforderung {
     @Enumerated(EnumType.STRING)
     private AnfKategorie kategorie;
    
+    @NotNull(message = "Priotität muss gewählt werden")
     @Enumerated(EnumType.STRING)
     private Prioritaet prioritaet;
     

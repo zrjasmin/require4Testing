@@ -20,6 +20,7 @@
 			   		<div>
 		   				<label for="title">Titel:</label>
 					    <input type="text" id="title" th:field="*{title}" required />
+					    <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></div>
 	   				</div>
 	   
 	   				<div>
@@ -33,6 +34,8 @@
 					                th:text="${p.displayName}">
 					        </option>
 			    		</select>
+			    		<div th:if="${#fields.hasErrors('prioritaet')}" th:errors="*{prioritaet}" class="error"></div>
+			    		
 			    	</div>
 			    	<div>
 			    		<label for="kategorie">Katgegorie:</label>
@@ -54,13 +57,16 @@
        			<div class="input_container">
        				<label for="beschreibung">Beschreibung:</label>
 			    	<textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+			    	<div th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}" class="error"></div>
 					
 					<label for="quelle">Quelle der Anforderung:</label>
 				    <input type="text" id="quelle" th:field="*{quelle}"  />
+				    <div th:if="${#fields.hasErrors('quelle')}" th:errors="*{quelle}" class="error"></div>
 				    
 				    
 				    <label for="notizen">weitere Notizen:</label>
 		   			<textarea id="notizen" th:field="*{notizen}" ></textarea>
+		   			<div th:if="${#fields.hasErrors('notizen')}" th:errors="*{notizen}" class="error"></div>
 		  		 </div>
 			</div>
 		   
