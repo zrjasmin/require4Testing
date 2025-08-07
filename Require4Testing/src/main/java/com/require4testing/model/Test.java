@@ -8,6 +8,9 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,10 +28,16 @@ public class Test {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nr;
+    @NotBlank(message = "Der Titel darf nicht leer sein.")
+    @Size(min = 3, max = 100, message = "Der Titel muss zwischen 3 und 100 Zeichen lang sein.")
     private String title;
+    @Size(max =1000, message = "Beschreibung darf maximal 1000 Zeichen haben.")
     private String beschreibung;
+    @Size(max =200, message = "Erwartetes Ergebnis darf maximal 200 Zeichen haben.")
     private String erwartetesErgebnis;
+    @Size(max =1000, message = "Testdaten darf maximal 1000 Zeichen haben.")
     private String testdaten;
+    @Size(max =1000, message = "Notizen darf maximal 1000 Zeichen haben.")
     private String notizen;
     
     
@@ -36,7 +45,7 @@ public class Test {
     @JoinColumn(name="ersteller_id")
     private User ersteller;
    
-    
+    @NotNull(message = "Anforderung muss gewählt werden")
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "anf_id", referencedColumnName = "id")
     private Anforderung anforderung;

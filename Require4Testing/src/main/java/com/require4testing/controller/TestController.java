@@ -12,10 +12,12 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -72,10 +74,11 @@ public class TestController {
 		userService.hasPermision(session, "create_test");
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
 		
+		model.addAttribute("testDto", new TestDto());
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anfService.alleEntities();
 		model.addAttribute("anforderungen", anforderungen);
-		util.setPageModelAttributes(model, "Test: Neu", "test_neu", "/js/testschritt.js","/css/form.css", "");
+		util.setPageModelAttributes(model, "Test: Neu", "test_bearbeiten", "/js/testschritt.js","/css/form.css", "");
 		return "layout";
 	}
 	
@@ -120,28 +123,56 @@ public class TestController {
 	
 	
 	
-	@PostMapping("/handleForm/{id}")
-	public String handleForm(@PathVariable Long id, 
-    		@ModelAttribute TestDto testDto,
-    		@RequestParam String action,
+	@PostMapping("/handleForm")
+	public String handleForm(
+    		@ModelAttribute("testDto") @Valid TestDto testDto,
+    		BindingResult result,
+    		@RequestParam String action, 
     		@RequestParam("reihenfolge") String reihenfolgeJSON,
+			@RequestParam("erstellerId") Long erstellerId,
     		HttpSession session,
     		Model model) {
 		
+		if(result.hasErrors()) {
+			System.out.println("fehler");
+			userService.hasPermision(session, "create_test");
+			model.addAttribute("currentUser", userService.getCurrentUser(session));
+			
+			model.addAttribute("testDto", testDto);
+			List<Anforderung> anforderungen = anfService.alleEntities();
+			model.addAttribute("anforderungen", anforderungen);
+			
+			if(testDto.getId() != null) {
+				Test test = service.getTestById(testDto.getId());
+				model.addAttribute("test", test);
+			}
+			util.setPageModelAttributes(model, "Test: Neu", "test_bearbeiten", "/js/testschritt.js","/css/form.css", "");
+			return "layout";
+		}
+		
 		if("speichern".equals(action)) {
-			updateTest(id,model, testDto, reihenfolgeJSON);	
+			if(testDto.getId() == null) {
+				System.out.println("speichern");
+				neuenTestSpeichern(testDto, reihenfolgeJSON, erstellerId);
+			} else {
+				System.out.println("update");
+				updateTest(testDto.getId(), model, testDto, reihenfolgeJSON);
+			}
+			
+				
 		} else if("loeschen".equals(action)) {
-			deleteTest(id,session, model);
+			deleteTest(testDto.getId(),session, model);
 		}
 		return "redirect:/test/all";
 	}
 	
 	@PostMapping("/save") 
-	public String neuenTestSpeichern(@ModelAttribute Test test, 
+	public String neuenTestSpeichern(@ModelAttribute @Valid TestDto testDto,
 			@RequestParam("reihenfolge") String reihenfolgeJSON, 
-			@RequestParam("erstellerId") Long erstellerId) {
-				
-		service.neuenTestSpeichern(test, reihenfolgeJSON, erstellerId);
+			@RequestParam("erstellerId") Long erstellerId
+		) {
+		
+		service.neuenTestSpeichern(testDto, reihenfolgeJSON, erstellerId);
       
 		return "redirect:/test/all";
 	}

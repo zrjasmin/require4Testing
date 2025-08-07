@@ -2,20 +2,23 @@
 		<h1>Test bearbeiten</h1>
 		
    		
-   		<form action="#" th:action="@{/test/handleForm/{id}(id=${test.id})}" class="edit_form" th:object="${testDto}" method="post">
+   		<form action="#" th:action="@{/test/handleForm}" class="edit_form" th:object="${testDto}" method="post">
+   			<input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
+   			<input type="hidden" th:if="${testDto.id != null}" th:field="*{id}"/>
+   			
    			<div class="form_flex">
    				<p class="form_description">Allgemeine Informationen</p>
    				<div class="input_container two-column">
-	   				<div>
+	   				<div th:if="${testDto.id != null}">
 					    <p th:text="${test.nr}" class="chip"></p>
 	   				</div>   				
-	   				<div class="creator">
-	   					<img th:src="@{${test.ersteller.profileImagePath}}"/>
-	   					<p th:text="'erstellt von '+${test.ersteller.vorname} "></p>
+	   				<div class="creator"  th:if="${testDto.id != null}">
+	   					
 			   		</div>  				
 			   		<div>
 		   				<label for="title">Titel:</label>
-					    <input type="text" id="title" th:field="*{title}" required />
+					    <input type="text" id="title" th:field="*{title}" />
+						<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></div>
 	   				</div>
 			    	<div>
 			    		<label for="anforderung">Anforderung auswählen:</label>
@@ -26,6 +29,7 @@
 					                th:text="${a.nr} + ' '+${a.title}">
 					        </option>
 					    </select>
+					    <div th:if="${#fields.hasErrors('anforderungId')}" th:errors="*{anforderungId}" class="error"></div>
 			    	</div>
 		    	</div>
 			</div>
@@ -36,14 +40,17 @@
        			<p class="form_description">Beschreibung & Kontext</p>
        			<div class="input_container">
        				<label for="beschreibung">Beschreibung:</label>
-			    	<textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+			    	<textarea id="beschreibung" th:field="*{beschreibung}"></textarea>
+			    	<div th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}" class="error"></div>
 					
 					<label for="testdaten">Testdaten:</label>
 				    <input type="text" id="testdaten" th:field="*{testdaten}"  />
+				    <div th:if="${#fields.hasErrors('testdaten')}" th:errors="*{testdaten}" class="error"></div>
 				    
 				    
 				    <label for="notizen">weitere Notizen:</label>
 		   			<textarea id="notizen" th:field="*{notizen}" ></textarea>
+		   			<div th:if="${#fields.hasErrors('notizen')}" th:errors="*{notizen}" class="error"></div>
 		  		 </div>
 			</div>
 		   
@@ -71,12 +78,13 @@
 						
 						<label for="ergebnis">Erwartetes Ergebnis:</label>
 		    			<textarea id="ergebnis" th:field="*{erwartetesErgebnis}"></textarea>
+		    			<div th:if="${#fields.hasErrors('erwartetesErgebnis')}" th:errors="*{erwartetesErgebnis}" class="error"></div>
 						
 	       			</div>
 	       		</div>
    		
 	   		  <div class="float-right">
-			 	<button type="submit" class="secondaryBtn" name="action" value="loeschen" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
+			 	<button th:if="${testDto.id != null}" type="submit" class="secondaryBtn" name="action" value="loeschen" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
 			    <button type="submit" class="primaryBtn"  name="action" value="speichern">Testfall speichern</button>
 			    
 			   </div>

@@ -141,30 +141,33 @@ public class TestService {
     }
    
     
-    public void neuenTestSpeichern(Test test, String reihenfolge, Long erstellerId) {
-    	if(reihenfolge != "") {
-			List<Testschritt> sortierteSchritte = assignStepNumber(test, reihenfolge);
-			if(test.getTestschritte() != null) {
-				test.getTestschritte().clear();
-			}
-	        test.setTestschritte(sortierteSchritte);
-		}
+    public void neuenTestSpeichern(TestDto dto, String reihenfolge, Long erstellerId) {
+    	Test test = new Test();
     	
-    	  User ersteller = userService.findById(erstellerId);
-          test.setErsteller(ersteller);
+    	
+	    User ersteller = userService.findById(erstellerId);
+        test.setErsteller(ersteller);
+        
+        test.setTitle(dto.getTitle());
+        test.setBeschreibung(dto.getBeschreibung());
+        test.setErwartetesErgebnis(dto.getErwartetesErgebnis());
+		test.setTestdaten(dto.getTestdaten());
+		test.setNotizen(dto.getNotizen());
           
     	
-    	Long anfID = test.getAnforderung().getId();
+    	
 		
-		Anforderung anf = anfService.getAnfById(anfID);
+		Anforderung anf = anfService.getAnfById(dto.getAnforderungId());
 		
 		test.setAnforderung(anf);
 		repository.save(test);
+		
+		assignStepNumber(test, dto, reihenfolge);
 		saveNumber(test);
     	
     }
     
-    public List<Testschritt> assignStepNumber(Test test, String schrittReihenfolge) {
+    public void assignStepNumber(Test test, TestDto testDto, String schrittReihenfolge) {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Testschritt> sortierteSchritte = new ArrayList<>();
 		try {
@@ -178,15 +181,17 @@ public class TestService {
             	System.out.println("Schritt: " +i);
             	int stellenIndex = Integer.parseInt(s);
             	// sucht Testschritt anhand der Reihenfolge
-            	Testschritt currentSchritt = test.getTestschritte().get(stellenIndex);
+            	TestschrittDto schrittDto = testDto.getTestschritte().get(stellenIndex);
             	
             	//prüft auf Inhalt des Schrittes
-            	if(currentSchritt.getBeschreibung() != "") {
-            		sortierteSchritte.add(currentSchritt);
-                	System.out.println(currentSchritt.getBeschreibung());
-                	//setzt die SchrittNumme richtig
-                	currentSchritt.setStepNumber(i);
-                	currentSchritt.setTest(test);
+            	if(schrittDto.getBeschreibung() != "") {
+            		Testschritt schritt = new Testschritt();
+            		schritt.setBeschreibung(schrittDto.getBeschreibung());
+            		schritt.setStepNumber(i);
+            		schritt.setTest(test);
+            		
+            		sortierteSchritte.add(schritt);
+  
                 	i++;
             	}
             	
@@ -197,7 +202,7 @@ public class TestService {
 			 e.printStackTrace();
 		}
 		
-		return sortierteSchritte;
+		test.setTestschritte(sortierteSchritte);;
 	}
     
     

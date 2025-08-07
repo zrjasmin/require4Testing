@@ -10,7 +10,9 @@
        			<div class="input_container two-column">
        				<div>
 	       				<label for="title">Name:</label>
-			    		<input type="text" id="title" th:field="*{title}" required />
+			    		<input type="text" id="title" th:field="*{title}" />
+			    		<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></div>
+			    		
 		    		</div>
 		    		<div>
 	       				<label for="verlinkteAnf">Verlinkte Anforderung:</label>
@@ -21,6 +23,7 @@
 					                th:text="${a.title}">
 					        </option>
 					    </select>
+					    <div th:if="${#fields.hasErrors('anforderung')}" th:errors="*{anforderung}" class="error"></div>
 		    		</div>
 		    		
        			</div>
@@ -33,17 +36,20 @@
        			<p class="form_description">Beschreibung & Kontext</p>
        			<div class="input_container">
 	       			<label for="beschreibung">Beschreibung:</label>
-			    	<textarea id="beschreibung" th:field="*{beschreibung}" required></textarea>
+			    	<textarea id="beschreibung" th:field="*{beschreibung}"></textarea>
+			    	<div th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}" class="error"></div>
 			    	
 					
 					
 					<label for="quelle">Testdaten:</label>
 				    <input type="text" id="quelle" th:field="*{testdaten}"  />
+				    <div th:if="${#fields.hasErrors('testdaten')}" th:errors="*{testdaten}" class="error"></div>
 				    
 				    <br/>
 				    
 				    <label for="notizen">weitere Notizen:</label>
 		   			<textarea id="notizen" th:field="*{notizen}" ></textarea>
+		   			<div th:if="${#fields.hasErrors('notizen')}" th:errors="*{notizen}" class="error"></div>
        			</div>
        		</div>
        	    
@@ -64,6 +70,7 @@
 				   	
 		   			<label for="ergebnis">Erwartetes Ergebnis:</label>
 		    		<textarea id="ergebnis" th:field="*{erwartetesErgebnis}"></textarea>
+		    		<div th:if="${#fields.hasErrors('erwartetesErgebnis')}" th:errors="*{erwartetesErgebnis}" class="error"></div>
        			</div>
        		</div>
 		    

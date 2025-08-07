@@ -2,21 +2,29 @@ package com.require4testing.dto;
 
 import java.util.List;
 
-import com.require4testing.model.Anforderung;
-import com.require4testing.model.Testschritt;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+
 import com.require4testing.model.User;
 
 public class TestDto {
 	
 	 private Long id;
+	 @NotBlank(message = "Der Titel darf nicht leer sein.")
+	 @Size(min = 3, max = 100, message = "Der Titel muss zwischen 3 und 100 Zeichen lang sein.")
 	 private String title;
+	 @Size(max =1000, message = "Beschreibung darf maximal 1000 Zeichen haben.")
 	 private String beschreibung;
+	 @Size(max =200, message = "Erwartetes Ergebnis darf maximal 200 Zeichen haben.")
 	 private String erwartetesErgebnis;
+	 @Size(max =1000, message = "Testdaten darf maximal 1000 Zeichen haben.")
 	 private String testdaten;
 	 private User ersteller;
 	 private User tester;
 	 private Long anforderungId;
 	 private List<TestschrittDto> testschritte;
+	 @Size(max =1000, message = "Notizen darf maximal 1000 Zeichen haben.")
 	 private String notizen;
 	 
 	public Long getId() {
