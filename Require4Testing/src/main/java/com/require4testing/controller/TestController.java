@@ -78,7 +78,7 @@ public class TestController {
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anfService.alleEntities();
 		model.addAttribute("anforderungen", anforderungen);
-		util.setPageModelAttributes(model, "Test: Neu", "test_bearbeiten", "/js/testschritt.js","/css/form.css", "");
+		util.setPageModelAttributes(model, "Test: Neu", "test_bearbeiten", "","/css/form.css", "");
 		return "layout";
 	}
 	
@@ -96,7 +96,7 @@ public class TestController {
 		
 		
 		model.addAttribute("testNummer", service.generateTestNumber(test));
-		util.setPageModelAttributes(model, "Test: Detail", "test_detail", "/js/testschritt.js","/css/form.css", "");
+		util.setPageModelAttributes(model, "Test: Detail", "test_detail", "","/css/form.css", "");
 		return "layout";
 	}
 	
