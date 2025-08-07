@@ -63,13 +63,22 @@ public class TestlaufService {
 	
 	
 	
-	public void saveNewTestlauf(Testlauf testlauf, Long erstellerId, String verknüpfteTestId, Long testerId) {
+	public void saveNewTestlauf(TestlaufDto testlaufDto, Long erstellerId, String verknüpfteTestId, Long testerId) {
 		User ersteller = userService.findById(erstellerId);
+		Testlauf testlauf = new Testlauf();
+		
 		testlauf.setErsteller(ersteller);
-		System.out.println(testerId);
 		if(testerId != null) {
 			testlauf.setTester(userService.findById(testerId));
 		}
+		
+		
+		testlauf.setBeschreibung(testlaufDto.getBeschreibung());
+		testlauf.setKommentar(testlaufDto.getKommentar());
+		testlauf.setStatus(testlaufDto.getStatus());
+		testlauf.setTestumgebung(testlaufDto.getTestumgebung());
+		testlauf.setTitle(testlaufDto.getTitle());
+		
 		
 		testlauf.setTests(testService.findTestByString(verknüpfteTestId));
 		speichereEntity(testlauf);
@@ -101,11 +110,13 @@ public class TestlaufService {
 		for(Test test : testlauf.getTests()) {
 			testsDto.add(test.getId());
 		}
-		dto.setTests(testsDto);;
+		//dto.setTests(testsDto);;
 		 
 		return dto;
 		
 	}
+	
+	
 	
 	public Testlauf updateTestlauf(Long id, TestlaufDto testlaufDto, String testIds) {
 		Testlauf bestehenderTestlauf = getTestlaufById(id);

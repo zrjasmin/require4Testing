@@ -4,27 +4,32 @@
 		<h1>Testlauf erstellen</h1>
 	
 	
-	<form th:action="@{/testlauf/handleForm/{id}(id=${testlauf.id})}" th:object="${testlaufDto}" method="post" class="edit_form">
+	<form th:action="@{/testlauf/handleForm}" th:object="${testlaufDto}" method="post" class="edit_form">
+		 <input type="hidden" name="erstellerId" th:value="${currentUser.id}" />
+		 <input type="hidden" th:if="${testlaufDto.id != null}" th:field="*{id}"/>
+		 
 		
 		<div class="form_flex">
       			<p class="form_description">Allgemeine Informationen</p>
       			<div class="input_container two-column">
-      				<div>
+      				<div th:if="${testlaufDto.id != null}">
 					    <p th:text="${testlauf.nr}" class="chip"></p>
 	   				</div>   				
-	   				<div class="creator">
+	   				<div class="creator" th:if="${testlaufDto.id != null}">
 	   					<img th:src="@{${testlauf.ersteller.profileImagePath}}"/>
 	   					<p th:text="'erstellt von '+${testlauf.ersteller.vorname} "></p>
 			   		</div>  
       			
       				<div class="block">
 	       				<label for="title">Name:</label>
-			    		<input type="text" id="title" th:field="*{title}" required />
+			    		<input type="text" id="title" th:field="*{title}" />
+			    		<div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></div>
 	    			</div>
 	    		
 		    		<div class="block">
 	       				<label for="beschreibung">Beschreibung:</label>
 			    		<textarea type="text" id="beschreibung" th:field="*{beschreibung}" ></textarea>
+			    		<div th:if="${#fields.hasErrors('beschreibung')}" th:errors="*{beschreibung}" class="error"></div>
 		    		</div>
       			</div>
      		</div>
@@ -38,10 +43,12 @@
       				<div>
 	       				<label for="umgebung">Testumgebung:</label>
 			    		<textarea type="text" id="umgebung" th:field="*{testumgebung}"></textarea>
+			    		<div th:if="${#fields.hasErrors('testumgebung')}" th:errors="*{testumgebung}" class="error"></div>
 		    		</div>
 		    		<div>
 	       				<label for="kommentar">Kommentare:</label>
 			    		<textarea type="text" id="kommentar" th:field="*{kommentar}" ></textarea>
+			    		<div th:if="${#fields.hasErrors('kommentar')}" th:errors="*{kommentar}" class="error"></div>
 		    		</div>
       			</div>
      		</div>
@@ -97,13 +104,14 @@
       				</div>
       				</div>
       				<input type="hidden" id="checkedInputs" name="checkedInputs"/>
+      				
       			</div>
      		</div>
      		
      		
 			
 			<div class="float-right">
-			 	<button type="submit" class="secondaryBtn" name="action" value="loeschen" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
+			 	<button th:if="${testlaufDto.id != null}" type="submit" class="secondaryBtn" name="action" value="loeschen" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
 			    <button type="submit" class="primaryBtn"  name="action" value="speichern">Testfall speichern</button>
 			    
 			   </div>

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,11 +53,11 @@ public class TestlaufController {
 	public String showNeuForm(Model model, HttpSession session) {
 		userService.hasPermision(session, "create_testlauf");
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
-		model.addAttribute("testlauf", new Testlauf());
+		model.addAttribute("testlaufDto", new TestlaufDto());
 		model.addAttribute("status", service.alleStatus());
 		model.addAttribute("testerListe", userService.getAllOfRole("Tester:in"));
-		model.addAttribute("tests", testService.alleEntities());
-		util.setPageModelAttributes(model, "Testlauf: Neu", "testrun_neu", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
+		model.addAttribute("alleTests", testService.alleEntities());
+		util.setPageModelAttributes(model, "Testlauf: Neu", "testrun_form", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
 		
 		return "layout";
 	}
@@ -81,87 +82,104 @@ public class TestlaufController {
 		TestlaufDto dto = service.convertToDto(id);
 		model.addAttribute("currentUser", userService.getCurrentUser(session));
 		
-		
-		model.addAttribute("testlauf", service.getTestlaufById(id));
+		Testlauf testlauf = service.getTestlaufById(id);
+		model.addAttribute("testlauf", testlauf);
 		model.addAttribute("testlaufDto", dto);
 		
 		
 		model.addAttribute("status", service.alleStatus());
 		model.addAttribute("testerListe", userService.getAllOfRole("Tester:in"));
 		
-		
-		Set<Test> tests = new HashSet<>();
-		for(Long testId : dto.getTests()) {
-			Test test = testService.getTestById(testId);
-			tests.add(test);
+		System.out.println(dto.getId());
+		if(testlauf.getTests() != null) {
+			Set<Long> verküpfteIds = new HashSet<>();
+			for(Test test : testlauf.getTests()) {
+				verküpfteIds.add(test.getId());
+				
+			}
+			dto.setTestIds(verküpfteIds);
+			model.addAttribute("selectedTests",testlauf.getTests());
 		}
+		
+		
+		
 		model.addAttribute("alleTests", testService.alleEntities());
 
 		
-		model.addAttribute("selectedTests",tests);
 		
-		util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_edit", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
+		
+		util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_form", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
 		return "layout";
 	}
 	
-	@PostMapping("/handleForm/{id}")
-	public String handleForm(@PathVariable Long id, 
-    		@ModelAttribute TestlaufDto testlaufDto,
+	@PostMapping("/handleForm")
+	public String handleForm(
+    		@ModelAttribute("testlaufDto") @Valid TestlaufDto testlaufDto,
+    		BindingResult result,
     		@RequestParam String action,
     		@RequestParam("checkedInputs") String verknüpfteTestId,
-    		BindingResult result,
-    		
+    		@RequestParam("erstellerId") Long erstellerId,
+    		@RequestParam(name= "testerId", required = false) Long testerId,
     		HttpSession session,
     		Model model) {
+		
+		if(result.hasErrors()) {
+			System.out.println("fehler");
+			System.out.println(testlaufDto.getId());
+			userService.hasPermision(session, "edit_testlauf");
+			model.addAttribute("currentUser", userService.getCurrentUser(session));
+			
+			model.addAttribute("testlaufDto", testlaufDto);
+			model.addAttribute("status", service.alleStatus());
+			model.addAttribute("alleTests", testService.alleEntities());
+			model.addAttribute("testerListe", userService.getAllOfRole("Tester:in"));
+			
+			
+			Set<Test> tests = testService.findTestByString(verknüpfteTestId);
+			model.addAttribute("selectedTests",tests);
+			
+			if(testlaufDto.getId() != null) {
+				model.addAttribute("testlauf", service.getTestlaufById(testlaufDto.getId()));
+			}
+			
+			
+			util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_form", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
+			return "layout";
+		}
 		try {
 			if("speichern".equals(action)) {
-				updateTestlauf(id,model, testlaufDto, verknüpfteTestId, session);	
+				if(testlaufDto.getId() == null) {
+					saveTestlauf(testlaufDto, erstellerId, verknüpfteTestId,testerId);
+				} else {
+					updateTestlauf(testlaufDto.getId(),model, testlaufDto, verknüpfteTestId, session);
+				}
+					
 			} else if("loeschen".equals(action)) {
-				deleteTeslauf(id,session, model);
+				deleteTeslauf(testlaufDto.getId(),session, model);
 			}  
 			  return "redirect:/testlauf/all";
 
 		} catch(IllegalArgumentException e) {
-			System.out.println("fehler in handleForm");
-			model.addAttribute("errorMessage", e.getMessage());
-			TestlaufDto dto = service.convertToDto(id);
-
-			model.addAttribute("currentUser", userService.getCurrentUser(session));
 			
-			
-			model.addAttribute("testlauf", service.getTestlaufById(id));
-			model.addAttribute("testlaufDto", dto);
-			
-			
-			model.addAttribute("status", service.alleStatus());
-			model.addAttribute("testerListe", userService.getAllOfRole("Tester:in"));
-			
-			
-			Set<Test> tests = new HashSet<>();
-			for(Long testId : dto.getTests()) {
-				Test test = testService.getTestById(testId);
-				tests.add(test);
-			}
-			model.addAttribute("alleTests", testService.alleEntities());
-
-			
-			model.addAttribute("selectedTests",tests);
-			util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_edit", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
+		
+			util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_form", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
 
 			return "layout";
 		}
 		
 	}
 	
+
+	
 	
 	
 	@PostMapping("/save")
-	public String saveTestlauf(@ModelAttribute Testlauf testlauf, 
+	public String saveTestlauf(TestlaufDto testlaufdto, 
 			@RequestParam("erstellerId") Long erstellerId,
 			@RequestParam("checkedInputs") String verknüpfteTestId,
 			@RequestParam(name= "testerId", required = false) Long testerId) {
 		System.out.println(testerId);
-		service.saveNewTestlauf(testlauf, erstellerId, verknüpfteTestId, testerId);
+		service.saveNewTestlauf(testlaufdto, erstellerId, verknüpfteTestId, testerId);
 		
 		return "redirect:/testlauf/all";
 	}

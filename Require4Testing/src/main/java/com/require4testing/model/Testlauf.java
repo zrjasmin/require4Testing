@@ -5,6 +5,9 @@ import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,9 +24,16 @@ public class Testlauf {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nr;
+    @NotBlank(message = "Der Titel darf nicht leer sein.")
+    @Size(min = 3, max = 100, message = "Der Titel muss zwischen 3 und 100 Zeichen lang sein.")
     private String title;
+    @NotBlank(message = "Der Beschreibung darf nicht leer sein.")
+    @Size(max =1000, message = "Beschreibung darf maximal 1000 Zeichen haben.")
     private String beschreibung;
+    @Size(max =1000, message = "Kommentar darf maximal 1000 Zeichen haben.")
     private String kommentar;
+    @NotBlank(message = "Die Testumgebung darf nicht leer sein.")
+    @Size(max =1000, message = "Testumgebung darf maximal 1000 Zeichen haben.")
     private String testumgebung;
     
     @ManyToOne
@@ -38,6 +48,7 @@ public class Testlauf {
     @ManyToOne
     @JoinColumn(name="ersteller_id")
     private User ersteller;
+   
    
     @ManyToMany
     @JoinTable(

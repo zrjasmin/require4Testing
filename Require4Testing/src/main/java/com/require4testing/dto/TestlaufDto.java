@@ -3,6 +3,10 @@ package com.require4testing.dto;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import com.require4testing.model.Anforderung;
 import com.require4testing.model.Status;
 import com.require4testing.model.Test;
@@ -12,13 +16,20 @@ import com.require4testing.model.User;
 public class TestlaufDto {
 	
 	private Long id;
-    
+	@NotBlank(message = "Der Titel darf nicht leer sein.")
+	@Size(min = 3, max = 100, message = "Der Titel muss zwischen 3 und 100 Zeichen lang sein.")
     private String title;
+	@NotBlank(message = "Der Beschreibung darf nicht leer sein.")
+	@Size(max =1000, message = "Beschreibung darf maximal 1000 Zeichen haben.")
     private String beschreibung;
+	 @Size(max =1000, message = "Kommentar darf maximal 1000 Zeichen haben.")
     private String kommentar;
+	@NotBlank(message = "Die Testumgebung darf nicht leer sein.")
+	@Size(max =1000, message = "Testumgebung darf maximal 1000 Zeichen haben.")
     private String testumgebung;
     private Status status;
     private User tester;
+  
     private Set<Long> testIds;
     
 	public Long getId() {
@@ -64,10 +75,10 @@ public class TestlaufDto {
 	public void setTester(User tester) {
 		this.tester = tester;
 	}
-	public Set<Long> getTests() {
+	public Set<Long> getTestIds() {
 		return testIds;
 	}
-	public void setTests(Set<Long> tests) {
+	public void setTestIds(Set<Long> tests) {
 		this.testIds = tests;
 	}
 
