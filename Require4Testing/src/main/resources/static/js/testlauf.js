@@ -3,6 +3,8 @@ let checkboxArray;
 let selectedId = new Array(); 
 let testId;
 let existingInputs = 0;
+
+
 document.addEventListener('DOMContentLoaded', () => {
 	container = document.getElementById('testContainer');
 	checkboxArray = document.querySelectorAll(".checkbox");
@@ -17,8 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function updateInputs() {
-		const checkedInputs = document.getElementById("checkedInputs");
-		checkedInputs.value = JSON.stringify(selectedId);
+	const checkedInputs = document.getElementById("checkedInputs");
+	if(selectedId == null || selectedId.length == 0 ) {
+			console.log("null")
+			checkedInputs.value = '';
+		} else {
+			checkedInputs.value = JSON.stringify(selectedId);
+		}
 		
 	}
 
@@ -61,6 +68,10 @@ function toggleTest(checkbox) {
 				<p>${testTitel}</p>
 				<button type="button" class="deleteTestBtn" onclick="removeTest(this)"><i class="fa-solid fa-trash"></i></button>
 			`;
+			
+			if(selectedId == null) {
+				selectedId = new Array();
+			}
 			selectedId.push(testId);
 				
 			container.appendChild(div);

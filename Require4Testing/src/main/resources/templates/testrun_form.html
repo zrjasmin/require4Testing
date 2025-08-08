@@ -103,7 +103,8 @@
       					<input type="checkbox" th:value="${t.id}" th:text="${t.nr}+ ' '+${t.title}"  onchange="toggleTest(this)" class="checkbox"/>
       				</div>
       				</div>
-      				<input type="hidden" id="checkedInputs" name="checkedInputs"/>
+      				<input type="hidden" id="checkedInputs"  th:field="*{checkedInputs}"/>
+      				<div th:if="${#fields.hasErrors('checkedInputs')}" th:errors="*{checkedInputs}" class="error"></div>
       				
       			</div>
      		</div>

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -29,6 +30,8 @@ public class TestlaufDto {
     private String testumgebung;
     private Status status;
     private User tester;
+    @NotEmpty(message = "Bitte wählen Sie mindestens einen Test.")
+    private String checkedInputs;
   
     private Set<Long> testIds;
     
@@ -81,5 +84,15 @@ public class TestlaufDto {
 	public void setTestIds(Set<Long> tests) {
 		this.testIds = tests;
 	}
+	
+	public String getCheckedInputs() {
+		return checkedInputs;
+	}
+	
+	
+	public void setCheckedInputs(String checkedInputs) {
+		 this.checkedInputs = checkedInputs;
+	}
+	
 
 }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -117,7 +118,6 @@ public class TestlaufController {
     		@ModelAttribute("testlaufDto") @Valid TestlaufDto testlaufDto,
     		BindingResult result,
     		@RequestParam String action,
-    		@RequestParam("checkedInputs") String verknüpfteTestId,
     		@RequestParam("erstellerId") Long erstellerId,
     		@RequestParam(name= "testerId", required = false) Long testerId,
     		HttpSession session,
@@ -125,7 +125,11 @@ public class TestlaufController {
 		
 		if(result.hasErrors()) {
 			System.out.println("fehler");
-			System.out.println(testlaufDto.getId());
+			System.out.println(testlaufDto.getCheckedInputs());
+			System.out.println(testlaufDto.getCheckedInputs());
+			for (FieldError error : result.getFieldErrors()) {
+	            System.err.println("Fehler im Feld '" + error.getField() + "': " + error.getDefaultMessage());
+	        }
 			userService.hasPermision(session, "edit_testlauf");
 			model.addAttribute("currentUser", userService.getCurrentUser(session));
 			
@@ -135,7 +139,7 @@ public class TestlaufController {
 			model.addAttribute("testerListe", userService.getAllOfRole("Tester:in"));
 			
 			
-			Set<Test> tests = testService.findTestByString(verknüpfteTestId);
+			Set<Test> tests = testService.findTestByString(testlaufDto.getCheckedInputs());
 			model.addAttribute("selectedTests",tests);
 			
 			if(testlaufDto.getId() != null) {
@@ -149,9 +153,9 @@ public class TestlaufController {
 		try {
 			if("speichern".equals(action)) {
 				if(testlaufDto.getId() == null) {
-					saveTestlauf(testlaufDto, erstellerId, verknüpfteTestId,testerId);
+					saveTestlauf(testlaufDto, erstellerId, testlaufDto.getCheckedInputs(),testerId);
 				} else {
-					updateTestlauf(testlaufDto.getId(),model, testlaufDto, verknüpfteTestId, session);
+					updateTestlauf(testlaufDto.getId(),model, testlaufDto, testlaufDto.getCheckedInputs(), session);
 				}
 					
 			} else if("loeschen".equals(action)) {
