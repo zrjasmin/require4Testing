@@ -61,13 +61,14 @@
       			<div class="input_container two-column">
       				<div>
 	       				<label for="tester">zugeordnerter Tester:</label>
-					   	<select th:field="*{tester.id} "name="testerId" id="tester">
+					   	<select th:field="*{tester.id}" name="testerId" id="tester">
 					        <option value=""  selected>Bitte wählen</option>
 					        <option th:each="t : ${testerListe}"
 					                th:value="${t.id}"
 					                th:text="${t.vorname}">
 					        </option>
 					    </select>
+					    <div th:if="${#fields.hasErrors('tester')}" th:errors="*{tester}" class="error"></div>
 					   <div th:if="${errorMessage}" style="color:red;">
 						    <p th:text="${errorMessage}"></p>
 						</div>

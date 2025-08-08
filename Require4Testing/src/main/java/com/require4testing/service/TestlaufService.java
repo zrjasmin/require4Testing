@@ -116,7 +116,16 @@ public class TestlaufService {
 		
 	}
 	
-	
+	public boolean checkTesterAuswahl(TestlaufDto dto) {
+		if(dto.getId() != null) {
+			Testlauf bestehenderTestlauf = getTestlaufById(dto.getId());
+			if (bestehenderTestlauf != null && bestehenderTestlauf.getTester() != null && dto.getTester().getId() == null) {
+		    	System.out.println("wieder auf null gesetzt");
+				return true;
+			}
+			
+		}	return false;
+	}
 	
 	public Testlauf updateTestlauf(Long id, TestlaufDto testlaufDto, String testIds) {
 		Testlauf bestehenderTestlauf = getTestlaufById(id);

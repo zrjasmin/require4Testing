@@ -119,9 +119,15 @@ public class TestlaufController {
     		BindingResult result,
     		@RequestParam String action,
     		@RequestParam("erstellerId") Long erstellerId,
-    		@RequestParam(name= "testerId", required = false) Long testerId,
     		HttpSession session,
     		Model model) {
+		
+		
+		System.out.println("testlaufDto.getTester(): "+ testlaufDto.getTester().getId());
+		if (service.checkTesterAuswahl(testlaufDto)) {
+	        // Verbotenes Verhalten erkannt -> Fehler hinzufügen
+	        result.rejectValue("tester", "error.tester", "Der Tester kann nicht entfernt werden, wenn er bereits gesetzt ist.");
+	    }
 		
 		if(result.hasErrors()) {
 			System.out.println("fehler");
@@ -150,10 +156,10 @@ public class TestlaufController {
 			util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_form", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
 			return "layout";
 		}
-		try {
+		
 			if("speichern".equals(action)) {
 				if(testlaufDto.getId() == null) {
-					saveTestlauf(testlaufDto, erstellerId, testlaufDto.getCheckedInputs(),testerId);
+					saveTestlauf(testlaufDto, erstellerId, testlaufDto.getCheckedInputs(),testlaufDto.getTester().getId());
 				} else {
 					updateTestlauf(testlaufDto.getId(),model, testlaufDto, testlaufDto.getCheckedInputs(), session);
 				}
@@ -163,15 +169,9 @@ public class TestlaufController {
 			}  
 			  return "redirect:/testlauf/all";
 
-		} catch(IllegalArgumentException e) {
-			
+		} 
 		
-			util.setPageModelAttributes(model, "Testlauf: Edit", "testrun_form", "/js/testlauf.js","/css/form.css", "/css/testlauf.css");
-
-			return "layout";
-		}
-		
-	}
+	
 	
 
 	
