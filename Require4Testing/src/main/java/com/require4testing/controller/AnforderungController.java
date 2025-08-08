@@ -62,7 +62,7 @@ public class AnforderungController {
 	public String alleAnforderungen(Model model) {
 		model.addAttribute("anforderungen", service.alleEntities());
 		
-		util.setPageModelAttributes(model, "Anforderungen", "anforderungen", "","/css/uebersicht.css", "");
+		util.setPageModelAttributes(model, "Anforderungen", "anforderung_uebersicht", "","/css/uebersicht.css", "");
 		return "layout";
 	}
 	

@@ -64,7 +64,7 @@ public class TestController {
 		
 		User user = (User) session.getAttribute("currentUser");		
 		model.addAttribute("aktuellerUser", user);
-		util.setPageModelAttributes(model, "Tests", "test_uebersicht", "","/css/uebersicht.css", "");
+		util.setPageModelAttributes(model, "Tests", "test_form", "","/css/uebersicht.css", "");
 
 		return "layout";
 	}
@@ -78,7 +78,7 @@ public class TestController {
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anfService.alleEntities();
 		model.addAttribute("anforderungen", anforderungen);
-		util.setPageModelAttributes(model, "Test: Neu", "test_bearbeiten", "/js/testschritt.js","/css/form.css", "");
+		util.setPageModelAttributes(model, "Test: Neu", "test_form", "/js/testschritt.js","/css/form.css", "");
 		return "layout";
 	}
 	
@@ -116,7 +116,7 @@ public class TestController {
 
 		TestDto dto = service.convertToDto(id);
 		model.addAttribute("testDto", dto);
-		util.setPageModelAttributes(model, "Test: Bearbeiten", "test_bearbeiten", "/js/testschritt.js","/css/form.css", "");
+		util.setPageModelAttributes(model, "Test: Bearbeiten", "test_form", "/js/testschritt.js","/css/form.css", "");
 
 		return "layout";
 	}
@@ -159,7 +159,7 @@ public class TestController {
 				Test test = service.getTestById(testDto.getId());
 				model.addAttribute("test", test);
 			}
-			util.setPageModelAttributes(model, "Test: Neu", "test_bearbeiten", "/js/testschritt.js","/css/form.css", "");
+			util.setPageModelAttributes(model, "Test: Neu", "test_form", "/js/testschritt.js","/css/form.css", "");
 			return "layout";
 		}
 		
