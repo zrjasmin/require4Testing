@@ -110,6 +110,7 @@ public class TestService {
     	Test test = getTestById(id);
     	
     	TestDto dto = new TestDto();
+    	dto.setId(id);
 		dto.setTitle(test.getTitle());
 		dto.setBeschreibung(test.getBeschreibung());
 		dto.setErwartetesErgebnis(test.getErwartetesErgebnis());
@@ -125,49 +126,81 @@ public class TestService {
 		
 		
 		for(Testschritt schritt :sortierteSchritte) {
-			System.out.println(schritt.getStepNumber() +" "+ schritt.getBeschreibung());
+		
 			TestschrittDto schrittDto = new TestschrittDto();
 			schrittDto.setId(schritt.getId());
 			
 			schrittDto.setBeschreibung(schritt.getBeschreibung());
 			schrittDto.setStepNumber(schritt.getStepNumber());
 			schritteDtos.add(schrittDto);
-			System.out.println(schrittDto.getStepNumber() +" "+ schrittDto.getBeschreibung());
+			System.out.println("service: "+schrittDto.getStepNumber() +" "+ schrittDto.getBeschreibung());
 		}
 		
 		dto.setTestschritte(schritteDtos);
 		
 		return dto;
     }
+    
+    
+    public void reloadTestschritte(String reihenfolge, TestDto dto) {
+    	
+    	ObjectMapper mapper = new ObjectMapper();
+		Set<TestDto> verknüpfteTests = new HashSet<>();
+		try {
+			//6,5,1,7
+            List<Integer> testIds = mapper.readValue(reihenfolge, new TypeReference<List<Integer>>() {});
+            int i = 0;
+            for(TestschrittDto schrittDto : dto.getTestschritte()) {
+            	if(schrittDto.getBeschreibung() == null) {
+            		dto.getTestschritte().remove(schrittDto);
+            	} else if(schrittDto.getBeschreibung() != null) {
+            		System.out.println("reload: "+ schrittDto.getStepNumber() + " " + schrittDto.getBeschreibung());
+            		schrittDto.setStepNumber(testIds.get(i));
+                	i++;
+            	
+            	} 
+            	
+            }
+            
+		} catch (Exception e) {
+			
+		}
+    	
+    	
+    }
    
     
     public void neuenTestSpeichern(TestDto dto, String reihenfolge, Long erstellerId) {
     	Test test = new Test();
     	
+    	if(reihenfolge != "") {
+			List<Testschritt> sortierteSchritte = assignStepNumber(test,dto, reihenfolge);
+			if(test.getTestschritte() != null) {
+				test.getTestschritte().clear();
+			}
+	        test.setTestschritte(sortierteSchritte);
+		}
     	
-	    User ersteller = userService.findById(erstellerId);
-        test.setErsteller(ersteller);
-        
-        test.setTitle(dto.getTitle());
+    	test.setTitle(dto.getTitle());
         test.setBeschreibung(dto.getBeschreibung());
         test.setErwartetesErgebnis(dto.getErwartetesErgebnis());
 		test.setTestdaten(dto.getTestdaten());
 		test.setNotizen(dto.getNotizen());
-          
+    	User ersteller = userService.findById(erstellerId);
+        test.setErsteller(ersteller);
     	
-    	
-		
-		Anforderung anf = anfService.getAnfById(dto.getAnforderungId());
-		
-		test.setAnforderung(anf);
-		repository.save(test);
-		
-		assignStepNumber(test, dto, reihenfolge);
-		saveNumber(test);
+        Long anfID = dto.getAnforderungId();
+         
+         
+        Anforderung anf = anfService.getAnfById(anfID);
+        test.setAnforderung(anf);
+ 		repository.save(test);
+ 		saveNumber(test);
+	    
     	
     }
     
-    public void assignStepNumber(Test test, TestDto testDto, String schrittReihenfolge) {
+    public List<Testschritt> assignStepNumber(Test test, TestDto testDto, String schrittReihenfolge) {
 		ObjectMapper mapper = new ObjectMapper();
 		List<Testschritt> sortierteSchritte = new ArrayList<>();
 		try {
@@ -177,8 +210,6 @@ public class TestService {
             int i = 1;
           
             for(String s : reihenfolgeListe) {
-            	System.out.println("Sortierung durch JS:  " +s);
-            	System.out.println("Schritt: " +i);
             	int stellenIndex = Integer.parseInt(s);
             	// sucht Testschritt anhand der Reihenfolge
             	TestschrittDto schrittDto = testDto.getTestschritte().get(stellenIndex);
@@ -202,7 +233,9 @@ public class TestService {
 			 e.printStackTrace();
 		}
 		
-		test.setTestschritte(sortierteSchritte);;
+	
+		return sortierteSchritte;
+		
 	}
     
     
@@ -242,7 +275,7 @@ public class TestService {
 			 
 		
 		 for(TestschrittDto schrittDTO : testDto.getTestschritte()) {
-		
+			 System.out.println(schrittDTO.getBeschreibung());
 			 if (schrittDTO.getId() != null && bestehendeSchritteMap.containsKey(schrittDTO.getId())) {
 		            // Bestehender Schritt: aktualisieren
 				 	Testschritt schritt = bestehendeSchritteMap.get(schrittDTO.getId());
@@ -253,7 +286,8 @@ public class TestService {
 		           
 		        } else {
 		            // Neuer Schritt: erstellen
-		        	if(schrittDTO.getBeschreibung() != null) {
+		        	if(schrittDTO.getBeschreibung() != null && schrittDTO.getBeschreibung() != "") {
+		        		  System.out.println("neues Kriterium: "+schrittDTO.getBeschreibung());
 		        		Testschritt neuerSchritt = createNeuerSchritt(schrittDTO, bestehenderTest);
 		        		idZuSchrittNummer.put(neuerSchritt.getStepNumber(), neuerSchritt.getId());
 		        	}
@@ -281,7 +315,7 @@ public class TestService {
 				 int i = 1;
 				 for(String s : stepValues) {
 					Integer intS = Integer.parseInt(s);
-	             	//System.out.println("int S "+ intS);
+	            
 
 	             	//
 					 if(idZuSchrittNummer.containsKey(intS)) {
@@ -289,10 +323,9 @@ public class TestService {
 						 Optional<Testschritt> optSchritt = schrittRepository.findById(schrittId);
 						 if(optSchritt.isPresent()) {
 							 Testschritt schritt  = optSchritt.get();
-							// System.out.println("schritt: "+ schritt + "hatte nummer: " + schritt.getStepNumber());
-							// System.out.println("schritt: "+ schritt + "hat nun nummer: " + i);
+							
 							 schritt.setStepNumber(i);
-							// System.out.println("neue Schrittnummer "+ i);
+							
 							 i++; 
 						 }
 						
@@ -311,7 +344,15 @@ public class TestService {
 		Testschritt neuerSchritt = new Testschritt();
         neuerSchritt.setBeschreibung(schrittDto.getBeschreibung());
         neuerSchritt.setTest(test);
-        neuerSchritt.setStepNumber(schrittDto.getStepNumber());
+        if(schrittDto.getStepNumber() == null) {
+        	Integer step = test.getTestschritte().size();
+        	 System.out.println(step);
+        	 neuerSchritt.setStepNumber(step +1);
+        } else {
+        	neuerSchritt.setStepNumber(schrittDto.getStepNumber());
+        }
+        System.out.println(schrittDto.getStepNumber());
+      
         schrittRepository.save(neuerSchritt);
         return neuerSchritt;
 	}

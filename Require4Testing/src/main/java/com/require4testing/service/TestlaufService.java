@@ -110,7 +110,7 @@ public class TestlaufService {
 		for(Test test : testlauf.getTests()) {
 			testsDto.add(test.getId());
 		}
-		//dto.setTests(testsDto);;
+		
 		 
 		return dto;
 		

@@ -23,19 +23,29 @@ function updateReihenfolge() {
 	
 document.addEventListener('DOMContentLoaded', () => {
 	container = document.getElementById('stepContainer');
+	
+	
 	existingInputs = Array.from(container.children).map(el => el.querySelector('.schritt')).length;
-	
-	registerDragAndDrop();
-	updateReihenfolge();
-	//let reihenfolgeInput;// Hidden input
-	
+	let aa = Array.from(container.children).map(el => el.querySelector('.schritt').value);
+	console.log(aa);
+			for(let a of aa) {
+				console.log(a);
+			}
+
 	if(existingInputs != 0) {
 		//es gibt gespeicherte Schritte
 		stepIndex = container.children.length+1;
+		
+		
 	} else {
 		//noch keine gespeicherten Schritte
 		stepIndex = container.children.length;
 	}
+	console.log("neu laden")
+	registerDragAndDrop();
+	updateReihenfolge();
+	//let reihenfolgeInput;// Hidden input
+	
 	
 	
 	

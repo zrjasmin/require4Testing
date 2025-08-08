@@ -78,7 +78,7 @@ public class TestController {
 		model.addAttribute("test", new Test());
 		List<Anforderung> anforderungen = anfService.alleEntities();
 		model.addAttribute("anforderungen", anforderungen);
-		util.setPageModelAttributes(model, "Test: Neu", "test_bearbeiten", "","/css/form.css", "");
+		util.setPageModelAttributes(model, "Test: Neu", "test_bearbeiten", "/js/testschritt.js","/css/form.css", "");
 		return "layout";
 	}
 	
@@ -134,7 +134,20 @@ public class TestController {
     		Model model) {
 		
 		if(result.hasErrors()) {
-			System.out.println("fehler");
+			
+			System.out.println(reihenfolgeJSON);
+			if(testDto.getTestschritte()!= null) {
+				 for(TestschrittDto schrittDto : testDto.getTestschritte()) {
+		            	System.out.println(schrittDto.getStepNumber() + " " + schrittDto.getBeschreibung());
+		            }
+				 System.out.println("reload");
+				service.reloadTestschritte(reihenfolgeJSON, testDto);
+				 for(TestschrittDto schrittDto : testDto.getTestschritte()) {
+		            	System.out.println(schrittDto.getStepNumber() + " " + schrittDto.getBeschreibung());
+		            }
+			}
+			
+	            
 			userService.hasPermision(session, "create_test");
 			model.addAttribute("currentUser", userService.getCurrentUser(session));
 			
@@ -152,7 +165,6 @@ public class TestController {
 		
 		if("speichern".equals(action)) {
 			if(testDto.getId() == null) {
-				System.out.println("speichern");
 				neuenTestSpeichern(testDto, reihenfolgeJSON, erstellerId);
 			} else {
 				System.out.println("update");
