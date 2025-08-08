@@ -51,14 +51,18 @@ public class UserController {
 	
 	
 	@PostMapping("/user/selectRole")
-	public String handleSelectRole(@RequestParam("selectedUserId") Long userId, HttpSession session) {
-		User user = service.findById(userId);
-	
-		session.setAttribute("currentUser", user);
+	public String handleSelectRole(@RequestParam(name = "selectedUserId", required=false) Long userId, HttpSession session, Model model) {
+		 if (userId == null) {
+		        model.addAttribute("error", "Bitte wählen Sie einen Nutzer aus.");
+		        model.addAttribute("users", service.alleEntities());
+		        return "welcome";
+		    } else {
+		    	User user = service.findById(userId);
+				session.setAttribute("currentUser", user);
+				return "redirect:/anforderung/all";
+		    }
 		
-		return "redirect:/anforderung/all";
-		
-	    // Hier kannst du den User anhand der ID laden und weiterverarbeiten
+	   
 	}
 	
 	

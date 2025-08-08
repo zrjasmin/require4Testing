@@ -14,7 +14,9 @@
 	     	<p class="welcome-text">Willkommen bei Require4Testing</p>
 	     	<h1 class="welcome-heading">Wähle deine Nutzer-Rolle</h1>
 	     	
-	     	
+	     	<div th:if="${error != null}" style="color:red;">
+			   <p th:text="${error}"></p>
+			</div>
 	     	<form th:action="@{/user/selectRole}" th:object=${user} method="post">
 	     	<div class="scrollmenu">
 	     		<div th:each="user : ${users}" class="user-info" th:data-user-id="${user.id}">
@@ -32,7 +34,8 @@
 		    
 	     	</div>
 			<input type="hidden" name="selectedUserId" id="selectedUserId" />
-		    <button type="submit" class="user-button">Weiter</button>
+			
+		<button type="submit" class="user-button">Weiter</button>
 		</form>
 	     	
 	     	
