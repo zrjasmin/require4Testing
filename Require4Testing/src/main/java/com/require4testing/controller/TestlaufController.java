@@ -159,9 +159,9 @@ public class TestlaufController {
 		
 			if("speichern".equals(action)) {
 				if(testlaufDto.getId() == null) {
-					saveTestlauf(testlaufDto, erstellerId, testlaufDto.getCheckedInputs(),testlaufDto.getTester().getId());
+					saveTestlauf(testlaufDto, erstellerId);
 				} else {
-					updateTestlauf(testlaufDto.getId(),model, testlaufDto, testlaufDto.getCheckedInputs(), session);
+					updateTestlauf(model, testlaufDto,  session);
 				}
 					
 			} else if("loeschen".equals(action)) {
@@ -178,31 +178,28 @@ public class TestlaufController {
 	
 	
 	@PostMapping("/save")
-	public String saveTestlauf(TestlaufDto testlaufdto, 
-			@RequestParam("erstellerId") Long erstellerId,
-			@RequestParam("checkedInputs") String verknüpfteTestId,
-			@RequestParam(name= "testerId", required = false) Long testerId) {
-		System.out.println(testerId);
-		service.saveNewTestlauf(testlaufdto, erstellerId, verknüpfteTestId, testerId);
+	public String saveTestlauf(
+			TestlaufDto testlaufdto, 
+			Long erstellerId) {
+		
+		service.saveNewTestlauf(testlaufdto, erstellerId);
 		
 		return "redirect:/testlauf/all";
 	}
 	
 	@PostMapping("/edit/{id}")
 	public String updateTestlauf(
-			@PathVariable Long id, 
 			Model model, 
-			@ModelAttribute TestlaufDto testlaufDto,  
-			String verknüpfteTestId,
-			 HttpSession session
+			TestlaufDto testlaufDto,  
+			HttpSession session
 			) {
 		
 		
 		userService.hasPermision(session, "edit_testlauf");
 		Testlauf testlauf = null;
-		testlauf = service.updateTestlauf(id,testlaufDto, verknüpfteTestId);
+		testlauf = service.updateTestlauf(testlaufDto);
 		model.addAttribute("testlauf", testlauf);
-		return "redirect:/testlauf/detail/"+id;
+		return "redirect:/testlauf/detail/"+testlaufDto.getId();
 		
 	}
 	
