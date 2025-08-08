@@ -93,7 +93,7 @@ public class AnforderungController {
 		model.addAttribute("dto", new AnforderungDto());
 		model.addAttribute("anforderung", new Anforderung());
 		
-		util.setPageModelAttributes(model, "Anforderungen: Neu", "anforderung_form", "/script.js","/css/form.css", "/css/anforderung.css");
+		util.setPageModelAttributes(model, "Anforderungen: Neu", "anforderung_form", "/js/script.js","/css/form.css", "/css/anforderung.css");
 
 		return "layout";
 	}
@@ -116,7 +116,7 @@ public class AnforderungController {
 		model.addAttribute("kategorien", AnfKategorie.values());
 		model.addAttribute("prioritaeten",Prioritaet.values());
 		
-		util.setPageModelAttributes(model, "Anforderungen: Bearbeiten", "anforderung_form","/script.js", "/css/form.css", "/css/anforderung.css");
+		util.setPageModelAttributes(model, "Anforderungen: Bearbeiten", "anforderung_form","/js/script.js", "/css/form.css", "/css/anforderung.css");
 	
 		
 		return "layout";
@@ -146,7 +146,7 @@ public class AnforderungController {
 					model.addAttribute("anforderung", anforderung);
 				}
 				
-				util.setPageModelAttributes(model, "Anforderungen: bearbeiten", "anforderung_form", "/script.js","/css/form.css", "/css/anforderung.css");
+				util.setPageModelAttributes(model, "Anforderungen: bearbeiten", "anforderung_form", "/js/script.js","/css/form.css", "/css/anforderung.css");
 				
 				return"layout";
 			}
