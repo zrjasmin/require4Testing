@@ -121,6 +121,8 @@ body {
 nav {
 	background-color: #FFFFFF;
 	padding: 30px 20px 0 30px;
+	min-height: 700px;
+	height: 100%;
 	
 }
 
