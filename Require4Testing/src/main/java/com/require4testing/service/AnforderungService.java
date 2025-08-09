@@ -35,12 +35,10 @@ public class AnforderungService {
     @Autowired 
     private UserService userService;
     
-    
-    @Autowired
-    private  KriteriumRepository akzRepository;
-    
     @Autowired
     private KriteriumService akzService;
+    
+    
 
     public List<Anforderung> alleEntities() {
         return repository.findAll();
@@ -52,27 +50,53 @@ public class AnforderungService {
     }
     
     @Transactional
-    public Anforderung speichereEntity(Anforderung entity) {
+    public void speichereEntity(Anforderung entity) {
     	
-        return repository.save(entity);
+        repository.save(entity);
+    }
+    
+    public List<Test> getTestforAnf(Long id) {
+    	List<Test> verknüpfteTest = new ArrayList<>();
+    	
+    	return verknüpfteTest;
     }
     
     
-   
-
-
-    public Anforderung erstelleAnf(Long erstellerId) {
-    	User user = userService.findById(erstellerId);
+    public void saveNewAnf(AnforderungDto anf, Long erstellerId) {
+    	Anforderung anforderung = new Anforderung();
+    	User ersteller = userService.findById(erstellerId);
+        anforderung.setErsteller(ersteller);
         
-    	if(user != null) {
-    		Anforderung neuerTest = new Anforderung("name", "beschreibung");
-    		return repository.save(neuerTest);
-    	}
-    	else {
-            throw new RuntimeException("Benutzer nicht gefunden");
-    	} 
+        
+        anforderung.setTitle(anf.getTitle());
+        anforderung.setBeschreibung(anf.getBeschreibung());
+        anforderung.setPrioritaet(anf.getPrioritaet());
+        anforderung.setKategorie(anf.getKategorie());
+        anforderung.setQuelle(anf.getQuelle());
+		anforderung.setNotizen(anf.getNotizen());
+      
+		
+		//bidrektionale Beziehung setzen
+		for(KriteriumDto k:anf.getKriterien()) {
+			//Inhalt des Kriterium prüfen
+			if(k.getBeschreibung() !="" || k.getBeschreibung()!= null) {
+				Kriterium kriterium = new Kriterium();
+				kriterium.setBeschreibung(k.getBeschreibung());
+				kriterium.setAnforderung(anforderung);
+				anforderung.getKriterien().add(kriterium);
+			} else {
+				anforderung.getKriterien().remove(k);
+			}
+			
+		}
+		
+		speichereEntity(anforderung);
+		saveNumber(anforderung);
+		
+
     }
-    
+
+  
     
     public void deleteAnf(Long id,HttpSession session) {
     	userService.hasPermision(session, "delete_requirement");
@@ -115,86 +139,13 @@ public class AnforderungService {
 		bestehendeAnf.setQuelle(anfDto.getQuelle());
 		bestehendeAnf.setNotizen(anfDto.getNotizen());
 		
-		updateKriterien(anfDto, bestehendeAnf);
+		akzService.updateKriterien(anfDto, bestehendeAnf);
 		
 		repository.save(bestehendeAnf);
     }
     
-    public void updateKriterien(AnforderungDto anfDto, Anforderung bestehendeAnf) {
-    	Set<Kriterium> bestehendeKriterien = new HashSet<>(bestehendeAnf.getKriterien());		
-		Map<Long, Kriterium> bestehendekriterienMap = bestehendeKriterien.stream()
-		        .collect(Collectors.toMap(Kriterium::getId, Function.identity()));
-		
-		List<Kriterium> updatedKriterien = new ArrayList<>();
-		
-		for(KriteriumDto kDto : anfDto.getKriterien()) {
-			
-			System.out.println("dto: "+kDto.getBeschreibung());
-			 if (kDto.getId() != null && bestehendekriterienMap.containsKey(kDto.getId())) {
-				 	Kriterium kriterium = bestehendekriterienMap.get(kDto.getId());
-				 	kriterium.setBeschreibung(kDto.getBeschreibung());
-				 	bestehendekriterienMap.remove(kDto.getId());
-				 	updatedKriterien.add(kriterium);	
-
-	            } else {
-	            	// Neues Kriterium erstellen
-	            	if(kDto.getBeschreibung() != null && kDto.getBeschreibung() != "") {
-	            		Kriterium kriterium = neuesKriterium(kDto, bestehendeAnf);
-	            		updatedKriterien.add(kriterium);		
-	            	} 
-	            }
-		}
-		
-
-		for(Kriterium zuLöschen : bestehendekriterienMap.values()) {
-				bestehendeAnf.removeKriterium(zuLöschen);
-				akzRepository.delete(zuLöschen);
-			
-			}
-    }
     
-    
-    public Kriterium neuesKriterium(KriteriumDto dto, Anforderung anf) {
-		Kriterium k = new Kriterium();
-		k.setBeschreibung(dto.getBeschreibung());
-		k.setAnforderung(anf);
-		akzService.speichereEntity(k);
-		return k;
-	}
-    
-    public void saveNewAnf(AnforderungDto anf, Long erstellerId) {
-    	Anforderung anforderung = new Anforderung();
-    	User ersteller = userService.findById(erstellerId);
-        anforderung.setErsteller(ersteller);
-        
-        
-        anforderung.setTitle(anf.getTitle());
-        anforderung.setBeschreibung(anf.getBeschreibung());
-        anforderung.setPrioritaet(anf.getPrioritaet());
-        anforderung.setKategorie(anf.getKategorie());
-        anforderung.setQuelle(anf.getQuelle());
-		anforderung.setNotizen(anf.getNotizen());
-      
-		
-		//bidrektionale Beziehung setzen
-		for(KriteriumDto k:anf.getKriterien()) {
-			//Inhalt des Kriterium prüfen
-			if(k.getBeschreibung() !="" || k.getBeschreibung()!= null) {
-				Kriterium kriterium = new Kriterium();
-				kriterium.setBeschreibung(k.getBeschreibung());
-				kriterium.setAnforderung(anforderung);
-				anforderung.getKriterien().add(kriterium);
-			} else {
-				anforderung.getKriterien().remove(k);
-			}
-			
-		}
-		
-		speichereEntity(anforderung);
-		saveNumber(anforderung);
-		
-
-    }
+  
     
    public void saveNumber(Anforderung anf) {
 	   String formattedNumber = null;
@@ -208,14 +159,7 @@ public class AnforderungService {
 	   speichereEntity(anf);
    }
     
-    public List<Test> getTestforAnf(Long id) {
-    	List<Test> verknüpfteTest = new ArrayList<>();
-    	
-    	
-    	
-    	return verknüpfteTest;
-    }
-    
+   
     
     
     

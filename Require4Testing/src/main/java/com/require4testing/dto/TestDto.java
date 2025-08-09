@@ -21,7 +21,6 @@ public class TestDto {
 	 @Size(max =1000, message = "Testdaten darf maximal 1000 Zeichen haben.")
 	 private String testdaten;
 	 private User ersteller;
-	 private User tester;
 	 private Long anforderungId;
 	 private List<TestschrittDto> testschritte;
 	 @Size(max =1000, message = "Notizen darf maximal 1000 Zeichen haben.")
@@ -57,12 +56,7 @@ public class TestDto {
 	public void setErsteller(User ersteller) {
 		this.ersteller = ersteller;
 	}
-	public User getTester() {
-		return tester;
-	}
-	public void setTester(User tester) {
-		this.tester = tester;
-	}
+
 	public Long getAnforderungId() {
 		return anforderungId;
 	}

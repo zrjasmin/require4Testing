@@ -37,6 +37,7 @@ import com.require4testing.repository.TestRepository;
 import com.require4testing.repository.TestschrittRepository;
 import com.require4testing.service.AnforderungService;
 import com.require4testing.service.TestService;
+import com.require4testing.service.TestschrittService;
 import com.require4testing.service.UserService;
 
 @Controller
@@ -44,12 +45,11 @@ import com.require4testing.service.UserService;
 public class TestController {
 	@Autowired
     private  TestService service;
-	@Autowired
-    private  TestRepository repository;
+	
 	@Autowired
 	private TestschrittRepository schrittRepository;
 	@Autowired
-	private AnforderungRepository anforderungRepository;
+	private TestschrittService schrittService;
 	@Autowired
 	private AnforderungService anfService;
 	@Autowired
@@ -60,11 +60,11 @@ public class TestController {
 
 	@GetMapping("/all") 
 	public String alleTests(Model model, HttpSession session) {
-		model.addAttribute("test", repository.findAll());
+		model.addAttribute("test", service.alleEntities());
 		
 		User user = (User) session.getAttribute("currentUser");		
 		model.addAttribute("aktuellerUser", user);
-		util.setPageModelAttributes(model, "Tests", "test_form", "","/css/uebersicht.css", "");
+		util.setPageModelAttributes(model, "Tests", "test_uebersicht", "","/css/uebersicht.css", "");
 
 		return "layout";
 	}
@@ -110,7 +110,7 @@ public class TestController {
 		Test test = service.getTestById(id);
 		model.addAttribute("test", test);
 		
-		List<Anforderung> anforderungen = anforderungRepository.findAll();
+		List<Anforderung> anforderungen = anfService.alleEntities();
 		model.addAttribute("anforderungen", anforderungen);
 		
 
@@ -141,7 +141,7 @@ public class TestController {
 		            	System.out.println(schrittDto.getStepNumber() + " " + schrittDto.getBeschreibung());
 		            }
 				 System.out.println("reload");
-				service.reloadTestschritte(reihenfolgeJSON, testDto);
+				 schrittService.reloadTestschritte(reihenfolgeJSON, testDto);
 				 for(TestschrittDto schrittDto : testDto.getTestschritte()) {
 		            	System.out.println(schrittDto.getStepNumber() + " " + schrittDto.getBeschreibung());
 		            }

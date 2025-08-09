@@ -25,8 +25,6 @@ import com.require4testing.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService service;
-	@Autowired
-	private UserRepository repository;
 	private  UtilController util = new UtilController();
 	
 	@GetMapping("")
