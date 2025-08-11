@@ -13,11 +13,11 @@
    					<img th:src="@{${testlauf.ersteller.profileImagePath}}"/>
    					<p th:text="'erstellt von '+${testlauf.ersteller.vorname}"></p>
 		   		</div> 
-		   		<div>
+		   		<div class="block">
 		   			<label for="title">Titel:</label>
 					<p  id="title" th:text="${testlauf.title}" ></p>
 		   		</div>
-		   		<div>
+		   		<div class="block">
 		   			<label for="beschreibung">Beschreibung:</label>
 					<p  id="beschreibung" th:text="${testlauf.beschreibung}"></p>
 				</div>
@@ -59,8 +59,9 @@
 			<p class="form_description">Verknüpfte Testfälle</p>
 			<div class="text_container"> 
 		   		<div th:each="test : ${testlauf.tests}">
-		   			
-					<p  id="test" th:text="${test.nr} + ' '+ ${test.title}" ></p>
+		   			<a th:href="@{/test/detail/{id}(id=${test.id})}">
+		   				<span id="test" th:text="${test.nr} + ' '+ ${test.title}"></span>
+		   			</a>
 		   		</div>
 		   		
 			</div>

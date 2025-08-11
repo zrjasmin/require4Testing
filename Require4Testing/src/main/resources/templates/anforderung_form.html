@@ -1,5 +1,5 @@
 	<div class="contentWrapper anf_neu">  
-       <h1>Anforderung - Neu</h1>
+       <h1>Anforderung - Bearbeiten</h1>
        
        
        <form th:action="@{/anforderung/handleForm}" th:object="${dto}" class="edit_form" method="post">
@@ -90,11 +90,7 @@
 					
        			</div>
        		</div>
-       		<div th:if="${#fields.hasAnyErrors()}">
-       			<ul>
-       				<li th:each="err: ${#fields.errors('*')}"></li>
-       			</ul>
-       		</div>
+       	
        		<div class="float-right">
        		 	<button th:if="${dto.id != null}" type="submit" class="secondaryBtn" name="action" value="loeschen" onclick="return confirm('Sind Sie sicher?');">Löschen</button>
 

@@ -33,8 +33,6 @@ public class TestService {
     private TestRepository repository;
     
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private UserService userService;
     
     @Autowired
@@ -76,34 +74,20 @@ public class TestService {
 		}
     	return verknüpfteTests;
     }
-   
-
-    public Test erstelleTestfall(Long erstellerId) {
-    	Optional<User> erstellerOpt = userRepository.findById(erstellerId);
-        
-        // Neue Entität erstellen
-    	
-    	if(erstellerOpt.isPresent()) {
-    		Test neuerTest = new Test("name", "beschreibung");
-    		neuerTest.setErsteller(erstellerOpt.get());
-    		return repository.save(neuerTest);
-    	}
-    	else {
-            throw new RuntimeException("Benutzer nicht gefunden");
-    	}    	
      
-    }
-    
-    public String generateTestNumber(Test t) {
-    	Optional<Test> test = repository.findById(t.getId());
-    	String testNumber = "";
-    	if(test.isPresent()) {
-    		testNumber = String.format("TF-%03d", t.getId());
-    	}
-    	
-    	return testNumber;
-    }
-    
+ 
+	   public void deleteTestForAnf(Long anfId) {
+		 
+		   for(Test t : alleEntities()) {
+			   if(t.getAnforderung().getId() == anfId) {
+				   deleteTest(t.getId());
+			   }
+		   }
+		   
+		  
+	   }
+
+ 
 
 
     public TestDto convertToDto(Long id) {
@@ -140,6 +124,8 @@ public class TestService {
 		
 		return dto;
     }
+    
+    
     
 
     public void neuenTestSpeichern(TestDto dto, String reihenfolge, Long erstellerId) {

@@ -199,7 +199,7 @@ public class AnforderungController {
 	
 	@PostMapping("/delete/{id}")
 	public String deleteAnf(@PathVariable Long id, HttpSession session) {
-		
+		testService.deleteTestForAnf(id);
 		service.deleteAnf(id, session);
 		return "redirect:/anforderung/all";
 		

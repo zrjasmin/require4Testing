@@ -95,7 +95,7 @@ public class TestController {
 		
 		
 		
-		model.addAttribute("testNummer", service.generateTestNumber(test));
+	
 		util.setPageModelAttributes(model, "Test: Detail", "test_detail", "","/css/form.css", "");
 		return "layout";
 	}

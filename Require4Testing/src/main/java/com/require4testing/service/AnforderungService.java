@@ -37,6 +37,7 @@ public class AnforderungService {
     
     @Autowired
     private KriteriumService akzService;
+   
     
     
 
@@ -55,12 +56,7 @@ public class AnforderungService {
         repository.save(entity);
     }
     
-    public List<Test> getTestforAnf(Long id) {
-    	List<Test> verknüpfteTest = new ArrayList<>();
-    	
-    	return verknüpfteTest;
-    }
-    
+  
     
     public void saveNewAnf(AnforderungDto anf, Long erstellerId) {
     	Anforderung anforderung = new Anforderung();
@@ -100,7 +96,10 @@ public class AnforderungService {
     
     public void deleteAnf(Long id,HttpSession session) {
     	userService.hasPermision(session, "delete_requirement");
+    	
     	Anforderung anf = getAnfById(id);
+    	
+
     	repository.delete(anf);
     }
     

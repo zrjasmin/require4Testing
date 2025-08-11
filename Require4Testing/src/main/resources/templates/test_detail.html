@@ -20,7 +20,7 @@
 		   		</div>
 		   		<div>
 		   			<label for="prio">verknüpfte Anforderung:</label>
-					<p  id="prio" th:text="${test.anforderung} ? ${test.anforderung.title} : 'nicht ausgewählt'"></p>
+					<a id="prio" th:href="@{/anforderung/detail/{id}(id=${test.anforderung.id})}" th:text="${test.anforderung} ? ${test.anforderung.nr} + ' '+ ${test.anforderung.title} : 'nicht ausgewählt'"></a>
 				</div>
 			</div>
 		
@@ -50,8 +50,8 @@
 			<div class="text_container">
 		   		<div>
 		   			<label for="beschreibung">Testschritte:</label>
-					<div th:each="s: ${schritte}">
-			   			<p th:text="${s.stepNumber}"></p>
+					<div th:each="s: ${schritte}" class="schritte-list">
+			   			<p th:text="${s.stepNumber}+ '.'"></p>
 			   			<p th:text="${s.beschreibung}"></p>
 			   		</div>
 		   		</div>
