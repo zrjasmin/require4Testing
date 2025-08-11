@@ -53,9 +53,11 @@ td {
 	
 }
 .col2 {
-width: 200px;
-		
-	
+max-width: 200px;
+
+		 word-wrap: break-word;
+		overflow: hidden; 
+      white-space: normal;
 }
 .col3 {
 	width: 220px;
@@ -135,14 +137,7 @@ width: 200px;
 
 
 /*Detail Page*/
-.text_container {
-	p {
-	max-width: 700px;
-	 word-wrap: break-word;
-	white-space: normal;
-	}
-	
-}
+
 
 
 

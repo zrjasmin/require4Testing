@@ -11,6 +11,7 @@
 .form_flex {
 	display: grid;
 	grid-template-columns: 1fr 4fr;
+	gap: 20px;
 	
 }
 
@@ -51,10 +52,19 @@ label {
 .detail_page {
 p{
 		margin-bottom: 15px;
-		}
+		max-width: 650px;
+		
+	
+	 word-wrap: break-word;
+	white-space: normal;
+	}
+	
+}
+		
+		
 	
 
-}
+
 input, textarea, select {
 	width: 100%;
 	margin: 0 0 5px 0;

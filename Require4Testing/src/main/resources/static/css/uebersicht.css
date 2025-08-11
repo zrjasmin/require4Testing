@@ -27,10 +27,24 @@
 	background-color: white;
 	border-radius: 20px;
 	padding: 30px 20px 20px 20px;
+	width: 365px;
+	max-height: 240px;
 }
 
 .card> h2{
 	margin-top: 10px;
+}
+.card_center {
+	p {
+	 	overflow: hidden; 
+      	white-space: nowrap; 
+		max-width: 330px;
+		max-height: 60px;
+		word-wrap: break-word;
+		white-space: normal;
+		
+		
+	}
 }
 
 
