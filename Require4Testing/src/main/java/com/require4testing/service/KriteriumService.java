@@ -36,9 +36,7 @@ public class KriteriumService {
 	        repository.save(entity);
 	    }
 	 
-	 public void erstelleAkz(Anforderung anf, Kriterium entity) {
-	    	
-	       
+	 public void erstelleAkz(Anforderung anf, Kriterium entity) {	       
 	        // Neue Entität erstellen
 	    	if(anf!=null) {
 	    		entity.setAnforderung(anf);

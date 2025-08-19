@@ -26,11 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 	
 	existingInputs = Array.from(container.children).map(el => el.querySelector('.schritt')).length;
-	let aa = Array.from(container.children).map(el => el.querySelector('.schritt').value);
-	console.log(aa);
-			for(let a of aa) {
-				console.log(a);
-			}
+	
 
 	if(existingInputs != 0) {
 		//es gibt gespeicherte Schritte

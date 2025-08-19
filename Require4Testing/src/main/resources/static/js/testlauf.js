@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	container = document.getElementById('testContainer');
 	checkboxArray = document.querySelectorAll(".checkbox");
 	
+	//erfasst bestehende Divs beim Laden
 	registerExistingDivs();
 	updateInputs();
 	
@@ -30,6 +31,7 @@ function updateInputs() {
 	}
 
 
+	
 function registerExistingDivs() {
 	existingInputs = document.querySelectorAll('#testContainer > div');
 	const selectBoxes = document.querySelectorAll(`.testOption input[type=checkbox]`);
@@ -48,8 +50,7 @@ function registerExistingDivs() {
 			})
 		});
 		
-				 	
-			
+
 		
 }		
 				
@@ -92,11 +93,8 @@ function toggleTest(checkbox) {
 	//löscht durch Button Klick
 	function removeTest(button) {
 	
-		
 		const parentDiv = button.closest('div[data-test-id]');
-		
 		const inputId = parentDiv.getAttribute("data-test-id");
-		
 		parentDiv.remove()
 		
 		

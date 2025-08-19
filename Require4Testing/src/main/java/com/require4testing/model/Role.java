@@ -20,6 +20,9 @@ public class Role {
             inverseJoinColumns = @JoinColumn(name = "berechtigung_id")
     )
 	private Set<Berechtigung> berechtigungen;
+	
+	@ManyToMany(mappedBy = "roles")
+	private Set<User> users;
 
 	public Role() {}
 	
@@ -44,6 +47,14 @@ public class Role {
 	
 	public  void setBerechtigungen(Set<Berechtigung> b) {
 		this.berechtigungen = b;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 	
 	
